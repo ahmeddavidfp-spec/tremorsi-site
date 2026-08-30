@@ -466,6 +466,23 @@ footer{background:var(--ink);color:var(--crema)}
   0%,55%{transform:translateX(calc(100vw + 80px))}
   100%{transform:translateX(-110px)}
 }
+.carto-modal{
+  position:fixed;inset:0;z-index:120;
+  background:rgba(20,17,12,.93);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(.8rem,3vw,2.5rem);
+}
+.carto-modal[hidden]{display:none}
+.carto-modal figure{margin:0;max-width:min(92vw,760px);text-align:center}
+.carto-modal img{
+  max-height:66vh;max-width:100%;width:auto;margin:0 auto;
+  border:2px solid var(--crema);border-radius:10px;
+  -webkit-touch-callout:default;
+}
+.carto-modal figcaption{
+  font-family:var(--serif);font-style:italic;font-size:1.15rem;
+  color:var(--crema);margin-top:1rem;line-height:1.5;
+}
 .wa{
   position:fixed;bottom:calc(1.15rem + env(safe-area-inset-bottom, 0px));right:1.15rem;z-index:70;
   width:56px;height:56px;border-radius:50%;
@@ -1137,6 +1154,14 @@ footer{background:var(--ink);color:var(--crema)}
   </section>
 </main>
 
+<div class="carto-modal" id="carto-modal" role="dialog" aria-modal="true" aria-label="Votre cartolina" hidden>
+  <button class="lb-btn lb-close" id="carto-modal-close" type="button" aria-label="Fermer">✕</button>
+  <figure>
+    <img id="carto-modal-img" alt="Votre cartolina Tre Mor Si">
+    <figcaption id="carto-modal-cap"></figcaption>
+  </figure>
+</div>
+
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerie photos" hidden>
   <button class="lb-btn lb-close" id="lb-close" type="button" aria-label="Fermer">✕</button>
   <button class="lb-btn lb-prev" id="lb-prev" type="button" aria-label="Photo précédente">←</button>
@@ -1481,9 +1506,27 @@ function cartoWaUpdate() {
   const dest = document.getElementById('c-dest').value.trim() || 'amore';
   const msg = document.getElementById('c-msg').value.trim();
   const nom = document.getElementById('c-nom').value.trim();
-  const txt = '💌 Une cartolina pour vous !\nPour : ' + dest + '\n« ' + msg + ' »' + (nom ? '\n- ' + nom : '');
+  const txt = '💌 CARTOLINA DALLA DOLCE VITA\n' +
+    '✉️ Pour : ' + dest + '\n' +
+    '« ' + msg + ' »' + (nom ? '\n- ' + nom : '') + '\n' +
+    '·-·-·-·-·-·-·-·\n' +
+    'Envoyée depuis le site Tre Mor Si (la carte arrive en photo 📎)';
   document.getElementById('carto-wa').href = 'https://wa.me/32495802201?text=' + encodeURIComponent(txt);
 }
+// Aperçu plein écran de la carte (secours universel : appui long pour enregistrer)
+const cartoModal = document.getElementById('carto-modal');
+function cartoModalShow(url, caption) {
+  document.getElementById('carto-modal-img').src = url;
+  document.getElementById('carto-modal-cap').textContent = caption;
+  cartoModal.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function cartoModalHide() {
+  cartoModal.hidden = true;
+  document.body.style.overflow = '';
+}
+document.getElementById('carto-modal-close').addEventListener('click', cartoModalHide);
+cartoModal.addEventListener('click', (e) => { if (e.target === cartoModal) cartoModalHide(); });
 ['c-dest', 'c-msg', 'c-nom'].forEach((id) =>
   document.getElementById(id).addEventListener('input', () => { drawCartolina(); cartoWaUpdate(); }));
 document.querySelectorAll('input[name="c-img"]').forEach((r) =>
@@ -1491,14 +1534,20 @@ document.querySelectorAll('input[name="c-img"]').forEach((r) =>
 document.getElementById('carto-share').addEventListener('click', () => {
   cartoCanvas.toBlob(async (blob) => {
     const file = new File([blob], 'cartolina-tremorsi.png', { type: 'image/png' });
+    const url = URL.createObjectURL(blob);
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try { await navigator.share({ files: [file], title: 'Cartolina Tre Mor Si' }); } catch (e) { /* annulé */ }
-    } else {
-      const a = document.createElement('a');
-      a.href = cartoCanvas.toDataURL('image/png');
-      a.download = 'cartolina-tremorsi.png';
-      a.click();
+      try { await navigator.share({ files: [file], title: 'Cartolina Tre Mor Si' }); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; /* refusé -> secours */ }
     }
+    cartoModalShow(url, 'Appuyez longuement sur la carte (ou clic droit) pour l’enregistrer ou la partager 💌');
+  }, 'image/png');
+});
+// Envoyer au camion : ouvre WhatsApp ET prépare la carte à joindre
+document.getElementById('carto-wa').addEventListener('click', () => {
+  cartoCanvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    setTimeout(() => cartoModalShow(url,
+      'WhatsApp s’ouvre avec votre message. Astuce : appuyez longuement sur la carte pour l’enregistrer, puis joignez-la à la conversation 📎'), 600);
   }, 'image/png');
 });
 if (document.fonts && document.fonts.ready) {
