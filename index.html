@@ -213,8 +213,19 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
   content:"";position:absolute;left:0;top:.6rem;bottom:.6rem;
   border-left:2px dashed var(--ink-15);
 }
-.tappe li{position:relative;padding:0 0 2.1rem 2.1rem}
+.tappe li{
+  position:relative;padding:0 0 2.1rem 2.1rem;
+  display:flex;gap:1.2rem;align-items:center;justify-content:space-between;
+}
 .tappe li:last-child{padding-bottom:0}
+.tappa-txt{flex:1}
+.tappa-ph{
+  width:clamp(72px,14vw,110px);aspect-ratio:1;object-fit:cover;flex:none;
+  border-radius:14px;border:1px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink-15);
+  transform:rotate(2deg);
+}
+.tappe li:nth-child(even) .tappa-ph{transform:rotate(-2deg)}
 .tappe li::before{
   content:"";position:absolute;left:-6px;top:.35rem;
   width:12px;height:12px;border-radius:50%;
@@ -650,29 +661,44 @@ footer{background:var(--ink);color:var(--crema)}
       </div>
       <ol class="tappe">
         <li class="reveal">
-          <p class="regione">Veneto — le départ</p>
-          <h3>L’aperitivo &amp; le Spritz</h3>
-          <p>Planches de charcuteries et fromages arrivés d’Italie, Aperol Spritz qui pétille — le rituel du Nord.</p>
+          <div class="tappa-txt">
+            <p class="regione">Veneto — le départ</p>
+            <h3>L’aperitivo &amp; le Spritz</h3>
+            <p>Planches de charcuteries et fromages arrivés d’Italie, Aperol Spritz qui pétille — le rituel du Nord.</p>
+          </div>
+          <img class="tappa-ph" src="assets/aperitivo.jpg" alt="Table d'aperitivo avec spritz et planche" loading="lazy">
         </li>
         <li class="reveal">
-          <p class="regione">Abruzzo — les montagnes</p>
-          <h3>Gli arrosticini</h3>
-          <p>Les brochettes d’agneau marinées, grillées à la minute sous vos yeux. Simples, fumées, addictives.</p>
+          <div class="tappa-txt">
+            <p class="regione">Abruzzo — les montagnes</p>
+            <h3>Gli arrosticini</h3>
+            <p>Les brochettes d’agneau marinées, grillées à la minute sous vos yeux. Simples, fumées, addictives.</p>
+          </div>
+          <img class="tappa-ph" src="assets/arrosticini-sale.jpg" alt="Le geste du sel sur les arrosticini, sur la plancha fumante" loading="lazy">
         </li>
         <li class="reveal">
-          <p class="regione">Puglia — le talon de la botte</p>
-          <h3>La puccia</h3>
-          <p>Le pain doré du Salento, garni généreusement — comme là-bas.</p>
+          <div class="tappa-txt">
+            <p class="regione">Puglia — le talon de la botte</p>
+            <h3>La puccia</h3>
+            <p>Le pain doré du Salento, garni généreusement — comme là-bas.</p>
+          </div>
+          <img class="tappa-ph" src="assets/puccia-mano.jpg" alt="Puccia garnie tenue en main" loading="lazy">
         </li>
         <li class="reveal">
-          <p class="regione">Mediterraneo — la côte</p>
-          <h3>Les moules à la plancha</h3>
-          <p>Ail, persil, basilic frais et un trait de vin blanc — la mer en fin de cuisson.</p>
+          <div class="tappa-txt">
+            <p class="regione">Mediterraneo — la côte</p>
+            <h3>Les moules à la plancha</h3>
+            <p>Ail, persil, basilic frais et un trait de vin blanc — la mer en fin de cuisson.</p>
+          </div>
+          <img class="tappa-ph" src="assets/cozze.jpg" alt="Bol de moules au citron" loading="lazy">
         </li>
         <li class="reveal">
-          <p class="regione">Sicilia — le bout du voyage</p>
-          <h3>Il cannolo</h3>
-          <p>Croquant dehors, ricotta douce dedans. Le dolce qui clôt la descente de la botte.</p>
+          <div class="tappa-txt">
+            <p class="regione">Sicilia — le bout du voyage</p>
+            <h3>Il cannolo</h3>
+            <p>Croquant dehors, ricotta douce dedans. Le dolce qui clôt la descente de la botte.</p>
+          </div>
+          <img class="tappa-ph" src="assets/cannoli.jpg" alt="Cannoli siciliens pistache et chocolat" loading="lazy">
         </li>
       </ol>
     </div>
@@ -733,12 +759,36 @@ footer{background:var(--ink);color:var(--crema)}
           <span class="cap">moules à la plancha</span>
         </button>
         <button class="shot" type="button">
-          <img src="assets/taglieri.jpg" alt="Deux planches apéritives : charcuteries, fromages, olives et grissini" loading="lazy">
+          <img src="assets/pucce-trio.jpg" alt="Trois pucce généreuses : aubergines, caprese à la burrata, jambon cru et courgettes" loading="lazy">
+          <span class="cap">pétries le matin même</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/aperitivo.jpg" alt="Table d'aperitivo : planche de charcuteries et fromages, spritz et bol de moules" loading="lazy">
           <span class="cap">aperitivo time</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/pucce-balsamico.jpg" alt="Pucce à la bresaola et à la mortadella, filet de crème de balsamique" loading="lazy">
+          <span class="cap">un filet de balsamique</span>
         </button>
         <button class="shot" type="button">
           <img src="assets/bici.jpg" alt="Guidon de vélo avec panier : grissini et bière italienne au soleil" loading="lazy">
           <span class="cap">la tournée du matin</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/moules-planche.jpg" alt="Bol de moules et grande planche apéritive aux fraises, olives et grissini, vus du dessus" loading="lazy">
+          <span class="cap">la totale — tutto</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/arrosticini-sale.jpg" alt="Le geste du sel au-dessus des arrosticini sur la plancha" loading="lazy">
+          <span class="cap">le geste du sel</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/cannoli.jpg" alt="Cannoli siciliens pistache et pépites de chocolat" loading="lazy">
+          <span class="cap">cannoli siciliani</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/bresaola.jpg" alt="Bresaola au citron et huile d'olive" loading="lazy">
+          <span class="cap">bresaola al limone</span>
         </button>
         <button class="shot" type="button">
           <img src="assets/vespa.jpg" alt="Illustration pastel d'une Vespa fleurie" loading="lazy">
