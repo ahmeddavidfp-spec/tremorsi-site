@@ -370,7 +370,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 #menu{background:var(--verde);color:var(--crema)}
 #menu .sec-label{color:rgba(255,253,247,.6)}
 #menu .sec-label::after{background:rgba(255,253,247,.25)}
-#menu h2 .it{color:var(--limone)}
+#menu h2 .it,#menu h1 .it{color:var(--limone)}
 #menu .sec-lead{color:rgba(255,253,247,.65)}
 .menu-cols{display:grid;gap:2.6rem}
 @media (min-width:720px){.menu-cols{grid-template-columns:1fr 1fr;gap:3rem 4rem}}
