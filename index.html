@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Tre Mor Si</title>
 <meta name="description" content="Tre Mor Si — food truck italiano à Fleurus, Charleroi & alentours. Arrosticini, puccia, cozze & aperitivo. Ogni morso racconta l'Italia.">
 <meta property="og:title" content="Tre Mor Si · Food Truck Italiano">
@@ -39,7 +39,7 @@
   --gutter:clamp(1.1rem,5vw,3rem);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip}
 body{
   font-family:var(--sans);
   background:var(--crema);
@@ -47,6 +47,7 @@ body{
   line-height:1.65;
   font-size:1rem;
   overflow-x:hidden;
+  overflow-x:clip;
   -webkit-font-smoothing:antialiased;
 }
 img{max-width:100%;height:auto;display:block}
@@ -61,6 +62,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
   position:sticky;top:0;z-index:50;
   display:flex;align-items:center;justify-content:space-between;gap:1rem;
   padding:.8rem var(--gutter);
+  padding-top:calc(.8rem + env(safe-area-inset-top, 0px));
   background:rgba(247,242,231,.92);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--ink);
@@ -331,8 +333,12 @@ footer{background:var(--ink);color:var(--crema)}
 
 /* ---------- Fun : mouton, mordimi, WhatsApp, Sì ---------- */
 .band{position:relative}
+.sheep-track{
+  position:absolute;top:-1.7rem;left:0;right:0;height:1.8rem;
+  overflow:hidden;overflow:clip;pointer-events:none;z-index:5;
+}
 .sheep{
-  position:absolute;top:-1.55rem;left:0;font-size:1.4rem;z-index:5;pointer-events:none;
+  position:absolute;top:.1rem;left:0;font-size:1.4rem;
   animation:sheepwalk 46s linear infinite;
 }
 @keyframes sheepwalk{
@@ -365,7 +371,7 @@ footer{background:var(--ink);color:var(--crema)}
 .mordimi-bubble.show{opacity:1;transform:translateY(-50%) scale(1)}
 @media (max-width:520px){.mordimi svg{width:36px;height:78px}.mordimi-bubble{font-size:.9rem}}
 .wa{
-  position:fixed;bottom:1.15rem;right:1.15rem;z-index:70;
+  position:fixed;bottom:calc(1.15rem + env(safe-area-inset-bottom, 0px));right:1.15rem;z-index:70;
   width:56px;height:56px;border-radius:50%;
   background:#25D366;border:1.5px solid var(--ink);
   display:flex;align-items:center;justify-content:center;
@@ -381,7 +387,7 @@ footer{background:var(--ink);color:var(--crema)}
 }
 @keyframes wa-ring{0%,55%{transform:scale(.85);opacity:0}70%{opacity:.7}100%{transform:scale(1.35);opacity:0}}
 .wa-bubble{
-  position:fixed;bottom:1.7rem;right:calc(1.15rem + 68px);z-index:70;
+  position:fixed;bottom:calc(1.7rem + env(safe-area-inset-bottom, 0px));right:calc(1.15rem + 68px);z-index:70;
   background:var(--crema);border:1.5px solid var(--ink);border-radius:999px;
   font-family:var(--serif);font-size:1.05rem;white-space:nowrap;
   padding:.55rem 1.05rem;color:var(--ink);
@@ -466,7 +472,7 @@ footer{background:var(--ink);color:var(--crema)}
   </section>
 
   <div class="band" aria-hidden="true">
-  <span class="sheep">🐑</span>
+  <span class="sheep-track"><span class="sheep">🐑</span></span>
   <div class="tricolore"></div>
   <div class="marquee">
     <div class="marquee-track">
