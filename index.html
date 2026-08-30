@@ -368,6 +368,20 @@
     </div>
   </section>
 
+  <section class="section" id="quiz">
+    <div class="section-inner">
+      <div class="sec-head reveal">
+        <p class="sec-label">Quale morso sei&nbsp;?</p>
+        <h2>Quel morso <span class="it">es-tu&nbsp;?</span></h2>
+        <p class="sec-lead">
+          Cinq questions, zéro sérieux - et à la fin, ta carta d'identità italienne du goût,
+          à ton prénom, prête à partager.
+        </p>
+      </div>
+      <div class="quiz-box reveal" id="quiz-box"></div>
+    </div>
+  </section>
+
   <section class="section" id="cartolina">
     <div class="section-inner">
       <div class="sec-head reveal">
@@ -1020,6 +1034,155 @@ if (document.fonts && document.fonts.ready) {
 }
 drawCartolina();
 cartoWaUpdate();
+
+// Quale morso sei ? - le test qui fabrique ta carta d'identità du goût
+const QUIZ_PROFILES = {
+  arrosticino: { emoji: '🍢', nome: "L'ARROSTICINO", titre: 'Simple et vrai', segni: 'ne mesure rien, réussit tout · fumé mais tendre', residenza: 'Les montagnes des Abruzzes', frase: 'La semplicità est la sophistication suprême.' },
+  porca: { emoji: '🥖', nome: 'LA PORCA MISERIA', titre: 'Généreux sans chichis', segni: 'jamais avare de rucola · rassasie une tablée entière', residenza: 'Le four du Salento', frase: 'Qui mange bien, vit bien.' },
+  fresca: { emoji: '🍋', nome: 'LA FRESCHISSIMA', titre: 'Solaire et frais', segni: 'zeste de folie · toujours de saison', residenza: 'Une terrasse au bord de la mer', frase: 'Le soleil se mange aussi.' },
+  spritz: { emoji: '🥂', nome: 'LO SPRITZ', titre: "L'âme de la fête", segni: 'pétille sans prévenir · fait danser la piazza', residenza: 'Le comptoir, côté musique', frase: "L'aperitivo n'attend pas." },
+  cannolo: { emoji: '🍰', nome: 'IL CANNOLO', titre: 'Croquant dehors, doux dedans', segni: 'carapace croustillante · cœur de ricotta', residenza: 'Une pasticceria de Palerme', frase: 'La douceur est une force.' },
+};
+const QUIZ_Q = [
+  { q: 'Ton dimanche parfait ?', a: [['Grillades entre amis, moi aux commandes', 'arrosticino'], ['Grande tablée de famille qui déborde', 'porca'], ['Marché, soleil, panier plein', 'fresca'], ['Terrasse, musique, ça se prolonge', 'spritz']] },
+  { q: 'En Italie, tu files direct…', a: [['Dans les montagnes des Abruzzes', 'arrosticino'], ['Dans les Pouilles, les pieds dans l’eau', 'porca'], ['Sur la côte amalfitaine, citrons partout', 'fresca'], ['À Palerme, pour les dolci', 'cannolo']] },
+  { q: 'En fête, on te trouve…', a: [['Près du feu, pinces en main', 'arrosticino'], ['Au buffet, en train de resservir tout le monde', 'porca'], ['Au bar, verre levé', 'spritz'], ['Devant le dessert, l’air de rien', 'cannolo']] },
+  { q: 'Ton péché mignon ?', a: [['Le fumé, le grillé, le vrai', 'arrosticino'], ['Le crémeux généreux', 'porca'], ['L’acidulé qui réveille', 'fresca'], ['Le sucré qui console', 'cannolo']] },
+  { q: 'Ta devise ?', a: [['La simplicité, toujours', 'arrosticino'], ['On partage tout', 'porca'], ['La vie est courte, commence par le dessert', 'cannolo'], ['Dolce vita o niente', 'spritz']] },
+];
+const quizBox = document.getElementById('quiz-box');
+let quizIdx = 0, quizScores = {}, quizName = '';
+function quizIntro() {
+  quizIdx = 0; quizScores = {};
+  quizBox.innerHTML = '<div class="quiz-intro">' +
+    '<p>Ton prénom (pour ta carta d’identità) :</p>' +
+    '<input class="quiz-name" id="quiz-name" type="text" maxlength="18" placeholder="Giulia, Marco…" autocomplete="given-name">' +
+    '<div><button class="btn btn-solid" id="quiz-start" type="button">Lancer le test <span class="arr">→</span></button></div></div>';
+  document.getElementById('quiz-start').addEventListener('click', () => {
+    quizName = document.getElementById('quiz-name').value.trim() || 'Amore';
+    quizStep();
+  });
+}
+function quizStep() {
+  if (quizIdx >= QUIZ_Q.length) return quizResult();
+  const { q, a } = QUIZ_Q[quizIdx];
+  quizBox.innerHTML = '<div class="quiz-progress">' +
+    QUIZ_Q.map((_, i) => '<i class="' + (i < quizIdx ? 'fatto' : '') + '"></i>').join('') + '</div>' +
+    '<p class="quiz-q">' + q + '</p>' +
+    '<div class="quiz-a">' + a.map(([label], i) => '<button type="button" data-i="' + i + '">' + label + '</button>').join('') + '</div>';
+  quizBox.querySelectorAll('.quiz-a button').forEach((b) =>
+    b.addEventListener('click', () => {
+      const key = a[+b.dataset.i][1];
+      quizScores[key] = (quizScores[key] || 0) + 1;
+      quizIdx++; quizStep();
+    }));
+}
+function quizResult() {
+  const winner = Object.keys(quizScores).sort((x, y) => quizScores[y] - quizScores[x])[0];
+  const p = QUIZ_PROFILES[winner];
+  quizBox.innerHTML = '<div class="quiz-result">' +
+    '<canvas id="quiz-canvas" width="1080" height="1350" aria-label="Votre carta d’identità du goût"></canvas>' +
+    '<div class="quiz-actions">' +
+    '<button class="btn btn-solid" id="quiz-share" type="button">Partager ma carta <span class="arr">→</span></button>' +
+    '<a class="btn btn-ghost" href="#menu">Goûter mon morso <span class="arr">→</span></a></div>' +
+    '<button class="quiz-redo" id="quiz-redo" type="button">refaire le test</button></div>';
+  drawCarta(p);
+  document.getElementById('quiz-redo').addEventListener('click', quizIntro);
+  document.getElementById('quiz-share').addEventListener('click', () => {
+    document.getElementById('quiz-canvas').toBlob(async (blob) => {
+      const file = new File([blob], 'carta-tremorsi.png', { type: 'image/png' });
+      const url = URL.createObjectURL(blob);
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: 'La mia carta del gusto - Tre Mor Si' }); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; }
+      }
+      cartoModalShow(url, 'Appuyez longuement sur la carta (ou clic droit) pour l’enregistrer ou la partager');
+    }, 'image/png');
+  });
+}
+function drawCarta(p) {
+  const cv = document.getElementById('quiz-canvas');
+  const c = cv.getContext('2d');
+  const W = 1080, H = 1350;
+  c.fillStyle = '#FDF3DF'; c.fillRect(0, 0, W, H);
+  // double cadre
+  c.strokeStyle = '#1A1A16'; c.lineWidth = 4; c.strokeRect(36, 36, W - 72, H - 72);
+  c.lineWidth = 1.5; c.strokeRect(52, 52, W - 104, H - 104);
+  // bande tricolore
+  ['#2F7A45', '#FFFEFA', '#C92E1F'].forEach((col, i) => {
+    c.fillStyle = col; c.fillRect(52 + i * ((W - 104) / 3), 52, (W - 104) / 3, 26);
+  });
+  c.strokeRect(52, 52, W - 104, 26);
+  // en-tête
+  c.fillStyle = '#1A1A16'; c.textAlign = 'center';
+  c.font = '600 34px "Instrument Sans", sans-serif';
+  c.fillText('R E P U B B L I C A   D E L L A   D O L C E   V I T A', W / 2, 140);
+  c.font = 'italic 52px "Instrument Serif", Georgia, serif';
+  c.fillStyle = '#C92E1F';
+  c.fillText("Carta d'Identità del Gusto", W / 2, 205);
+  c.strokeStyle = 'rgba(26,26,22,.3)'; c.lineWidth = 1.5;
+  c.beginPath(); c.moveTo(120, 240); c.lineTo(W - 120, 240); c.stroke();
+  // photo (l'emoji du plat)
+  c.fillStyle = '#FFFEFA'; c.fillRect(96, 300, 330, 400);
+  c.strokeStyle = '#1A1A16'; c.lineWidth = 3; c.strokeRect(96, 300, 330, 400);
+  c.font = '190px "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+  c.fillText(p.emoji, 96 + 165, 300 + 260);
+  c.font = 'italic 30px "Instrument Serif", Georgia, serif';
+  c.fillStyle = 'rgba(26,26,22,.55)';
+  c.fillText('foto ufficiale', 96 + 165, 300 + 360);
+  // champs
+  const fx = 480; c.textAlign = 'left';
+  const field = (label, val, y, valFont, valColor) => {
+    c.font = '600 24px "Instrument Sans", sans-serif';
+    c.fillStyle = 'rgba(26,26,22,.5)';
+    c.fillText(label.toUpperCase(), fx, y);
+    c.font = valFont; c.fillStyle = valColor;
+    c.fillText(val, fx, y + 46);
+  };
+  field('Nome', quizName, 330, '600 44px Caveat, cursive', '#1A1A16');
+  field('Identità', p.nome, 440, '400 42px "Instrument Serif", Georgia, serif', '#C92E1F');
+  field('Carattere', p.titre, 550, '600 38px Caveat, cursive', '#1A1A16');
+  field('Residenza del cuore', p.residenza, 660, '600 38px Caveat, cursive', '#1A1A16');
+  // segni particolari (pleine largeur)
+  c.font = '600 24px "Instrument Sans", sans-serif';
+  c.fillStyle = 'rgba(26,26,22,.5)';
+  c.fillText('SEGNI PARTICOLARI', 96, 790);
+  c.font = '600 40px Caveat, cursive'; c.fillStyle = '#1A1A16';
+  c.fillText(p.segni, 96, 840);
+  c.font = 'italic 38px "Instrument Serif", Georgia, serif';
+  c.fillStyle = '#2F7A45';
+  c.fillText('« ' + p.frase + ' »', 96, 930);
+  // empreinte (spirale rouge)
+  c.strokeStyle = 'rgba(201,46,31,.55)'; c.lineWidth = 3;
+  for (let r = 6; r < 46; r += 7) {
+    c.beginPath(); c.arc(180, 1090, r, 0.4, Math.PI * 2 - 0.3); c.stroke();
+  }
+  c.font = '600 22px "Instrument Sans", sans-serif';
+  c.fillStyle = 'rgba(26,26,22,.5)'; c.textAlign = 'center';
+  c.fillText('IMPRONTA', 180, 1175);
+  // sceau circulaire
+  const sx = 850, sy = 1080, sr = 95;
+  c.strokeStyle = 'rgba(26,26,22,.6)'; c.lineWidth = 3;
+  c.beginPath(); c.arc(sx, sy, sr, 0, Math.PI * 2); c.stroke();
+  c.beginPath(); c.arc(sx, sy, sr - 16, 0, Math.PI * 2); c.stroke();
+  c.fillStyle = 'rgba(26,26,22,.65)';
+  c.font = '600 22px "Instrument Sans", sans-serif';
+  const ring = 'TRE MOR SI ★ FLEURUS ★ ';
+  for (let i = 0; i < ring.length; i++) {
+    const a2 = -Math.PI / 2 + (i / ring.length) * Math.PI * 2;
+    c.save(); c.translate(sx + Math.cos(a2) * (sr - 38), sy + Math.sin(a2) * (sr - 38));
+    c.rotate(a2 + Math.PI / 2); c.fillText(ring[i], 0, 0); c.restore();
+  }
+  c.font = 'italic 40px "Instrument Serif", Georgia, serif';
+  c.fillStyle = '#C92E1F';
+  c.fillText('Sì.', sx, sy + 14);
+  // pied
+  c.font = '600 26px "Instrument Sans", sans-serif';
+  c.fillStyle = 'rgba(26,26,22,.55)';
+  c.fillText('Scopri il tuo morso su  t r e m o r s i . c o m', W / 2, 1265);
+}
+if (document.fonts && document.fonts.ready) { document.fonts.ready.then(() => { if (document.getElementById('quiz-canvas')) drawCarta; }); }
+quizIntro();
 
 // Formulaire de devis → WhatsApp ou email
 const devisForm = document.getElementById('devis-form');

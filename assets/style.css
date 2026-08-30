@@ -111,10 +111,13 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 }
 .topbar-nav a:not(.pill):hover::after,.topbar-nav a:not(.pill):focus-visible::after{right:0}
 .pill{
-  border:1px solid var(--ink);border-radius:999px;
-  padding:.5rem 1.15rem;font-weight:600;white-space:nowrap;
-  background:var(--ink);color:var(--crema);
-  transition:background .2s,color .2s;
+  border:2px solid transparent;border-radius:999px;
+  padding:.5rem 1.15rem;font-weight:700;white-space:nowrap;
+  color:var(--ink);
+  background-image:linear-gradient(#FFFEFA,#FFFEFA),
+    linear-gradient(90deg,#2F7A45 0 33.3%,#E8E2D2 33.3% 66.6%,#C92E1F 66.6% 100%);
+  background-origin:border-box;background-clip:padding-box,border-box;
+  transition:transform .15s,box-shadow .2s;
 }
 @media (max-width:460px){
   .topbar{padding:.7rem 1rem}
@@ -122,7 +125,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
   .wordmark{font-size:1.3rem}
   .pill{padding:.45rem .9rem;font-size:.85rem}
 }
-.pill:hover,.pill:focus-visible{background:var(--rosso);border-color:var(--rosso);color:var(--crema)}
+.pill:hover,.pill:focus-visible{transform:scale(1.05);box-shadow:0 3px 10px rgba(26,26,22,.18)}
 .only-desktop{display:none}
 @media (min-width:720px){.only-desktop{display:inline}}
 
@@ -739,7 +742,9 @@ footer{background:var(--ink);color:var(--crema)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media (max-width:719px){
-  .burger{display:flex}
+  .burger{display:flex;order:2;margin-left:auto}
+  .topbar nav{order:3}
+  .topbar{justify-content:flex-start}
   .topbar-nav li:not(:last-child){display:none}
 }
 .mobnav{
@@ -759,3 +764,48 @@ footer{background:var(--ink);color:var(--crema)}
 }
 .mobnav li a:active{color:var(--rosso)}
 .mobnav-cta{margin-top:1.4rem}
+
+/* ---------- Quiz : quale morso sei ---------- */
+#quiz{background:
+  linear-gradient(rgba(255,252,245,.93),rgba(255,252,245,.93)),
+  repeating-linear-gradient(90deg,#9BBE90 0 26px,#FFEFD2 26px 52px)}
+.quiz-box{
+  background:var(--carta);border:1px solid var(--ink);border-radius:16px;
+  padding:clamp(1.5rem,4vw,2.6rem);max-width:44rem;
+  box-shadow:6px 6px 0 var(--ink-15);
+}
+.quiz-progress{display:flex;gap:.45rem;margin-bottom:1.4rem}
+.quiz-progress i{width:9px;height:9px;border-radius:50%;background:var(--ink-15)}
+.quiz-progress i.fatto{background:var(--rosso)}
+.quiz-q{
+  font-family:var(--serif);font-size:clamp(1.45rem,3vw,1.9rem);
+  line-height:1.25;margin-bottom:1.3rem;text-wrap:balance;
+}
+.quiz-a{display:grid;gap:.7rem}
+.quiz-a button{
+  font-family:inherit;font-size:1rem;font-weight:500;text-align:left;
+  padding:.85rem 1.1rem;border:1px solid var(--ink);border-radius:12px;
+  background:#FFFEFA;cursor:pointer;
+  transition:background .15s,transform .12s;
+}
+.quiz-a button:hover{background:var(--crema-2);transform:translateX(4px)}
+.quiz-intro p{color:var(--ink-55);margin-bottom:1rem}
+.quiz-name{
+  font-family:inherit;font-size:1.05rem;color:var(--ink);
+  background:#FFFEFA;border:1px solid var(--ink);border-radius:10px;
+  padding:.75rem .9rem;width:100%;max-width:20rem;margin-bottom:1.2rem;
+  -webkit-appearance:none;appearance:none;
+}
+.quiz-result{text-align:center}
+.quiz-result canvas{
+  width:min(100%,380px);height:auto;margin:0 auto 1.3rem;
+  border:1px solid var(--ink);border-radius:10px;
+  box-shadow:6px 6px 0 var(--ink-15);
+}
+.quiz-actions{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.quiz-actions .btn{cursor:pointer;font-family:inherit}
+.quiz-redo{
+  margin-top:.9rem;background:none;border:none;cursor:pointer;
+  font-family:var(--serif);font-style:italic;font-size:1.02rem;color:var(--ink-55);
+  text-decoration:underline;
+}
