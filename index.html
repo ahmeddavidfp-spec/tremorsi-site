@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="Tre Mor Si">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@600&display=swap">
 <style>
 /* ==========================================================================
    TRE MOR SI — éditorial contemporain : serif de caractère, règles fines,
@@ -417,6 +417,34 @@ footer{background:var(--ink);color:var(--crema)}
 .foot-si span{color:var(--rosso)}
 .foot-si:hover{letter-spacing:.04em}
 
+/* ---------- La cartolina ---------- */
+#cartolina{background:var(--crema-2)}
+.carto-wrap{display:grid;gap:1.8rem}
+@media (min-width:900px){.carto-wrap{grid-template-columns:1.35fr .65fr;align-items:start}}
+.carto-preview canvas{
+  width:100%;height:auto;display:block;
+  border:1px solid var(--ink);border-radius:10px;
+  box-shadow:7px 7px 0 var(--ink-15);
+  background:#FBF7EC;
+}
+.carto-form{display:flex;flex-direction:column;gap:1rem}
+.carto-label{
+  font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--ink-55);
+}
+.carto-thumbs{display:flex;gap:.6rem;flex-wrap:wrap}
+.carto-thumbs label{cursor:pointer}
+.carto-thumbs input{position:absolute;opacity:0;pointer-events:none}
+.carto-thumbs img{
+  width:58px;height:58px;object-fit:cover;border-radius:10px;
+  border:2px solid transparent;outline:1px solid var(--ink-15);
+  transition:transform .15s,border-color .15s;
+}
+.carto-thumbs input:checked + img{border-color:var(--rosso);outline-color:var(--ink);transform:scale(1.06)}
+.carto-thumbs input:focus-visible + img{outline:3px solid var(--rosso)}
+.carto-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem}
+.carto-actions .btn{cursor:pointer;font-family:inherit}
+
 /* ---------- Calcolatore di festa ---------- */
 #festa{background:
   linear-gradient(rgba(247,242,231,.94),rgba(247,242,231,.94)),
@@ -468,16 +496,24 @@ footer{background:var(--ink);color:var(--crema)}
   box-shadow:6px 6px 0 var(--ink-15);
 }
 @media (min-width:640px){.devis-form{grid-template-columns:1fr 1fr}}
-.field{display:flex;flex-direction:column;gap:.35rem}
+.field{display:flex;flex-direction:column;gap:.35rem;min-width:0}
 .field-full{grid-column:1 / -1}
 .field label{
   font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
   color:var(--ink-55);
 }
 .field input,.field select,.field textarea{
-  font-family:var(--body, inherit);font-size:1rem;color:var(--ink);
+  font-family:inherit;font-size:1rem;color:var(--ink);
   background:#FCFAF3;border:1px solid var(--ink);border-radius:10px;
-  padding:.7rem .85rem;width:100%;
+  padding:.7rem .85rem;width:100%;max-width:100%;min-width:0;
+  -webkit-appearance:none;appearance:none;
+  min-height:2.9rem;
+}
+.field input[type="date"],.field input[type="time"]{display:block;text-align:left}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231A1A16' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .9rem center;
+  padding-right:2.2rem;
 }
 .field textarea{resize:vertical}
 .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
@@ -806,6 +842,52 @@ footer{background:var(--ink);color:var(--crema)}
     </div>
   </section>
 
+  <section class="section" id="cartolina">
+    <div class="section-inner">
+      <div class="sec-head reveal">
+        <p class="sec-label">La cartolina</p>
+        <h2>Écrivez une carte postale, <span class="it">comme en vacances.</span></h2>
+        <p class="sec-lead">
+          Écrivez-la, on la dessine sous vos yeux — timbre, cachet de Fleurus et tout.
+          Partagez-la à la personne avec qui vous voulez faire la fête,
+          ou envoyez-la directement au camion.
+        </p>
+      </div>
+      <div class="carto-wrap reveal">
+        <div class="carto-preview">
+          <canvas id="carto-canvas" width="1180" height="760" aria-label="Aperçu de votre carte postale Tre Mor Si"></canvas>
+        </div>
+        <form class="carto-form" id="carto-form">
+          <div class="field">
+            <label for="c-dest">C’est pour qui&nbsp;?</label>
+            <input id="c-dest" type="text" maxlength="20" placeholder="Giulia, papa, l’équipe…" value="amore">
+          </div>
+          <div class="field">
+            <label for="c-msg">Votre message</label>
+            <textarea id="c-msg" rows="3" maxlength="120">Et si on privatisait un food truck italien pour la fête ? Arrosticini, spritz, dolce vita…</textarea>
+          </div>
+          <div class="field">
+            <label for="c-nom">Signé</label>
+            <input id="c-nom" type="text" maxlength="20" placeholder="Votre prénom" value="">
+          </div>
+          <div class="field">
+            <span class="carto-label">L’image</span>
+            <div class="carto-thumbs" role="radiogroup" aria-label="Choisir l'image de la carte">
+              <label><input type="radio" name="c-img" value="assets/vespa.jpg" checked><img src="assets/vespa.jpg" alt="Vespa pastel"></label>
+              <label><input type="radio" name="c-img" value="assets/limoni.jpg"><img src="assets/limoni.jpg" alt="Citrons"></label>
+              <label><input type="radio" name="c-img" value="assets/riviera.jpg"><img src="assets/riviera.jpg" alt="Riviera"></label>
+              <label><input type="radio" name="c-img" value="assets/puccia-mano.jpg"><img src="assets/puccia-mano.jpg" alt="Puccia"></label>
+            </div>
+          </div>
+          <div class="carto-actions">
+            <button class="btn btn-solid" type="button" id="carto-share">Partager la carte <span class="arr">→</span></button>
+            <a class="btn btn-ghost" id="carto-wa" href="https://wa.me/32495802201" target="_blank" rel="noopener">L’envoyer au camion <span class="arr">→</span></a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="dove">
     <div class="section-inner">
       <div class="sec-head reveal">
@@ -1099,6 +1181,190 @@ festaBtn.addEventListener('click', () => {
   conv.value = festaRange.value;
   conv.classList.remove('err');
 });
+
+// La Cartolina : carte postale dessinée en direct
+const cartoCanvas = document.getElementById('carto-canvas');
+const cctx = cartoCanvas.getContext('2d');
+const cartoImgs = {};
+function cartoImg(src) {
+  if (!cartoImgs[src]) {
+    const im = new Image();
+    im.src = src;
+    im.onload = drawCartolina;
+    cartoImgs[src] = im;
+  }
+  return cartoImgs[src];
+}
+function cartoWrap(text, x, maxW, font) {
+  cctx.font = font;
+  const words = text.split(/\s+/);
+  const lines = [];
+  let line = '';
+  words.forEach((w) => {
+    const test = line ? line + ' ' + w : w;
+    if (cctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  });
+  if (line) lines.push(line);
+  return lines.slice(0, 5);
+}
+function drawCartolina() {
+  const W = 1180, H = 760;
+  cctx.clearRect(0, 0, W, H);
+  // fond papier
+  cctx.fillStyle = '#FBF7EC';
+  cctx.fillRect(0, 0, W, H);
+  // bord airmail : rayures diagonales vert/blanc/rouge, puis on recouvre le centre
+  const cols = ['#2F7A45', '#FBF7EC', '#C92E1F', '#FBF7EC'];
+  for (let i = -H; i < W + H; i += 16) {
+    cctx.fillStyle = cols[Math.abs(Math.floor(i / 16)) % 4];
+    cctx.beginPath();
+    cctx.moveTo(i, 0); cctx.lineTo(i + 16, 0);
+    cctx.lineTo(i + 16 + H, H); cctx.lineTo(i + H, H);
+    cctx.closePath(); cctx.fill();
+  }
+  cctx.fillStyle = '#FBF7EC';
+  cctx.fillRect(20, 20, W - 40, H - 40);
+  cctx.strokeStyle = 'rgba(26,26,22,.25)';
+  cctx.lineWidth = 1.5;
+  cctx.strokeRect(20, 20, W - 40, H - 40);
+  // titre
+  cctx.fillStyle = 'rgba(26,26,22,.55)';
+  cctx.font = '600 17px "Instrument Sans", sans-serif';
+  cctx.textAlign = 'left';
+  cctx.fillText('C A R T O L I N A  ·  D A L L A  D O L C E  V I T A', 50, 66);
+  // image de gauche
+  const sel = document.querySelector('input[name="c-img"]:checked').value;
+  const im = cartoImg(sel);
+  const ix = 50, iy = 90, iw = 500, ih = 560;
+  if (im.complete && im.naturalWidth) {
+    const s = Math.max(iw / im.naturalWidth, ih / im.naturalHeight);
+    const sw = iw / s, sh = ih / s;
+    cctx.save();
+    cctx.beginPath(); cctx.rect(ix, iy, iw, ih); cctx.clip();
+    cctx.drawImage(im, (im.naturalWidth - sw) / 2, (im.naturalHeight - sh) / 2, sw, sh, ix, iy, iw, ih);
+    cctx.restore();
+  } else {
+    cctx.fillStyle = '#F1EAD9'; cctx.fillRect(ix, iy, iw, ih);
+  }
+  cctx.strokeStyle = '#1A1A16'; cctx.lineWidth = 2;
+  cctx.strokeRect(ix, iy, iw, ih);
+  cctx.fillStyle = 'rgba(26,26,22,.55)';
+  cctx.font = 'italic 22px "Instrument Serif", Georgia, serif';
+  cctx.fillText('tre.mor.si — food truck italiano, Fleurus', 50, 692);
+  // séparateur
+  cctx.strokeStyle = 'rgba(26,26,22,.25)'; cctx.lineWidth = 1.5;
+  cctx.beginPath(); cctx.moveTo(600, 110); cctx.lineTo(600, 650); cctx.stroke();
+  // timbre
+  const tx = 1010, ty = 60, tw = 110, th = 130;
+  cctx.save();
+  cctx.setLineDash([5, 5]);
+  cctx.strokeStyle = 'rgba(26,26,22,.5)'; cctx.lineWidth = 2;
+  cctx.strokeRect(tx, ty, tw, th);
+  cctx.restore();
+  const tim = cartoImg('assets/limoni.jpg');
+  if (tim.complete && tim.naturalWidth) {
+    const s2 = Math.max((tw - 16) / tim.naturalWidth, (th - 34) / tim.naturalHeight);
+    cctx.save();
+    cctx.beginPath(); cctx.rect(tx + 8, ty + 8, tw - 16, th - 34); cctx.clip();
+    cctx.drawImage(tim, tx + 8 - (tim.naturalWidth * s2 - (tw - 16)) / 2, ty + 8, tim.naturalWidth * s2, tim.naturalHeight * s2);
+    cctx.restore();
+  }
+  ['#2F7A45', '#FBF7EC', '#C92E1F'].forEach((c, i) => {
+    cctx.fillStyle = c;
+    cctx.fillRect(tx + 8 + i * ((tw - 16) / 3), ty + th - 22, (tw - 16) / 3, 14);
+  });
+  // cachet postal circulaire
+  const px = 930, py = 130, pr = 56;
+  cctx.strokeStyle = 'rgba(26,26,22,.55)'; cctx.lineWidth = 2.5;
+  cctx.beginPath(); cctx.arc(px, py, pr, 0, Math.PI * 2); cctx.stroke();
+  cctx.beginPath(); cctx.arc(px, py, pr - 10, 0, Math.PI * 2); cctx.stroke();
+  cctx.fillStyle = 'rgba(26,26,22,.6)';
+  cctx.font = '600 12px "Instrument Sans", sans-serif';
+  const ring = 'TRE MOR SI ★ FLEURUS ★ ';
+  for (let i = 0; i < ring.length; i++) {
+    const a = -Math.PI / 2 + (i / ring.length) * Math.PI * 2;
+    cctx.save();
+    cctx.translate(px + Math.cos(a) * (pr - 22), py + Math.sin(a) * (pr - 22));
+    cctx.rotate(a + Math.PI / 2);
+    cctx.textAlign = 'center';
+    cctx.fillText(ring[i], 0, 0);
+    cctx.restore();
+  }
+  cctx.textAlign = 'center';
+  cctx.font = '600 14px "Instrument Sans", sans-serif';
+  const d = new Date();
+  cctx.fillText(d.toLocaleDateString('fr-BE'), px, py + 5);
+  // lignes ondulées d'oblitération
+  cctx.strokeStyle = 'rgba(26,26,22,.35)'; cctx.lineWidth = 2;
+  for (let k = 0; k < 3; k++) {
+    cctx.beginPath();
+    for (let xx = 0; xx <= 90; xx += 6) {
+      const yy = 110 + k * 16 + Math.sin(xx / 9) * 4;
+      xx === 0 ? cctx.moveTo(px + 60 + xx, yy) : cctx.lineTo(px + 60 + xx, yy);
+    }
+    cctx.stroke();
+  }
+  // message manuscrit
+  cctx.textAlign = 'left';
+  const dest = (document.getElementById('c-dest').value.trim() || 'amore');
+  const msg = document.getElementById('c-msg').value.trim();
+  const nom = document.getElementById('c-nom').value.trim();
+  cctx.fillStyle = '#1A1A16';
+  cctx.font = '600 46px Caveat, cursive';
+  cctx.fillText('Cara ' + dest + ',', 640, 290);
+  cctx.font = '600 38px Caveat, cursive';
+  let yy = 348;
+  cartoWrap(msg, 640, 480, '600 38px Caveat, cursive').forEach((l) => {
+    cctx.fillText(l, 640, yy); yy += 50;
+  });
+  if (nom) {
+    cctx.textAlign = 'right';
+    cctx.fillStyle = '#C92E1F';
+    cctx.fillText('— ' + nom, 1120, yy + 14);
+    cctx.textAlign = 'left';
+  }
+  // lignes d'adresse pré-remplies
+  cctx.strokeStyle = 'rgba(26,26,22,.2)'; cctx.lineWidth = 1.5;
+  [608, 648, 688].forEach((ly) => {
+    cctx.beginPath(); cctx.moveTo(640, ly); cctx.lineTo(1120, ly); cctx.stroke();
+  });
+  cctx.fillStyle = 'rgba(26,26,22,.6)';
+  cctx.font = 'italic 24px "Instrument Serif", Georgia, serif';
+  cctx.fillText('Food Truck Tre Mor Si', 640, 600);
+  cctx.fillText('Fleurus, Belgio — WhatsApp 0495 80 22 01', 640, 640);
+  cctx.fillText('@tre.mor.si', 640, 680);
+}
+function cartoWaUpdate() {
+  const dest = document.getElementById('c-dest').value.trim() || 'amore';
+  const msg = document.getElementById('c-msg').value.trim();
+  const nom = document.getElementById('c-nom').value.trim();
+  const txt = '💌 Une cartolina pour vous !\nPour : ' + dest + '\n« ' + msg + ' »' + (nom ? '\n— ' + nom : '');
+  document.getElementById('carto-wa').href = 'https://wa.me/32495802201?text=' + encodeURIComponent(txt);
+}
+['c-dest', 'c-msg', 'c-nom'].forEach((id) =>
+  document.getElementById(id).addEventListener('input', () => { drawCartolina(); cartoWaUpdate(); }));
+document.querySelectorAll('input[name="c-img"]').forEach((r) =>
+  r.addEventListener('change', drawCartolina));
+document.getElementById('carto-share').addEventListener('click', () => {
+  cartoCanvas.toBlob(async (blob) => {
+    const file = new File([blob], 'cartolina-tremorsi.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: 'Cartolina Tre Mor Si' }); } catch (e) { /* annulé */ }
+    } else {
+      const a = document.createElement('a');
+      a.href = cartoCanvas.toDataURL('image/png');
+      a.download = 'cartolina-tremorsi.png';
+      a.click();
+    }
+  }, 'image/png');
+});
+if (document.fonts && document.fonts.ready) {
+  document.fonts.load('600 40px Caveat').then(drawCartolina);
+  document.fonts.ready.then(drawCartolina);
+}
+drawCartolina();
+cartoWaUpdate();
 
 // Formulaire de devis → WhatsApp ou email
 const devisForm = document.getElementById('devis-form');
