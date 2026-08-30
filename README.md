@@ -20,10 +20,15 @@ Puis ouvrir http://localhost:8765
 
 ## Déploiement (Render + Cloudflare)
 
-1. Pousser ce dépôt sur GitHub
-2. Render → **New → Static Site** → connecter le repo (le `render.yaml` est détecté ; publish path `.`, pas de build)
-3. Cloudflare → DNS : `CNAME` du domaine vers l'URL `*.onrender.com`, proxy activé (orange)
-4. Render → Settings → Custom Domain : ajouter le domaine
+- Repo : https://github.com/ahmeddavidfp-spec/tremorsi-site
+- Domaine : **tremorsi.com** (acheté chez Cloudflare)
+
+1. Render → **New → Static Site** → repo `tremorsi-site` → name `tremorsi`, branch `main`, build vide, publish dir `.`
+2. Render → Settings → **Custom Domains** : ajouter `tremorsi.com` et `www.tremorsi.com`
+3. Cloudflare (zone tremorsi.com) → DNS :
+   - `CNAME` `@` → `tremorsi.onrender.com` (Cloudflare aplatit l'apex automatiquement), proxy orange
+   - `CNAME` `www` → `tremorsi.onrender.com`, proxy orange
+4. Cloudflare → SSL/TLS → mode **Full (strict)**
 
 ## Contact client (source : page Facebook)
 
