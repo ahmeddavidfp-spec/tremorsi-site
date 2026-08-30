@@ -64,6 +64,47 @@ a{color:inherit}
 
 em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size:1.06em;letter-spacing:.01em}
 
+/* ---------- Loader : l'auvent qui se lève ---------- */
+#loader{
+  position:fixed;inset:0;z-index:999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.3rem;
+  background:
+    radial-gradient(55% 42% at 80% -10%, rgba(255,164,64,.5), rgba(255,164,64,0) 62%),
+    linear-gradient(180deg, #FFEFD3 0%, #FFF9EC 55%, #FFFDF7 100%);
+  transition:transform .65s cubic-bezier(.65,0,.35,1);
+}
+#loader.done{transform:translateY(-100%)}
+.loader-words{
+  font-family:var(--serif);font-weight:400;line-height:1;
+  font-size:clamp(3rem,10vw,5.5rem);
+  display:flex;align-items:baseline;gap:.18em;
+}
+.lw{opacity:0;transform:translateY(14px) scale(.85);animation:lw-in .5s cubic-bezier(.2,.8,.3,1.2) forwards}
+.lw1{color:var(--verde);animation-delay:.15s}
+.lw2{color:var(--ink);font-style:italic;font-size:.62em;animation-delay:.5s}
+.lw3{color:var(--rosso);animation-delay:.85s}
+@keyframes lw-in{to{opacity:1;transform:none}}
+.loader-bar{
+  width:150px;height:4px;border-radius:999px;overflow:hidden;
+  background:rgba(26,26,22,.12);
+}
+.loader-bar i{
+  display:block;height:100%;width:0;
+  background:linear-gradient(90deg,#2F7A45 0 33.3%,#FFFEFA 33.3% 66.6%,var(--rosso) 66.6% 100%);
+  animation:lb-fill 1.25s ease-out .2s forwards;
+}
+@keyframes lb-fill{to{width:100%}}
+.loader-sub{
+  font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--ink-55);
+  opacity:0;animation:lw-in .5s ease 1.1s forwards;
+}
+@media (prefers-reduced-motion:reduce){
+  #loader{transition:opacity .3s}
+  #loader.done{transform:none;opacity:0}
+  .lw,.loader-sub{animation:none;opacity:1;transform:none}
+  .loader-bar i{animation:none;width:100%}
+}
+
 /* ---------- Header ---------- */
 .topwrap{
   position:sticky;top:0;z-index:50;
@@ -604,6 +645,14 @@ footer{background:var(--ink);color:var(--crema)}
 </head>
 <body>
 
+<div id="loader" aria-hidden="true">
+  <p class="loader-words">
+    <span class="lw lw1">Tre</span><span class="lw lw2">mor</span><span class="lw lw3">Sì</span>
+  </p>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-sub">si prepara la dolce vita…</p>
+</div>
+
 <header class="topwrap">
   <div class="topbar">
     <a class="wordmark" href="#top" aria-label="Tre Mor Si - retour en haut"><img src="assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
@@ -1111,6 +1160,19 @@ footer{background:var(--ink);color:var(--crema)}
 </footer>
 
 <script>
+// Loader : minimum 1,4 s pour laisser l'animation vivre, puis l'auvent se lève
+const loader = document.getElementById('loader');
+const loaderT0 = performance.now();
+function loaderHide() {
+  if (!loader || loader.classList.contains('done')) return;
+  loader.classList.add('done');
+  setTimeout(() => loader.remove(), 750);
+}
+window.addEventListener('load', () => {
+  setTimeout(loaderHide, Math.max(0, 1400 - (performance.now() - loaderT0)));
+});
+setTimeout(loaderHide, 5000); // filet de sécurité
+
 // Révélation au scroll
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
