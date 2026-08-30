@@ -346,7 +346,7 @@ footer{background:var(--ink);color:var(--crema)}
 }
 .foot-base i{font-family:var(--serif);font-style:italic}
 
-/* ---------- Fun : mouton, mordimi, WhatsApp, Sì ---------- */
+/* ---------- Fun : mouton, WhatsApp, Sì ---------- */
 .band{position:relative}
 .sheep-track{
   position:absolute;top:-1.7rem;left:0;right:0;height:1.8rem;
@@ -360,31 +360,6 @@ footer{background:var(--ink);color:var(--crema)}
   0%,55%{transform:translateX(calc(100vw + 80px))}
   100%{transform:translateX(-110px)}
 }
-.hero-figure{position:relative}
-.mordimi{
-  position:absolute;top:.9rem;right:clamp(.6rem,3vw,1.6rem);
-  background:var(--crema);border:1.5px solid var(--ink);border-radius:14px;
-  padding:.55rem .6rem .35rem;cursor:pointer;
-  transform:rotate(7deg);
-  box-shadow:3px 3px 0 var(--ink-15);
-  display:flex;flex-direction:column;align-items:center;gap:.15rem;
-  transition:transform .18s;
-}
-.mordimi:hover{transform:rotate(7deg) scale(1.06)}
-.mordimi.crunch{animation:crunch .3s ease}
-@keyframes crunch{50%{transform:rotate(3deg) scale(.9)}}
-.mordimi .cube{transform-origin:30px 60px;transition:transform .35s cubic-bezier(.5,-.5,.5,1.5),opacity .3s}
-.mordimi .cube.eaten{transform:translate(26px,-14px) rotate(40deg) scale(.2);opacity:0}
-.mordimi-label{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--rosso)}
-.mordimi-bubble{
-  position:absolute;top:50%;right:calc(100% + .7rem);transform:translateY(-50%) scale(.6);
-  background:var(--ink);color:var(--crema);
-  font-family:var(--serif);font-style:italic;font-size:1.02rem;white-space:nowrap;
-  padding:.5rem .95rem;border-radius:999px;opacity:0;pointer-events:none;
-  transition:opacity .25s,transform .25s;
-}
-.mordimi-bubble.show{opacity:1;transform:translateY(-50%) scale(1)}
-@media (max-width:520px){.mordimi svg{width:36px;height:78px}.mordimi-bubble{font-size:.9rem}}
 .wa{
   position:fixed;bottom:calc(1.15rem + env(safe-area-inset-bottom, 0px));right:1.15rem;z-index:70;
   width:56px;height:56px;border-radius:50%;
@@ -497,27 +472,6 @@ footer{background:var(--ink);color:var(--crema)}
 .lb-prev:hover{transform:translateY(-50%) scale(1.1)}
 .lb-next:hover{transform:translateY(-50%) scale(1.1)}
 
-/* ---------- Aria di mare ---------- */
-.mare{
-  position:fixed;bottom:calc(1.15rem + env(safe-area-inset-bottom, 0px));left:1.15rem;z-index:70;
-  width:56px;height:56px;border-radius:50%;
-  background:var(--crema);border:1.5px solid var(--ink);
-  font-size:1.45rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 5px 16px rgba(26,26,22,.2);
-  transition:transform .18s, background .2s;
-}
-.mare:hover{transform:scale(1.08)}
-.mare[aria-pressed="true"]{background:#CFE3D6;animation:mare-bob 3.2s ease-in-out infinite}
-@keyframes mare-bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
-.mare-label{
-  position:absolute;left:calc(100% + .7rem);top:50%;transform:translateY(-50%);
-  background:var(--crema);border:1.5px solid var(--ink);border-radius:999px;
-  font-family:var(--serif);font-style:italic;font-size:.98rem;white-space:nowrap;
-  padding:.4rem .9rem;opacity:0;pointer-events:none;transition:opacity .3s;
-}
-.mare:hover .mare-label,.mare[aria-pressed="true"] .mare-label{opacity:1}
-
 /* ---------- Reveal ---------- */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
@@ -526,7 +480,6 @@ footer{background:var(--ink);color:var(--crema)}
   .reveal{opacity:1;transform:none;transition:none}
   .shot img{transition:none}
   .sheep,.wa,.wa-ring{animation:none}
-  .mordimi .cube{transition:opacity .2s}
   html{scroll-behavior:auto}
 }
 </style>
@@ -534,7 +487,6 @@ footer{background:var(--ink);color:var(--crema)}
 <body>
 
 <header class="topwrap">
-  <div class="tricolore" aria-hidden="true"></div>
   <div class="topbar">
     <a class="wordmark" href="#top" aria-label="Tre Mor Si — retour en haut"><img src="assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
     <nav aria-label="Navigation principale">
@@ -567,18 +519,6 @@ footer{background:var(--ink);color:var(--crema)}
     </div>
     <div class="hero-figure">
       <img src="assets/cover-truck.jpg" alt="Illustration du food truck Tre Mor Si : le couple derrière le comptoir, guirlande de piments, néon tricolore" width="1448" height="1086">
-      <button class="mordimi" id="mordimi" type="button" aria-label="Croquer l'arrosticino — petit jeu">
-        <svg viewBox="0 0 60 130" width="46" height="100" aria-hidden="true">
-          <polygon points="30,130 26,112 34,112" fill="#8B8F94"/>
-          <rect x="28" y="6" width="4" height="110" rx="2" fill="#8B8F94" stroke="#1A1A16" stroke-width="1"/>
-          <circle cx="30" cy="8" r="5" fill="#8B8F94" stroke="#1A1A16" stroke-width="1"/>
-          <g class="cube" data-c="1"><rect x="12" y="22" width="36" height="24" rx="6" fill="#A97B50" stroke="#1A1A16" stroke-width="1.5"/></g>
-          <g class="cube" data-c="2"><rect x="14" y="52" width="32" height="22" rx="6" fill="#8F5F3D" stroke="#1A1A16" stroke-width="1.5"/></g>
-          <g class="cube" data-c="3"><rect x="12" y="80" width="36" height="24" rx="6" fill="#B5875C" stroke="#1A1A16" stroke-width="1.5"/></g>
-        </svg>
-        <span class="mordimi-label">mordimi&nbsp;!</span>
-        <span class="mordimi-bubble" id="mordimi-bubble">Tre morsi — che fame&nbsp;! 🍢</span>
-      </button>
     </div>
   </section>
 
@@ -872,10 +812,6 @@ footer{background:var(--ink);color:var(--crema)}
   <button class="lb-btn lb-next" id="lb-next" type="button" aria-label="Photo suivante">→</button>
 </div>
 
-<button class="mare" id="mare" type="button" aria-pressed="false" aria-label="Radio dolce vita — musique et ambiance sonore">
-  <span id="mare-ico">📻</span><span class="mare-label">radio dolce vita</span>
-</button>
-
 <a class="wa" href="https://wa.me/32495802201?text=Ciao%20Tre%20Mor%20Si%20!%20%F0%9F%8D%A2%20Je%20vous%20%C3%A9cris%20depuis%20le%20site%20%E2%80%94" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp">
   <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" fill="#FCFAF3">
     <path d="M16 3C9.4 3 4 8.3 4 14.9c0 2.6.8 5 2.3 7L4.7 27l5.3-1.6c1.8 1 3.9 1.6 6 1.6 6.6 0 12-5.3 12-11.9S22.6 3 16 3zm0 21.6c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-3.1 1 1-3-.3-.4a9.6 9.6 0 0 1-1.6-5.5c0-5.3 4.4-9.6 9.7-9.6s9.7 4.3 9.7 9.6-4.4 9.6-9.7 9.6zm5.5-7.2c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/>
@@ -929,32 +865,6 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-// Mordimi : trois bouchées et on file au menu
-const mordimi = document.getElementById('mordimi');
-const cubes = mordimi.querySelectorAll('.cube');
-const bubble = document.getElementById('mordimi-bubble');
-let bites = 0;
-mordimi.addEventListener('click', () => {
-  if (bites >= cubes.length) { // reset
-    bites = 0;
-    cubes.forEach((c) => c.classList.remove('eaten'));
-    bubble.classList.remove('show');
-    return;
-  }
-  cubes[bites].classList.add('eaten');
-  bites++;
-  mordimi.classList.remove('crunch');
-  void mordimi.offsetWidth;
-  mordimi.classList.add('crunch');
-  if (bites === cubes.length) {
-    bubble.classList.add('show');
-    setTimeout(() => {
-      document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
-    }, 1000);
-    setTimeout(() => bubble.classList.remove('show'), 4000);
-  }
-});
-
 // Bulle WhatsApp : apparaît après 3,5 s, se range toute seule
 const waBubble = document.getElementById('wa-bubble');
 setTimeout(() => waBubble.classList.add('show'), 3500);
@@ -993,141 +903,6 @@ lb.addEventListener('pointerup', (e) => {
   const dx = e.clientX - touchX;
   if (Math.abs(dx) > 45) lbShow(lbIndex + (dx < 0 ? 1 : -1));
   touchX = null;
-});
-
-// Radio dolce vita : musique originale + ambiance mer, en WebAudio (zéro fichier)
-const mareBtn = document.getElementById('mare');
-const mareIco = document.getElementById('mare-ico');
-const mareLabel = mareBtn.querySelector('.mare-label');
-let radio = null;   // { ctx, timers: [] }
-let radioMode = 0;  // 0 off · 1 musica · 2 mare
-
-function radioStop() {
-  if (!radio) return;
-  radio.timers.forEach(clearInterval);
-  radio.ctx.close();
-  radio = null;
-}
-
-function seaStart() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const master = ctx.createGain();
-  master.gain.value = 0;
-  master.connect(ctx.destination);
-  master.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 2);
-  const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
-  const data = noiseBuf.getChannelData(0);
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-  const makeWave = (freqLfo, cutoff, base, amp) => {
-    const src = ctx.createBufferSource();
-    src.buffer = noiseBuf; src.loop = true;
-    const lp = ctx.createBiquadFilter();
-    lp.type = 'lowpass'; lp.frequency.value = cutoff; lp.Q.value = 0.4;
-    const g = ctx.createGain(); g.gain.value = base;
-    const lfo = ctx.createOscillator(); lfo.frequency.value = freqLfo;
-    const lfoG = ctx.createGain(); lfoG.gain.value = amp;
-    lfo.connect(lfoG); lfoG.connect(g.gain);
-    src.connect(lp); lp.connect(g); g.connect(master);
-    src.start(); lfo.start();
-  };
-  makeWave(0.07, 480, 0.16, 0.11);
-  makeWave(0.115, 900, 0.09, 0.07);
-  const gull = () => {
-    const t = ctx.currentTime + 0.05;
-    for (let k = 0; k < 2; k++) {
-      const o = ctx.createOscillator(); const og = ctx.createGain();
-      o.type = 'sine';
-      o.frequency.setValueAtTime(1350 - k * 120, t + k * 0.28);
-      o.frequency.exponentialRampToValueAtTime(880, t + k * 0.28 + 0.3);
-      og.gain.setValueAtTime(0, t + k * 0.28);
-      og.gain.linearRampToValueAtTime(0.05, t + k * 0.28 + 0.06);
-      og.gain.linearRampToValueAtTime(0, t + k * 0.28 + 0.32);
-      o.connect(og); og.connect(master);
-      o.start(t + k * 0.28); o.stop(t + k * 0.28 + 0.4);
-    }
-  };
-  const gullTimer = setInterval(() => { if (Math.random() < 0.7) gull(); }, 11000);
-  return { ctx, timers: [gullTimer] };
-}
-
-// Petite valse italienne originale, façon terrasse au bord de mer
-function musicaStart() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const master = ctx.createGain();
-  master.gain.value = 0;
-  master.connect(ctx.destination);
-  master.gain.linearRampToValueAtTime(0.32, ctx.currentTime + 1.2);
-  const hz = (m) => 440 * Math.pow(2, (m - 69) / 12);
-  const beat = 60 / 152;               // valse allègre, 3 temps
-  const barLen = 3 * beat;
-  // 8 mesures : C · Am · F · G7 · C · E7/Am · Dm/G7 · C
-  const chords = [
-    [60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62, 65],
-    [60, 64, 67], [57, 61, 64], [50, 53, 57], [60, 64, 67],
-  ];
-  const basses = [48, 45, 41, 43, 48, 45, 38, 48];
-  // mélodie (note midi, durée en temps) — 3 temps par mesure
-  const melody = [
-    [76, 1], [79, 1], [81, 1],
-    [79, 1.5], [76, .5], [72, 1],
-    [77, 1], [81, 1], [84, 1],
-    [83, 2], [79, 1],
-    [76, 1], [79, 1], [84, 1],
-    [83, 1.5], [81, .5], [76, 1],
-    [74, 1], [77, 1], [71, 1],
-    [72, 3],
-  ];
-  const pluck = (midi, t, dur, vol, type) => {
-    const o = ctx.createOscillator(); const g = ctx.createGain();
-    o.type = type; o.frequency.value = hz(midi);
-    const v = ctx.createOscillator(); const vg = ctx.createGain();
-    v.frequency.value = 5.5; vg.gain.value = 3;
-    v.connect(vg); vg.connect(o.frequency); v.start(t); v.stop(t + dur);
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(vol, t + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.95);
-    o.connect(g); g.connect(master);
-    o.start(t); o.stop(t + dur);
-  };
-  let nextLoop = ctx.currentTime + 0.1;
-  const scheduleLoop = () => {
-    while (nextLoop < ctx.currentTime + 1.2) {
-      const t0 = nextLoop;
-      for (let bar = 0; bar < 8; bar++) {
-        const tb = t0 + bar * barLen;
-        pluck(basses[bar], tb, beat * 0.9, 0.22, 'sine');                 // oum
-        for (const b of [1, 2]) {                                          // pah-pah
-          chords[bar].forEach((n) => pluck(n, tb + b * beat, beat * 0.55, 0.045, 'triangle'));
-        }
-      }
-      let tm = t0;
-      melody.forEach(([m, d]) => { pluck(m, tm, d * beat, 0.12, 'triangle'); tm += d * beat; });
-      nextLoop += 8 * barLen;
-    }
-  };
-  scheduleLoop();
-  const loopTimer = setInterval(scheduleLoop, 400);
-  return { ctx, timers: [loopTimer] };
-}
-
-mareBtn.addEventListener('click', () => {
-  radioStop();
-  radioMode = (radioMode + 1) % 3;
-  if (radioMode === 1) {
-    radio = musicaStart();
-    mareIco.textContent = '🎶';
-    mareLabel.textContent = 'musica…';
-    mareBtn.setAttribute('aria-pressed', 'true');
-  } else if (radioMode === 2) {
-    radio = seaStart();
-    mareIco.textContent = '🌊';
-    mareLabel.textContent = 'la mer…';
-    mareBtn.setAttribute('aria-pressed', 'true');
-  } else {
-    mareIco.textContent = '📻';
-    mareLabel.textContent = 'radio dolce vita';
-    mareBtn.setAttribute('aria-pressed', 'false');
-  }
 });
 
 // Formulaire de devis → WhatsApp ou email
