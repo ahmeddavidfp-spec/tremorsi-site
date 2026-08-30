@@ -727,3 +727,35 @@ footer{background:var(--ink);color:var(--crema)}
 
 .sec-head h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,6vw,3.9rem);line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
 .sec-head h1 .it{font-style:italic;color:var(--rosso)}
+
+/* ---------- Menu mobile ---------- */
+.burger{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:42px;height:42px;padding:9px;
+  background:none;border:1.5px solid var(--ink);border-radius:10px;cursor:pointer;flex:none;
+}
+.burger span{display:block;height:2px;background:var(--ink);border-radius:2px;transition:transform .25s,opacity .2s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:719px){
+  .burger{display:flex}
+  .topbar-nav li:not(:last-child){display:none}
+}
+.mobnav{
+  position:fixed;inset:0;z-index:45;
+  padding:calc(90px + env(safe-area-inset-top, 0px)) var(--gutter) 2rem;
+  background:
+    radial-gradient(70% 40% at 80% -5%, rgba(255,180,90,.35), rgba(255,180,90,0) 60%),
+    linear-gradient(180deg, #FFF3DC 0%, var(--crema) 60%);
+  overflow-y:auto;
+}
+.mobnav[hidden]{display:none}
+.mobnav ul{list-style:none}
+.mobnav li{border-bottom:1px solid var(--ink-15)}
+.mobnav li a{
+  display:block;padding:.85rem 0;text-decoration:none;
+  font-family:var(--serif);font-size:1.7rem;line-height:1.2;
+}
+.mobnav li a:active{color:var(--rosso)}
+.mobnav-cta{margin-top:1.4rem}
