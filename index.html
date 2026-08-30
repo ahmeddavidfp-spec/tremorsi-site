@@ -172,19 +172,51 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 .section h2 .it{font-style:italic;color:var(--rosso)}
 .sec-lead{max-width:36rem;color:var(--ink-55);margin-top:1.1rem}
 
-/* ---------- Concetto ---------- */
-.morsi{display:grid;gap:2.2rem}
-@media (min-width:720px){.morsi{grid-template-columns:repeat(3,1fr);gap:2.6rem}}
-.morso{border-top:1px solid var(--ink);padding-top:1.3rem}
-.morso .tag{
-  font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.2em;color:var(--rosso);
+/* ---------- La storia ---------- */
+.storia-grid{display:grid;gap:2.5rem}
+@media (min-width:860px){.storia-grid{grid-template-columns:.8fr 1.2fr;gap:4.5rem;align-items:center}}
+.storia-fig{
+  margin:0;max-width:24rem;
+  border:1px solid var(--ink);border-radius:14px;overflow:hidden;
+  background:#FCFAF3;transform:rotate(-1.3deg);
+  box-shadow:5px 5px 0 var(--ink-15);
 }
-.morso h3{
+.storia-fig figcaption{
+  font-family:var(--serif);font-style:italic;font-size:1.05rem;
+  text-align:center;padding:.55rem;color:var(--ink-55);
+  border-top:1px solid var(--ink-15);
+}
+.storia-txt p{max-width:34rem;color:var(--ink-55);margin-top:1rem}
+.storia-txt p:first-of-type{margin-top:1.1rem}
+.promessa{list-style:none;margin-top:2.1rem;display:grid;gap:1rem;max-width:34rem}
+.promessa li{border-top:1px solid var(--ink-15);padding-top:.85rem;font-size:.95rem;color:var(--ink-55)}
+.promessa strong{
+  display:block;font-family:var(--serif);font-style:italic;font-weight:400;
+  color:var(--rosso);font-size:1.25rem;margin-bottom:.15rem;
+}
+
+/* ---------- Il viaggio (itinéraire Nord → Sud) ---------- */
+.tappe{list-style:none;position:relative;max-width:44rem;margin-left:.4rem}
+.tappe::before{
+  content:"";position:absolute;left:0;top:.6rem;bottom:.6rem;
+  border-left:2px dashed var(--ink-15);
+}
+.tappe li{position:relative;padding:0 0 2.1rem 2.1rem}
+.tappe li:last-child{padding-bottom:0}
+.tappe li::before{
+  content:"";position:absolute;left:-6px;top:.35rem;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--rosso);border:2px solid var(--crema);
+  box-shadow:0 0 0 1.5px var(--ink);
+}
+.tappe li:first-child::before{background:var(--verde)}
+.tappe li:last-child::before{background:var(--limone)}
+.regione{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.2em;color:var(--rosso)}
+.tappe h3{
   font-family:var(--serif);font-weight:400;font-style:italic;
-  font-size:clamp(1.7rem,3vw,2.2rem);line-height:1.15;margin:.4rem 0 .55rem;
+  font-size:clamp(1.55rem,2.6vw,2rem);line-height:1.15;margin:.25rem 0 .3rem;
 }
-.morso p{font-size:.97rem;color:var(--ink-55)}
-.morso p strong{color:var(--ink);font-weight:600}
+.tappe li > p:last-child{font-size:.97rem;color:var(--ink-55);max-width:36rem}
 
 /* ---------- Menu ---------- */
 #menu{background:var(--verde);color:var(--crema)}
@@ -392,7 +424,8 @@ footer{background:var(--ink);color:var(--crema)}
   <a class="wordmark" href="#top" aria-label="Tre Mor Si — retour en haut"><img src="assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
   <nav aria-label="Navigation principale">
     <ul class="topbar-nav">
-      <li class="only-desktop"><a href="#concept">Concetto</a></li>
+      <li class="only-desktop"><a href="#storia">La storia</a></li>
+      <li class="only-desktop"><a href="#concept">Il viaggio</a></li>
       <li class="only-desktop"><a href="#gallery">Galerie</a></li>
       <li><a href="#menu">Menu</a></li>
       <li><a class="pill" href="#dove">Nous trouver</a></li>
@@ -406,9 +439,9 @@ footer{background:var(--ink);color:var(--crema)}
       <p class="hero-meta">Food truck italiano · Fleurus — Charleroi</p>
       <h1>Ogni <span class="it">morso</span> raconte l’Italie.</h1>
       <p class="hero-sub">
-        Arrosticini grillés à la braise, puccia dorée, cozze au citron.
-        Des produits authentiques, préparés devant vous — la dolce vita,
-        servie à votre coin de rue.
+        Arrosticini grillés à la braise, moules à la plancha, puccia dorée.
+        L’Italie du Nord au Sud, préparée à la minute devant vous —
+        la dolce vita, servie à votre coin de rue.
       </p>
       <div class="hero-ctas">
         <a class="btn btn-solid" href="#menu">Découvrir le menu <span class="arr">→</span></a>
@@ -461,36 +494,70 @@ footer{background:var(--ink);color:var(--crema)}
   </div>
   </div>
 
+  <section class="section" id="storia">
+    <div class="section-inner">
+      <div class="storia-grid">
+        <figure class="storia-fig reveal">
+          <img src="assets/noi.jpg" alt="Le couple Tre Mor Si derrière le comptoir du camion, dessiné au trait" loading="lazy" width="435" height="500">
+          <figcaption>noi due, dietro al banco</figcaption>
+        </figure>
+        <div class="storia-txt reveal">
+          <p class="sec-label">Chi siamo</p>
+          <h2>Deux, un camion, <span class="it">et toute l’Italie.</span></h2>
+          <p>Derrière le comptoir, on est deux. Deux amoureux de l’Italie —
+          celle des trattorie de quartier, des grands-mères qui ne mesurent rien
+          et des étés qui sentent le basilic. Tre Mor Si, c’est notre façon de la
+          faire voyager : un camion, une plancha, une braise, et des produits
+          qui arrivent tout droit d’Italie.</p>
+          <p>Le nom ? <em class="flair">Tre morsi</em> — « trois bouchées ».
+          Parce qu’il n’en faut jamais plus de trois pour fermer les yeux et dire <em class="flair">sì</em>.</p>
+          <ul class="promessa">
+            <li><strong>À la minute.</strong> Rien n’attend : tout se prépare devant vous, à la commande.</li>
+            <li><strong>Importé d’Italie.</strong> Charcuteries et fromages qui ont fait la route jusqu’ici.</li>
+            <li><strong>Convivialità.</strong> On cuisine, on papote, on refait le monde — c’est compris dans le prix.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="concept">
     <div class="section-inner">
       <div class="sec-head reveal">
-        <p class="sec-label">Il concetto</p>
-        <h2>Trois bouchées.<br>La mer, le soleil, <span class="it">le vent.</span></h2>
+        <p class="sec-label">Il viaggio</p>
+        <h2>Un voyage, <span class="it">du Nord au Sud.</span></h2>
         <p class="sec-lead">
-          Tre Mor Si — trois morsi. Des Pouilles aux Abruzzes,
-          chaque recette ramène un morceau d’Italie jusqu’en Belgique.
+          Notre carte est un itinéraire : chaque plat est une étape,
+          de l’aperitivo du Nord au dolce sicilien. Montez, on descend la botte.
         </p>
       </div>
-      <div class="morsi">
-        <article class="morso reveal">
-          <p class="tag">Il mare</p>
-          <h3>Cozze &amp; puccia del sud</h3>
-          <p>Les moules au citron et persil, la <strong>puccia</strong> dorée du Salento.
-          Le sud de l’Italie, les pieds dans l’eau.</p>
-        </article>
-        <article class="morso reveal">
-          <p class="tag">Il sole</p>
-          <h3>Limoni e passione</h3>
-          <p>Citrons, produits choisis avec soin, recettes de famille.
-          Tout est <strong>preparato con passione</strong> — et ça se goûte.</p>
-        </article>
-        <article class="morso reveal">
-          <p class="tag">Il vento</p>
-          <h3>Arrosticini d’Abruzzo</h3>
-          <p>Les célèbres brochettes des montagnes, <strong>grillées à la braise</strong>
-          sous vos yeux. Simples, fumées, addictives.</p>
-        </article>
-      </div>
+      <ol class="tappe">
+        <li class="reveal">
+          <p class="regione">Veneto — le départ</p>
+          <h3>L’aperitivo &amp; le Spritz</h3>
+          <p>Planches de charcuteries et fromages arrivés d’Italie, Aperol Spritz qui pétille — le rituel du Nord.</p>
+        </li>
+        <li class="reveal">
+          <p class="regione">Abruzzo — les montagnes</p>
+          <h3>Gli arrosticini</h3>
+          <p>Les brochettes d’agneau grillées à la braise sous vos yeux. Simples, fumées, addictives.</p>
+        </li>
+        <li class="reveal">
+          <p class="regione">Puglia — le talon de la botte</p>
+          <h3>La puccia</h3>
+          <p>Le pain doré du Salento, garni généreusement — comme là-bas.</p>
+        </li>
+        <li class="reveal">
+          <p class="regione">Mediterraneo — la côte</p>
+          <h3>Les moules à la plancha</h3>
+          <p>Ail, persil, basilic frais et un trait de vin blanc — la mer en fin de cuisson.</p>
+        </li>
+        <li class="reveal">
+          <p class="regione">Sicilia — le bout du voyage</p>
+          <h3>Il cannolo</h3>
+          <p>Croquant dehors, ricotta douce dedans. Le dolce qui clôt la descente de la botte.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -515,14 +582,16 @@ footer{background:var(--ink);color:var(--crema)}
           <div class="menu-item"><span class="name">Puccia Nutella<small>la douceur de fin de service</small></span><span class="dots"></span><span class="price">6 €</span></div>
         </div>
         <div class="menu-cat">
-          <h3>Cozze &amp; Aperitivo</h3>
-          <div class="menu-item"><span class="name">Cozze al limone<small>moules, citron, persil, poivre</small></span><span class="dots"></span><span class="price">12 €</span></div>
-          <div class="menu-item"><span class="name">Tagliere aperitivo<small>charcuteries, fromages, olives, grissini</small></span><span class="dots"></span><span class="price">15 €</span></div>
+          <h3>Moules &amp; Aperitivo</h3>
+          <div class="menu-item"><span class="name">Moules à la plancha<small>ail, persil, basilic frais, vin blanc</small></span><span class="dots"></span><span class="price">12 €</span></div>
+          <div class="menu-item"><span class="name">Planche apéritive<small>charcuteries &amp; fromages importés d’Italie</small></span><span class="dots"></span><span class="price">15 €</span></div>
           <div class="menu-item"><span class="name">Olive &amp; grissini</span><span class="dots"></span><span class="price">4 €</span></div>
         </div>
         <div class="menu-cat">
           <h3>Dolci &amp; Drinks</h3>
+          <div class="menu-item"><span class="name">Cannolo siciliano<small>croquant, ricotta douce — comme à Palerme</small></span><span class="dots"></span><span class="price">4 €</span></div>
           <div class="menu-item"><span class="name">Tiramisù della casa</span><span class="dots"></span><span class="price">4,5 €</span></div>
+          <div class="menu-item"><span class="name">Aperol Spritz</span><span class="dots"></span><span class="price">6 €</span></div>
           <div class="menu-item"><span class="name">Limonata / Chinotto</span><span class="dots"></span><span class="price">3 €</span></div>
           <div class="menu-item"><span class="name">Caffè espresso</span><span class="dots"></span><span class="price">2 €</span></div>
         </div>
@@ -540,7 +609,7 @@ footer{background:var(--ink);color:var(--crema)}
       <div class="gallery reveal">
         <a class="shot" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
           <img src="assets/cozze.jpg" alt="Bol de moules au citron et persil" loading="lazy">
-          <span class="cap">cozze al limone</span>
+          <span class="cap">moules à la plancha</span>
         </a>
         <a class="shot" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
           <img src="assets/aperitivo.jpg" alt="Planche aperitivo : charcuteries, olives, grissini et moules" loading="lazy">
