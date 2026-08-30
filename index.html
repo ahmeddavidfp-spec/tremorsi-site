@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tre Mor Si</title>
+<meta name="description" content="Tre Mor Si — food truck italiano à Charleroi et alentours. Arrosticini des Abruzzes, puccia des Pouilles. Ogni morso racconta l'Italia.">
+<meta property="og:title" content="Tre Mor Si · Food Truck Italiano">
+<meta property="og:description" content="Arrosticini, puccia & amore — chaque bouchée raconte l'Italie. Charleroi & alentours.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23E23A2E'/%3E%3Ccircle cx='50' cy='50' r='34' fill='%23FFFDF6'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23157A43'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* ==========================================================================
+   TRE MOR SI — identité : affiche de marché italien, jeune & solaire.
+   Thème unique clair assumé : tous les fonds et couleurs sont explicites.
+   ========================================================================== */
+:root{
+  --panna:#FFFDF6;        /* fond chaud lumineux */
+  --panna-2:#FBF4E4;      /* variante crème pour cartes */
+  --basilico:#157A43;
+  --basilico-scuro:#0E4D2C;
+  --pomodoro:#E23A2E;
+  --pomodoro-scuro:#B72A20;
+  --sole:#FFC93C;
+  --inchiostro:#1F2A24;   /* quasi-noir biaisé vert */
+  --inchiostro-60:rgba(31,42,36,.62);
+  --display:'Anton', 'Arial Narrow', Impact, sans-serif;
+  --body:'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  --script:'Caveat', 'Comic Sans MS', cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--panna);
+  color:var(--inchiostro);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img{max-width:100%}
+a{color:inherit}
+::selection{background:var(--sole);color:var(--inchiostro)}
+
+/* ---------- Auvent rayé (bandeau haut + festons) ---------- */
+.awning{
+  background:repeating-linear-gradient(90deg,
+    var(--basilico) 0 44px, var(--panna) 44px 88px);
+  height:18px;
+}
+.awning-scallop{
+  height:14px;
+  background:
+    radial-gradient(circle at 22px -8px, var(--basilico) 20px, transparent 21px) 0 0/88px 14px repeat-x,
+    radial-gradient(circle at 66px -8px, var(--panna) 20px, transparent 21px) 0 0/88px 14px repeat-x;
+  filter:drop-shadow(0 2px 2px rgba(31,42,36,.12));
+}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:.7rem clamp(1rem,4vw,2.5rem);
+  background:rgba(255,253,246,.88);
+  backdrop-filter:blur(10px);
+  border-bottom:2px solid var(--inchiostro);
+}
+.nav-logo{
+  font-family:var(--display);
+  font-size:1.35rem;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;display:flex;align-items:center;gap:.55rem;
+}
+.nav-logo .dot{width:.85em;height:.85em;border-radius:50%;display:inline-block;border:2px solid var(--inchiostro)}
+.nav-links{display:flex;gap:.35rem;list-style:none;flex-wrap:wrap}
+.nav-links a{
+  text-decoration:none;font-weight:600;font-size:.92rem;
+  padding:.4rem .95rem;border-radius:999px;border:2px solid transparent;
+  transition:border-color .18s, background .18s;
+}
+.nav-links a:hover,.nav-links a:focus-visible{border-color:var(--inchiostro);background:var(--sole)}
+.nav-links a.nav-cta{background:var(--pomodoro);color:var(--panna);border-color:var(--inchiostro)}
+.nav-links a.nav-cta:hover,.nav-links a.nav-cta:focus-visible{background:var(--pomodoro-scuro)}
+:focus-visible{outline:3px solid var(--pomodoro);outline-offset:2px}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
+  padding:clamp(2.5rem,7vh,5rem) clamp(1rem,4vw,2.5rem) clamp(3rem,8vh,6rem);
+  text-align:center;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 108%, rgba(255,201,60,.4), transparent 70%),
+    var(--panna);
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.14em;
+  border:2px solid var(--inchiostro);border-radius:999px;
+  padding:.45rem 1.1rem;background:var(--panna);
+  box-shadow:3px 3px 0 var(--inchiostro);
+}
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(3.4rem,14vw,10.5rem);
+  line-height:.92;letter-spacing:.01em;
+  text-transform:uppercase;
+  margin:.35em 0 .12em;
+  text-wrap:balance;
+}
+.hero h1 .w1{color:var(--pomodoro)}
+.hero h1 .w2{color:var(--sole);-webkit-text-stroke:2px var(--inchiostro);text-shadow:4px 4px 0 rgba(31,42,36,.15)}
+.hero h1 .w3{color:var(--basilico)}
+.hero-tagline{
+  font-family:var(--script);
+  font-size:clamp(1.5rem,3.4vw,2.3rem);
+  font-weight:700;color:var(--basilico-scuro);
+  transform:rotate(-2deg);display:inline-block;
+}
+.hero-sub{
+  max-width:34rem;margin:1rem auto 2rem;
+  font-size:clamp(1rem,1.4vw,1.15rem);color:var(--inchiostro-60);
+}
+.hero-ctas{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--body);font-weight:700;font-size:1.02rem;
+  text-decoration:none;text-transform:uppercase;letter-spacing:.05em;
+  padding:.85rem 1.7rem;border-radius:999px;
+  border:2.5px solid var(--inchiostro);
+  box-shadow:4px 4px 0 var(--inchiostro);
+  transition:transform .15s, box-shadow .15s;
+}
+.btn:hover,.btn:focus-visible{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--inchiostro)}
+.btn-red{background:var(--pomodoro);color:var(--panna)}
+.btn-cream{background:var(--panna);color:var(--inchiostro)}
+.btn-yellow{background:var(--sole);color:var(--inchiostro)}
+
+/* badge circulaire tournant */
+.badge-wrap{position:absolute;top:clamp(.5rem,3vw,2.5rem);right:clamp(.5rem,4vw,4rem);width:clamp(88px,12vw,150px);pointer-events:none}
+.badge-wrap svg{width:100%;height:auto;animation:spin 18s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-emoji{position:absolute;font-size:clamp(1.6rem,3.5vw,3rem);animation:float 5s ease-in-out infinite;pointer-events:none}
+.hero-emoji.e1{left:6%;top:30%;animation-delay:0s}
+.hero-emoji.e2{left:10%;bottom:14%;animation-delay:1.4s}
+.hero-emoji.e3{right:8%;bottom:26%;animation-delay:2.6s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+
+/* ---------- Marquee ---------- */
+.marquee{
+  background:var(--basilico);color:var(--panna);
+  border-top:2.5px solid var(--inchiostro);border-bottom:2.5px solid var(--inchiostro);
+  overflow:hidden;white-space:nowrap;padding:.65rem 0;
+}
+.marquee-track{display:inline-flex;gap:2.2rem;padding-right:2.2rem;animation:slide 26s linear infinite}
+.marquee span{
+  font-family:var(--display);font-size:1.15rem;letter-spacing:.09em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:2.2rem;
+}
+.marquee .star{color:var(--sole);font-family:var(--body)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- Sections ---------- */
+.section{padding:clamp(3.2rem,8vh,6rem) clamp(1rem,4vw,2.5rem)}
+.section-inner{max-width:1080px;margin:0 auto}
+.kicker{
+  font-family:var(--script);font-size:clamp(1.3rem,2.4vw,1.8rem);font-weight:700;
+  color:var(--pomodoro);transform:rotate(-1.5deg);display:inline-block;
+}
+.section h2{
+  font-family:var(--display);
+  font-size:clamp(2.1rem,5.5vw,3.6rem);
+  text-transform:uppercase;letter-spacing:.015em;line-height:1.05;
+  margin:.15em 0 .6em;text-wrap:balance;
+}
+.section-lead{max-width:38rem;color:var(--inchiostro-60);margin-bottom:2.4rem}
+
+/* ---------- Concept : tre morsi ---------- */
+#concept{background:var(--panna-2)}
+.morsi{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem}
+.morso{
+  background:var(--panna);border:2.5px solid var(--inchiostro);border-radius:22px;
+  padding:1.8rem 1.5rem;position:relative;
+  box-shadow:6px 6px 0 var(--inchiostro);
+  transition:transform .18s;
+}
+.morso:hover{transform:translateY(-6px) rotate(-1deg)}
+.morso .n{
+  position:absolute;top:-1.1rem;left:1.2rem;
+  font-family:var(--display);font-size:1rem;letter-spacing:.05em;
+  padding:.2rem .8rem;border:2px solid var(--inchiostro);border-radius:999px;
+}
+.morso.m1 .n{background:var(--pomodoro);color:var(--panna)}
+.morso.m2 .n{background:var(--sole);color:var(--inchiostro)}
+.morso.m3 .n{background:var(--panna);color:var(--inchiostro)}
+.morso .emo{font-size:2.6rem;display:block;margin-bottom:.6rem}
+.morso h3{font-family:var(--display);font-size:1.5rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.4rem}
+.morso h3 small{display:block;font-family:var(--script);font-size:1.15rem;color:var(--basilico);text-transform:none;letter-spacing:0}
+.morso p{font-size:.98rem;color:var(--inchiostro-60)}
+
+/* ---------- Menu ---------- */
+.menu-board{
+  background:var(--basilico-scuro);color:var(--panna);
+  border:3px solid var(--inchiostro);border-radius:26px;
+  padding:clamp(1.6rem,4vw,3rem);
+  box-shadow:8px 8px 0 var(--inchiostro);
+  position:relative;
+}
+.menu-board::before{
+  content:"MENU DEL GIORNO";
+  position:absolute;top:-1.3rem;left:50%;transform:translateX(-50%) rotate(-1.5deg);
+  font-family:var(--display);letter-spacing:.1em;font-size:1.05rem;white-space:nowrap;
+  background:var(--sole);color:var(--inchiostro);
+  border:2.5px solid var(--inchiostro);border-radius:8px;padding:.35rem 1.2rem;
+  box-shadow:3px 3px 0 var(--inchiostro);
+}
+.menu-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2.2rem;margin-top:1rem}
+.menu-cat h3{
+  font-family:var(--display);font-size:1.45rem;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--sole);border-bottom:2px dashed rgba(255,253,246,.35);
+  padding-bottom:.45rem;margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;
+}
+.menu-item{display:flex;align-items:baseline;gap:.6rem;padding:.42rem 0}
+.menu-item .name{font-weight:600}
+.menu-item .name small{display:block;font-weight:400;font-size:.85rem;color:rgba(255,253,246,.65)}
+.menu-item .dots{flex:1;border-bottom:2px dotted rgba(255,253,246,.4);transform:translateY(-4px)}
+.menu-item .price{font-weight:700;color:var(--sole);font-variant-numeric:tabular-nums;white-space:nowrap}
+.menu-note{
+  margin-top:1.8rem;text-align:center;font-family:var(--script);
+  font-size:1.3rem;color:var(--sole);transform:rotate(-1deg);
+}
+
+/* ---------- Agenda / Dove siamo ---------- */
+#dove{background:var(--panna-2)}
+.dove-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:start}
+.week{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.week li{
+  display:flex;align-items:center;gap:1rem;
+  background:var(--panna);border:2px solid var(--inchiostro);border-radius:14px;
+  padding:.75rem 1.1rem;box-shadow:3px 3px 0 var(--inchiostro);
+}
+.week .day{
+  font-family:var(--display);text-transform:uppercase;font-size:.95rem;letter-spacing:.06em;
+  min-width:4.6rem;color:var(--pomodoro);
+}
+.week .place{font-weight:600}
+.week .place small{display:block;font-weight:400;color:var(--inchiostro-60);font-size:.85rem}
+.week li.off{opacity:.55;box-shadow:none}
+.privat{
+  background:var(--pomodoro);color:var(--panna);
+  border:3px solid var(--inchiostro);border-radius:22px;
+  padding:2rem 1.7rem;box-shadow:7px 7px 0 var(--inchiostro);
+  transform:rotate(1.2deg);
+}
+.privat h3{font-family:var(--display);font-size:1.7rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.6rem}
+.privat p{color:rgba(255,253,246,.9);margin-bottom:1.3rem}
+
+/* ---------- Instagram ---------- */
+.insta-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.polaroids{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.6rem}
+.polaroid{
+  background:#fff;border:2px solid var(--inchiostro);border-radius:6px;
+  padding:.65rem .65rem 2.6rem;text-decoration:none;
+  box-shadow:5px 5px 0 rgba(31,42,36,.25);
+  transition:transform .2s;position:relative;
+}
+.polaroid:nth-child(odd){transform:rotate(-2.4deg)}
+.polaroid:nth-child(even){transform:rotate(2deg)}
+.polaroid:hover,.polaroid:focus-visible{transform:rotate(0) scale(1.04);z-index:2}
+.polaroid .ph{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:3.4rem;border-radius:3px;
+}
+.polaroid .cap{
+  position:absolute;left:0;right:0;bottom:.5rem;text-align:center;
+  font-family:var(--script);font-size:1.15rem;font-weight:600;color:var(--inchiostro);
+}
+.ph1{background:repeating-linear-gradient(135deg,#FBE6C8 0 14px,#F6D6A4 14px 28px)}
+.ph2{background:repeating-linear-gradient(90deg,#DFF0E3 0 16px,#BFE0C8 16px 32px)}
+.ph3{background:radial-gradient(circle at 30% 30%,#FFE1A8,#FFC93C)}
+.ph4{background:repeating-linear-gradient(90deg,#F9D7D2 0 16px,#F3B9B1 16px 32px)}
+.insta-cta{margin-top:2.4rem;text-align:center}
+
+/* ---------- Footer ---------- */
+footer{background:var(--basilico-scuro);color:var(--panna)}
+.foot-inner{
+  max-width:1080px;margin:0 auto;
+  padding:3.2rem clamp(1rem,4vw,2.5rem) 2.2rem;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;
+}
+.foot-inner h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:1.15rem;color:var(--sole);margin-bottom:.7rem}
+.foot-inner a{color:var(--panna);text-decoration:none;border-bottom:1.5px dashed rgba(255,253,246,.4)}
+.foot-inner a:hover{border-bottom-style:solid}
+.foot-logo{font-family:var(--display);font-size:1.8rem;text-transform:uppercase;letter-spacing:.03em}
+.foot-tag{font-family:var(--script);font-size:1.3rem;color:var(--sole)}
+.foot-base{
+  border-top:1px solid rgba(255,253,246,.2);
+  padding:1.1rem clamp(1rem,4vw,2.5rem);
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.85rem;color:rgba(255,253,246,.65);
+  max-width:1080px;margin:0 auto;
+}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:760px){
+  .dove-grid{grid-template-columns:1fr}
+  .nav-links a:not(.nav-cta){display:none}
+  .badge-wrap{top:auto;bottom:-1rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .badge-wrap svg,.hero-emoji{animation:none}
+  .marquee-track{animation:none}
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="awning" aria-hidden="true"></div>
+<div class="awning-scallop" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Navigation principale">
+  <a class="nav-logo" href="#top">
+    <span class="dot" style="background:var(--pomodoro)"></span><span class="dot" style="background:var(--sole)"></span><span class="dot" style="background:var(--panna)"></span>
+    Tre&nbsp;Mor&nbsp;Si
+  </a>
+  <ul class="nav-links">
+    <li><a href="#concept">Il Concetto</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#dove">Où nous trouver</a></li>
+    <li><a href="#insta">Instagram</a></li>
+    <li><a class="nav-cta" href="#dove">Privatiser 🎉</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="top">
+  <span class="hero-emoji e1" aria-hidden="true">🍢</span>
+  <span class="hero-emoji e2" aria-hidden="true">🥖</span>
+  <span class="hero-emoji e3" aria-hidden="true">🇮🇹</span>
+
+  <div class="badge-wrap" aria-hidden="true">
+    <svg viewBox="0 0 120 120">
+      <defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+      <circle cx="60" cy="60" r="58" fill="#FFC93C" stroke="#1F2A24" stroke-width="2.5"/>
+      <circle cx="60" cy="60" r="30" fill="#E23A2E" stroke="#1F2A24" stroke-width="2.5"/>
+      <text fill="#1F2A24" font-family="Anton, Impact, sans-serif" font-size="12.5" letter-spacing="2.5">
+        <textPath href="#circ">100% ITALIANO · FATTO A MANO ·</textPath>
+      </text>
+      <text x="60" y="66" text-anchor="middle" font-size="17" font-family="Anton, Impact, sans-serif" fill="#FFFDF6">🔥</text>
+    </svg>
+  </div>
+
+  <p class="hero-eyebrow">🚚 Food truck italiano · Charleroi &amp; alentours</p>
+  <h1><span class="w1">Tre</span> <span class="w2">Mor</span> <span class="w3">Si</span></h1>
+  <p class="hero-tagline">« Ogni morso racconta l’Italia » ✦ chaque bouchée raconte l’Italie</p>
+  <p class="hero-sub">
+    Arrosticini grillés à la braise, puccia dorée au four, produits authentiques
+    préparés avec passione e am<span style="color:var(--pomodoro)">♥</span>re.
+    L’Italie de rue, servie à votre coin de rue.
+  </p>
+  <div class="hero-ctas">
+    <a class="btn btn-red" href="#menu">Voir le menu 🍢</a>
+    <a class="btn btn-cream" href="#dove">Nous trouver 📍</a>
+    <a class="btn btn-yellow" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">@tre.mor.si</a>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Arrosticini <i class="star">✦</i> Puccia <i class="star">✦</i> Amore <i class="star">✦</i> Fatto a mano <i class="star">✦</i> Charleroi <i class="star">✦</i></span>
+    <span>Arrosticini <i class="star">✦</i> Puccia <i class="star">✦</i> Amore <i class="star">✦</i> Fatto a mano <i class="star">✦</i> Charleroi <i class="star">✦</i></span>
+  </div>
+</div>
+
+<section class="section" id="concept">
+  <div class="section-inner">
+    <span class="kicker reveal">Il concetto</span>
+    <h2 class="reveal">Tre morsi d’Italia 🌊☀️🌬️</h2>
+    <p class="section-lead reveal">
+      « Tre Mor Si », c’est trois bouchées : la mer, le soleil et le vent d’Italie.
+      Des Abruzzes aux Pouilles, on ramène le meilleur de la strada italienne jusqu’en Belgique.
+    </p>
+    <div class="morsi">
+      <article class="morso m1 reveal">
+        <span class="n">Morso Nº1</span>
+        <span class="emo" aria-hidden="true">🌊</span>
+        <h3>La Mer <small>la puccia del Salento</small></h3>
+        <p>Petit pain rustique des Pouilles, cuit et doré, garni généreusement de produits italiens authentiques. Le sandwich préféré du sud.</p>
+      </article>
+      <article class="morso m2 reveal">
+        <span class="n">Morso Nº2</span>
+        <span class="emo" aria-hidden="true">☀️</span>
+        <h3>Le Soleil <small>la passione</small></h3>
+        <p>Des recettes de famille, des produits choisis avec soin et beaucoup d’amore. Ici, tout est preparato con passione — et ça se goûte.</p>
+      </article>
+      <article class="morso m3 reveal">
+        <span class="n">Morso Nº3</span>
+        <span class="emo" aria-hidden="true">🌬️</span>
+        <h3>Le Vent <small>gli arrosticini d’Abruzzo</small></h3>
+        <p>Les célèbres brochettes des montagnes des Abruzzes, grillées à la braise sous vos yeux. Simples, fumées, addictives.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="menu">
+  <div class="section-inner">
+    <span class="kicker reveal">Che fame!</span>
+    <h2 class="reveal">Le Menu</h2>
+    <p class="section-lead reveal">La carte change au fil des saisons et du marché — voici nos classiques.</p>
+    <div class="menu-board reveal">
+      <div class="menu-cols">
+        <div class="menu-cat">
+          <h3>🍢 Arrosticini</h3>
+          <div class="menu-item"><span class="name">Arrosticini classici ×10<small>agneau, braise, sel — la tradition d’Abruzzo</small></span><span class="dots"></span><span class="price">10&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Arrosticini ×20<small>pour les vrais affamati</small></span><span class="dots"></span><span class="price">18&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Pane, olio &amp; arrosticini<small>le combo complet, comme là-bas</small></span><span class="dots"></span><span class="price">13&nbsp;€</span></div>
+        </div>
+        <div class="menu-cat">
+          <h3>🥖 Puccia</h3>
+          <div class="menu-item"><span class="name">Puccia salsiccia<small>saucisse italienne, friarielli, provola</small></span><span class="dots"></span><span class="price">9&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Puccia caprese<small>mozzarella, tomate, basilic, olio EVO</small></span><span class="dots"></span><span class="price">8&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Puccia del giorno<small>l’inspiration du chef — demandez !</small></span><span class="dots"></span><span class="price">9,5&nbsp;€</span></div>
+        </div>
+        <div class="menu-cat">
+          <h3>🍋 Dolci &amp; Drinks</h3>
+          <div class="menu-item"><span class="name">Tiramisù della casa</span><span class="dots"></span><span class="price">4,5&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Limonata / Chinotto</span><span class="dots"></span><span class="price">3&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Caffè espresso</span><span class="dots"></span><span class="price">2&nbsp;€</span></div>
+        </div>
+      </div>
+      <p class="menu-note">✎ Menu &amp; prix donnés à titre indicatif — suivez l’Instagram pour la carte du jour !</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="dove">
+  <div class="section-inner">
+    <span class="kicker reveal">Dove siamo?</span>
+    <h2 class="reveal">Où nous trouver 📍</h2>
+    <p class="section-lead reveal">
+      Le truck bouge toute la semaine autour de Charleroi. L’agenda en temps réel est
+      toujours sur <a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram</a>.
+    </p>
+    <div class="dove-grid">
+      <ul class="week reveal">
+        <li><span class="day">Mer.</span><span class="place">Marché de Charleroi<small>11h30 – 14h30</small></span></li>
+        <li><span class="day">Jeu.</span><span class="place">Zone d’entreprises<small>11h30 – 14h00</small></span></li>
+        <li><span class="day">Ven.</span><span class="place">Place communale<small>17h00 – 21h00 · soirée arrosticini 🔥</small></span></li>
+        <li><span class="day">Sam.</span><span class="place">Événements &amp; festivals<small>selon l’agenda Instagram</small></span></li>
+        <li class="off"><span class="day">Dim.</span><span class="place">Riposo !<small>même les Italiens se reposent 😴</small></span></li>
+      </ul>
+      <aside class="privat reveal">
+        <h3>Privatisez le truck 🎉</h3>
+        <p>Mariage, anniversaire, événement d’entreprise ou fête de village :
+        on débarque avec la braise, la puccia et la bonne humeur italienne.</p>
+        <a class="btn btn-yellow" href="mailto:contact@tremorsi.be?subject=Privatisation%20food%20truck">Demander un devis</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="insta" style="background:var(--panna)">
+  <div class="section-inner">
+    <div class="insta-head">
+      <div>
+        <span class="kicker reveal">Molto instagramable</span>
+        <h2 class="reveal" style="margin-bottom:0">@tre.mor.si</h2>
+      </div>
+      <a class="btn btn-red reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Suivre ➜</a>
+    </div>
+    <div class="polaroids">
+      <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
+        <span class="ph ph1" aria-hidden="true">🍢</span><span class="cap">la braise qui crépite</span>
+      </a>
+      <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
+        <span class="ph ph2" aria-hidden="true">🥖</span><span class="cap">puccia du jour</span>
+      </a>
+      <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
+        <span class="ph ph3" aria-hidden="true">🚚</span><span class="cap">on est où aujourd’hui ?</span>
+      </a>
+      <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
+        <span class="ph ph4" aria-hidden="true">🇮🇹</span><span class="cap">amore &amp; basilico</span>
+      </a>
+    </div>
+    <p class="insta-cta reveal">
+      <span class="kicker">Taguez-nous avec #tremorsi — les plus belles photos finissent ici ! 📸</span>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="awning" aria-hidden="true" style="background:repeating-linear-gradient(90deg,var(--pomodoro) 0 44px,var(--panna) 44px 88px)"></div>
+  <div class="foot-inner">
+    <div>
+      <p class="foot-logo">Tre Mor Si</p>
+      <p class="foot-tag">ogni morso racconta l’Italia ✦</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p><a href="mailto:contact@tremorsi.be">contact@tremorsi.be</a></p>
+      <p style="margin-top:.4rem"><a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram @tre.mor.si</a></p>
+    </div>
+    <div>
+      <h4>Zone</h4>
+      <p>Charleroi &amp; alentours 🇧🇪<br>Marchés · événements · privatisations</p>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Tre Mor Si — Food Truck Italiano</span>
+    <span>Fatto con am<span style="color:var(--pomodoro)">♥</span>re</span>
+  </div>
+</footer>
+
+<script>
+// Révélation au scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

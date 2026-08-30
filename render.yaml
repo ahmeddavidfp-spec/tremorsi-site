@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: tremorsi
+    runtime: static
+    staticPublishPath: .
+    buildCommand: ""
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
