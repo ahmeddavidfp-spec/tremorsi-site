@@ -9,7 +9,12 @@
 <meta property="og:description" content="Arrosticini, puccia, cozze & amore — chaque bouchée raconte l'Italie. Fleurus, Charleroi & alentours.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/cover-truck.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23F7F2E7'/%3E%3Ctext x='50' y='64' text-anchor='middle' font-family='Georgia' font-style='italic' font-size='44' fill='%231A1A16'%3ETm%3C/text%3E%3Cpath d='M24 78h16M42 78h16M60 78h16' stroke='%23C92E1F' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#F7F2E7">
+<meta name="apple-mobile-web-app-title" content="Tre Mor Si">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
@@ -62,9 +67,11 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 }
 .wordmark{
   font-family:var(--serif);font-size:1.5rem;letter-spacing:.02em;
-  text-decoration:none;line-height:1;white-space:nowrap;
+  text-decoration:none;line-height:1;white-space:nowrap;display:flex;align-items:center;
 }
 .wordmark i{font-style:italic;color:var(--rosso)}
+.logo-img{height:42px;width:auto}
+@media (max-width:460px){.logo-img{height:34px}}
 .topbar-nav{display:flex;align-items:center;gap:1.4rem;list-style:none}
 .topbar-nav a{text-decoration:none;font-size:.92rem;font-weight:500}
 .topbar-nav a:not(.pill){position:relative;padding-bottom:2px}
@@ -290,6 +297,82 @@ footer{background:var(--ink);color:var(--crema)}
 }
 .foot-base i{font-family:var(--serif);font-style:italic}
 
+/* ---------- Fun : mouton, mordimi, WhatsApp, Sì ---------- */
+.band{position:relative}
+.sheep{
+  position:absolute;top:-1.55rem;left:0;font-size:1.4rem;z-index:5;pointer-events:none;
+  animation:sheepwalk 46s linear infinite;
+}
+@keyframes sheepwalk{
+  0%,55%{transform:translateX(calc(100vw + 80px))}
+  100%{transform:translateX(-110px)}
+}
+.hero-figure{position:relative}
+.mordimi{
+  position:absolute;top:.9rem;right:clamp(.6rem,3vw,1.6rem);
+  background:var(--crema);border:1.5px solid var(--ink);border-radius:14px;
+  padding:.55rem .6rem .35rem;cursor:pointer;
+  transform:rotate(7deg);
+  box-shadow:3px 3px 0 var(--ink-15);
+  display:flex;flex-direction:column;align-items:center;gap:.15rem;
+  transition:transform .18s;
+}
+.mordimi:hover{transform:rotate(7deg) scale(1.06)}
+.mordimi.crunch{animation:crunch .3s ease}
+@keyframes crunch{50%{transform:rotate(3deg) scale(.9)}}
+.mordimi .cube{transform-origin:30px 60px;transition:transform .35s cubic-bezier(.5,-.5,.5,1.5),opacity .3s}
+.mordimi .cube.eaten{transform:translate(26px,-14px) rotate(40deg) scale(.2);opacity:0}
+.mordimi-label{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--rosso)}
+.mordimi-bubble{
+  position:absolute;top:50%;right:calc(100% + .7rem);transform:translateY(-50%) scale(.6);
+  background:var(--ink);color:var(--crema);
+  font-family:var(--serif);font-style:italic;font-size:1.02rem;white-space:nowrap;
+  padding:.5rem .95rem;border-radius:999px;opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;
+}
+.mordimi-bubble.show{opacity:1;transform:translateY(-50%) scale(1)}
+@media (max-width:520px){.mordimi svg{width:36px;height:78px}.mordimi-bubble{font-size:.9rem}}
+.wa{
+  position:fixed;bottom:1.15rem;right:1.15rem;z-index:70;
+  width:56px;height:56px;border-radius:50%;
+  background:#25D366;border:1.5px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 5px 16px rgba(26,26,22,.25);
+  animation:wa-wiggle 9s ease-in-out infinite;
+  transition:transform .18s;
+}
+.wa:hover{transform:scale(1.1) rotate(-6deg);animation:none}
+@keyframes wa-wiggle{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-9deg)}92%{transform:rotate(8deg)}95%{transform:rotate(-4deg)}}
+.wa-ring{
+  position:absolute;inset:-5px;border-radius:50%;border:2px solid #25D366;
+  animation:wa-ring 3.5s ease-out infinite;pointer-events:none;
+}
+@keyframes wa-ring{0%,55%{transform:scale(.85);opacity:0}70%{opacity:.7}100%{transform:scale(1.35);opacity:0}}
+.wa-bubble{
+  position:fixed;bottom:1.7rem;right:calc(1.15rem + 68px);z-index:70;
+  background:var(--crema);border:1.5px solid var(--ink);border-radius:999px;
+  font-family:var(--serif);font-size:1.05rem;white-space:nowrap;
+  padding:.55rem 1.05rem;color:var(--ink);
+  box-shadow:3px 3px 0 var(--ink-15);
+  opacity:0;transform:translateX(10px);pointer-events:none;
+  transition:opacity .35s,transform .35s;
+}
+.wa-bubble i{color:var(--rosso)}
+.wa-bubble.show{opacity:1;transform:none}
+.menu-item .name{transition:transform .2s}
+.menu-item:hover .name{transform:translateX(5px)}
+.menu-item .price{transition:color .2s}
+.menu-item:hover .price{color:var(--limone)}
+.foot-si{
+  display:block;max-width:1120px;margin:0 auto;
+  padding:2.4rem var(--gutter) 0;
+  font-family:var(--serif);font-style:italic;text-decoration:none;
+  font-size:clamp(4.5rem,13vw,8.5rem);line-height:.9;color:var(--crema);
+  transition:letter-spacing .3s;
+}
+.foot-si span{color:var(--rosso)}
+.foot-si:hover{letter-spacing:.04em}
+
 /* ---------- Reveal ---------- */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
@@ -297,6 +380,8 @@ footer{background:var(--ink);color:var(--crema)}
   .marquee-track{animation:none}
   .reveal{opacity:1;transform:none;transition:none}
   .shot img{transition:none}
+  .sheep,.wa,.wa-ring{animation:none}
+  .mordimi .cube{transition:opacity .2s}
   html{scroll-behavior:auto}
 }
 </style>
@@ -304,7 +389,7 @@ footer{background:var(--ink);color:var(--crema)}
 <body>
 
 <header class="topbar">
-  <a class="wordmark" href="#top">Tre Mor <i>Si</i></a>
+  <a class="wordmark" href="#top" aria-label="Tre Mor Si — retour en haut"><img src="assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
   <nav aria-label="Navigation principale">
     <ul class="topbar-nav">
       <li class="only-desktop"><a href="#concept">Concetto</a></li>
@@ -332,11 +417,25 @@ footer{background:var(--ink);color:var(--crema)}
     </div>
     <div class="hero-figure">
       <img src="assets/cover-truck.jpg" alt="Illustration du food truck Tre Mor Si : le couple derrière le comptoir, guirlande de piments, néon tricolore" width="1448" height="1086">
+      <button class="mordimi" id="mordimi" type="button" aria-label="Croquer l'arrosticino — petit jeu">
+        <svg viewBox="0 0 60 130" width="46" height="100" aria-hidden="true">
+          <polygon points="30,130 26,112 34,112" fill="#8B8F94"/>
+          <rect x="28" y="6" width="4" height="110" rx="2" fill="#8B8F94" stroke="#1A1A16" stroke-width="1"/>
+          <circle cx="30" cy="8" r="5" fill="#8B8F94" stroke="#1A1A16" stroke-width="1"/>
+          <g class="cube" data-c="1"><rect x="12" y="22" width="36" height="24" rx="6" fill="#A97B50" stroke="#1A1A16" stroke-width="1.5"/></g>
+          <g class="cube" data-c="2"><rect x="14" y="52" width="32" height="22" rx="6" fill="#8F5F3D" stroke="#1A1A16" stroke-width="1.5"/></g>
+          <g class="cube" data-c="3"><rect x="12" y="80" width="36" height="24" rx="6" fill="#B5875C" stroke="#1A1A16" stroke-width="1.5"/></g>
+        </svg>
+        <span class="mordimi-label">mordimi&nbsp;!</span>
+        <span class="mordimi-bubble" id="mordimi-bubble">Tre morsi — che fame&nbsp;! 🍢</span>
+      </button>
     </div>
   </section>
 
-  <div class="tricolore" aria-hidden="true"></div>
-  <div class="marquee" aria-hidden="true">
+  <div class="band" aria-hidden="true">
+  <span class="sheep">🐑</span>
+  <div class="tricolore"></div>
+  <div class="marquee">
     <div class="marquee-track">
       <span>
         <span class="m-item">Arrosticini</span><span class="m-dot">●</span>
@@ -359,6 +458,7 @@ footer{background:var(--ink);color:var(--crema)}
         <span class="m-item">all’italiana</span><span class="m-dot">●</span>
       </span>
     </div>
+  </div>
   </div>
 
   <section class="section" id="concept">
@@ -494,8 +594,17 @@ footer{background:var(--ink);color:var(--crema)}
   </section>
 </main>
 
+<a class="wa" href="https://wa.me/32495802201?text=Ciao%20Tre%20Mor%20Si%20!%20%F0%9F%8D%A2%20Je%20vous%20%C3%A9cris%20depuis%20le%20site%20%E2%80%94" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp">
+  <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" fill="#FCFAF3">
+    <path d="M16 3C9.4 3 4 8.3 4 14.9c0 2.6.8 5 2.3 7L4.7 27l5.3-1.6c1.8 1 3.9 1.6 6 1.6 6.6 0 12-5.3 12-11.9S22.6 3 16 3zm0 21.6c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-3.1 1 1-3-.3-.4a9.6 9.6 0 0 1-1.6-5.5c0-5.3 4.4-9.6 9.7-9.6s9.7 4.3 9.7 9.6-4.4 9.6-9.7 9.6zm5.5-7.2c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/>
+  </svg>
+  <span class="wa-ring" aria-hidden="true"></span>
+</a>
+<span class="wa-bubble" id="wa-bubble" role="status">Una domanda&nbsp;? On répond vite, <i>promesso.</i></span>
+
 <footer>
   <div class="tricolore" aria-hidden="true"></div>
+  <a class="foot-si" href="#top" title="Torna su ↑">Sì<span>.</span></a>
   <div class="foot-inner">
     <div>
       <p class="foot-logo">Tre Mor <i>Si</i></p>
@@ -537,6 +646,37 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+// Mordimi : trois bouchées et on file au menu
+const mordimi = document.getElementById('mordimi');
+const cubes = mordimi.querySelectorAll('.cube');
+const bubble = document.getElementById('mordimi-bubble');
+let bites = 0;
+mordimi.addEventListener('click', () => {
+  if (bites >= cubes.length) { // reset
+    bites = 0;
+    cubes.forEach((c) => c.classList.remove('eaten'));
+    bubble.classList.remove('show');
+    return;
+  }
+  cubes[bites].classList.add('eaten');
+  bites++;
+  mordimi.classList.remove('crunch');
+  void mordimi.offsetWidth;
+  mordimi.classList.add('crunch');
+  if (bites === cubes.length) {
+    bubble.classList.add('show');
+    setTimeout(() => {
+      document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+    }, 1000);
+    setTimeout(() => bubble.classList.remove('show'), 4000);
+  }
+});
+
+// Bulle WhatsApp : apparaît après 3,5 s, se range toute seule
+const waBubble = document.getElementById('wa-bubble');
+setTimeout(() => waBubble.classList.add('show'), 3500);
+setTimeout(() => waBubble.classList.remove('show'), 11000);
 </script>
 </body>
 </html>
