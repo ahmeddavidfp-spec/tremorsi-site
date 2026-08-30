@@ -13,7 +13,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#FBF1DF">
+<meta name="theme-color" content="#FFFDF7">
 <meta name="apple-mobile-web-app-title" content="Tre Mor Si">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,13 +25,14 @@
    Thème unique clair assumé : fonds et couleurs explicites partout.
    ========================================================================== */
 :root{
-  --crema:#FBF1DF;
-  --crema-2:#F7E7C9;
+  --crema:#FFFDF7;
+  --crema-2:#FFF3DC;
+  --carta:#FFFFFF;
   --ink:#1A1A16;
   --ink-55:rgba(26,26,22,.55);
   --ink-15:rgba(26,26,22,.15);
   --verde:#234B33;
-  --verde-chiaro:#F4E5C4;
+  --verde-chiaro:#FFF1D8;
   --rosso:#C92E1F;
   --limone:#E9B93B;
   --serif:'Instrument Serif', Georgia, 'Times New Roman', serif;
@@ -67,7 +68,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 .topwrap{
   position:sticky;top:0;z-index:50;
   padding-top:env(safe-area-inset-top, 0px);
-  background:rgba(251,241,223,.92);
+  background:rgba(255,253,247,.92);
   backdrop-filter:blur(12px);
 }
 .topbar{
@@ -109,9 +110,9 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 .hero{
   padding:clamp(3rem,9vh,6.5rem) var(--gutter) 0;
   background:
-    radial-gradient(95% 65% at 72% -8%, rgba(255,199,105,.55), rgba(255,199,105,0) 62%),
-    radial-gradient(70% 45% at 12% 8%, rgba(255,224,163,.4), rgba(255,224,163,0) 60%),
-    var(--crema);
+    radial-gradient(55% 42% at 80% -10%, rgba(255,164,64,.5), rgba(255,164,64,0) 62%),
+    radial-gradient(90% 60% at 50% -15%, rgba(255,205,125,.55), rgba(255,205,125,0) 70%),
+    linear-gradient(180deg, #FFEFD3 0%, #FFF9EC 52%, var(--crema) 100%);
 }
 .hero-inner{max-width:1120px;margin:0 auto}
 .hero-meta{
@@ -148,13 +149,13 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 
 .hero-figure{
   border:1px solid var(--ink);border-radius:14px 14px 0 0;border-bottom:none;
-  overflow:hidden;background:#FFFBF0;
+  overflow:hidden;background:#FFFEFA;
   max-width:1120px;margin:0 auto;
 }
 .hero-figure img{width:100%}
 
 /* ---------- Bandes ---------- */
-.tricolore{height:4px;background:linear-gradient(90deg,#2F7A45 0 33.3%,#FFFBF0 33.3% 66.6%,var(--rosso) 66.6% 100%)}
+.tricolore{height:4px;background:linear-gradient(90deg,#2F7A45 0 33.3%,#FFFEFA 33.3% 66.6%,var(--rosso) 66.6% 100%)}
 .marquee{
   background:var(--ink);color:var(--crema);
   overflow:hidden;white-space:nowrap;padding:.72rem 0;
@@ -190,8 +191,8 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 /* ---------- La storia ---------- */
 #storia{
   background:
-    radial-gradient(80% 70% at 25% 20%, rgba(255,205,120,.35), rgba(255,205,120,0) 65%),
-    var(--crema);
+    radial-gradient(80% 70% at 25% 15%, rgba(255,183,88,.34), rgba(255,183,88,0) 65%),
+    linear-gradient(180deg, var(--crema) 0%, #FFF6E4 100%);
 }
 .storia-grid{display:grid;gap:2.5rem}
 @media (min-width:860px){.storia-grid{grid-template-columns:.8fr 1.2fr;gap:4.5rem;align-items:center}}
@@ -199,7 +200,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 .storia-fig{
   margin:0;
   border:1px solid var(--ink);border-radius:14px;overflow:hidden;
-  background:#FFFBF0;transform:rotate(-1.3deg);
+  background:#FFFEFA;transform:rotate(-1.3deg);
   box-shadow:5px 5px 0 var(--ink-15);
 }
 .storia-fig figcaption{
@@ -260,10 +261,10 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 
 /* ---------- Menu ---------- */
 #menu{background:var(--verde);color:var(--crema)}
-#menu .sec-label{color:rgba(251,241,223,.6)}
-#menu .sec-label::after{background:rgba(251,241,223,.25)}
+#menu .sec-label{color:rgba(255,253,247,.6)}
+#menu .sec-label::after{background:rgba(255,253,247,.25)}
 #menu h2 .it{color:var(--limone)}
-#menu .sec-lead{color:rgba(251,241,223,.65)}
+#menu .sec-lead{color:rgba(255,253,247,.65)}
 .menu-cols{display:grid;gap:2.6rem}
 @media (min-width:720px){.menu-cols{grid-template-columns:1fr 1fr;gap:3rem 4rem}}
 .menu-cat h3{
@@ -271,23 +272,23 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
   color:var(--limone);
   display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem;
 }
-.menu-cat h3::after{content:"";height:1px;background:rgba(251,241,223,.25);flex:1}
+.menu-cat h3::after{content:"";height:1px;background:rgba(255,253,247,.25);flex:1}
 .menu-item{display:flex;align-items:baseline;gap:.7rem;padding:.5rem 0}
 .menu-item .name{font-weight:500}
 .menu-item .name small{
   display:block;font-weight:400;font-size:.86rem;
   font-family:var(--serif);font-style:italic;letter-spacing:.02em;
-  color:rgba(251,241,223,.6);
+  color:rgba(255,253,247,.6);
 }
-.menu-item .dots{flex:1;border-bottom:1px dotted rgba(251,241,223,.35);transform:translateY(-4px)}
+.menu-item .dots{flex:1;border-bottom:1px dotted rgba(255,253,247,.35);transform:translateY(-4px)}
 .menu-item .price{
   font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;
   font-family:var(--serif);font-size:1.1rem;
 }
 .menu-note{
-  margin-top:2.4rem;padding-top:1.3rem;border-top:1px solid rgba(251,241,223,.25);
+  margin-top:2.4rem;padding-top:1.3rem;border-top:1px solid rgba(255,253,247,.25);
   font-family:var(--serif);font-style:italic;font-size:1.15rem;
-  color:rgba(251,241,223,.75);max-width:34rem;
+  color:rgba(255,253,247,.75);max-width:34rem;
 }
 
 /* ---------- Galerie ---------- */
@@ -343,7 +344,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 }
 .privat h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,3vw,2.2rem);line-height:1.1;margin-bottom:.7rem}
 .privat h3 i{font-style:italic;color:var(--limone)}
-.privat p{color:rgba(251,241,223,.65);margin-bottom:1.4rem}
+.privat p{color:rgba(255,253,247,.65);margin-bottom:1.4rem}
 .privat .tel{
   font-family:var(--serif);font-size:clamp(1.6rem,3vw,2rem);
   color:var(--crema);text-decoration:none;margin-bottom:1.2rem;letter-spacing:.02em;
@@ -362,19 +363,19 @@ footer{background:var(--ink);color:var(--crema)}
 @media (min-width:720px){.foot-inner{grid-template-columns:1.4fr 1fr 1fr 1fr}}
 .foot-logo{font-family:var(--serif);font-size:2.1rem;line-height:1.05}
 .foot-logo i{font-style:italic;color:var(--rosso)}
-.foot-tag{font-family:var(--serif);font-style:italic;color:rgba(251,241,223,.6);margin-top:.4rem}
+.foot-tag{font-family:var(--serif);font-style:italic;color:rgba(255,253,247,.6);margin-top:.4rem}
 .foot-inner h4{
   font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.22em;
-  color:rgba(251,241,223,.5);margin-bottom:.8rem;
+  color:rgba(255,253,247,.5);margin-bottom:.8rem;
 }
 .foot-inner a{color:var(--crema);text-decoration:none}
 .foot-inner a:hover{color:var(--limone)}
 .foot-inner li{list-style:none;margin-bottom:.45rem}
 .foot-base{
-  border-top:1px solid rgba(251,241,223,.15);
+  border-top:1px solid rgba(255,253,247,.15);
   padding:1.1rem var(--gutter);
   display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
-  font-size:.84rem;color:rgba(251,241,223,.5);
+  font-size:.84rem;color:rgba(255,253,247,.5);
   max-width:1120px;margin:0 auto;
 }
 .foot-base i{font-family:var(--serif);font-style:italic}
@@ -442,7 +443,7 @@ footer{background:var(--ink);color:var(--crema)}
   width:100%;height:auto;display:block;
   border:1px solid var(--ink);border-radius:10px;
   box-shadow:7px 7px 0 var(--ink-15);
-  background:#FDF3DF;
+  background:#FFF8EA;
 }
 .carto-form{display:flex;flex-direction:column;gap:1rem}
 .carto-label{
@@ -464,8 +465,8 @@ footer{background:var(--ink);color:var(--crema)}
 
 /* ---------- Calcolatore di festa ---------- */
 #festa{background:
-  linear-gradient(rgba(251,241,223,.94),rgba(251,241,223,.94)),
-  repeating-linear-gradient(90deg,#9BBE90 0 26px,#F6E9C8 26px 52px)}
+  linear-gradient(rgba(255,253,247,.94),rgba(255,253,247,.94)),
+  repeating-linear-gradient(90deg,#9BBE90 0 26px,#FFEFD2 26px 52px)}
 .festa-box{
   background:var(--carta);border:1px solid var(--ink);border-radius:16px;
   padding:clamp(1.5rem,4vw,2.6rem);max-width:56rem;
@@ -489,7 +490,7 @@ footer{background:var(--ink);color:var(--crema)}
 @media (min-width:720px){.festa-stats{grid-template-columns:repeat(4,1fr)}}
 .festa-stat{
   border:1px solid var(--ink-15);border-radius:12px;
-  padding:1rem .8rem;text-align:center;background:#FFFBF0;
+  padding:1rem .8rem;text-align:center;background:#FFFEFA;
   display:flex;flex-direction:column;gap:.15rem;
 }
 .fs-emoji{font-size:1.6rem}
@@ -521,7 +522,7 @@ footer{background:var(--ink);color:var(--crema)}
 }
 .field input,.field select,.field textarea{
   font-family:inherit;font-size:1rem;color:var(--ink);
-  background:#FFFBF0;border:1px solid var(--ink);border-radius:10px;
+  background:#FFFEFA;border:1px solid var(--ink);border-radius:10px;
   padding:.7rem .85rem;width:100%;max-width:100%;min-width:0;
   -webkit-appearance:none;appearance:none;
   min-height:2.9rem;
@@ -571,7 +572,7 @@ footer{background:var(--ink);color:var(--crema)}
   color:var(--crema);margin-top:.9rem;
 }
 .lb-count{
-  color:rgba(251,241,223,.6);font-size:.85rem;letter-spacing:.18em;
+  color:rgba(255,253,247,.6);font-size:.85rem;letter-spacing:.18em;
   margin-top:.3rem;font-variant-numeric:tabular-nums;
 }
 .lightbox img{transition:opacity .18s}
@@ -1066,7 +1067,7 @@ footer{background:var(--ink);color:var(--crema)}
 </div>
 
 <a class="wa" href="https://wa.me/32495802201?text=Ciao%20Tre%20Mor%20Si%20!%20%F0%9F%8D%A2%20Je%20vous%20%C3%A9cris%20depuis%20le%20site%20%E2%80%94" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp">
-  <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" fill="#FFFBF0">
+  <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" fill="#FFFEFA">
     <path d="M16 3C9.4 3 4 8.3 4 14.9c0 2.6.8 5 2.3 7L4.7 27l5.3-1.6c1.8 1 3.9 1.6 6 1.6 6.6 0 12-5.3 12-11.9S22.6 3 16 3zm0 21.6c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-3.1 1 1-3-.3-.4a9.6 9.6 0 0 1-1.6-5.5c0-5.3 4.4-9.6 9.7-9.6s9.7 4.3 9.7 9.6-4.4 9.6-9.7 9.6zm5.5-7.2c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/>
   </svg>
   <span class="wa-ring" aria-hidden="true"></span>
@@ -1229,10 +1230,10 @@ function drawCartolina() {
   const W = 1180, H = 760;
   cctx.clearRect(0, 0, W, H);
   // fond papier
-  cctx.fillStyle = '#FDF3DF';
+  cctx.fillStyle = '#FFF8EA';
   cctx.fillRect(0, 0, W, H);
   // bord airmail : rayures diagonales vert/blanc/rouge, puis on recouvre le centre
-  const cols = ['#2F7A45', '#FDF3DF', '#C92E1F', '#FDF3DF'];
+  const cols = ['#2F7A45', '#FFF8EA', '#C92E1F', '#FFF8EA'];
   for (let i = -H; i < W + H; i += 16) {
     cctx.fillStyle = cols[Math.abs(Math.floor(i / 16)) % 4];
     cctx.beginPath();
@@ -1240,7 +1241,7 @@ function drawCartolina() {
     cctx.lineTo(i + 16 + H, H); cctx.lineTo(i + H, H);
     cctx.closePath(); cctx.fill();
   }
-  cctx.fillStyle = '#FDF3DF';
+  cctx.fillStyle = '#FFF8EA';
   cctx.fillRect(20, 20, W - 40, H - 40);
   cctx.strokeStyle = 'rgba(26,26,22,.25)';
   cctx.lineWidth = 1.5;
@@ -1287,7 +1288,7 @@ function drawCartolina() {
     cctx.drawImage(tim, tx + 8 - (tim.naturalWidth * s2 - (tw - 16)) / 2, ty + 8, tim.naturalWidth * s2, tim.naturalHeight * s2);
     cctx.restore();
   }
-  ['#2F7A45', '#FDF3DF', '#C92E1F'].forEach((c, i) => {
+  ['#2F7A45', '#FFF8EA', '#C92E1F'].forEach((c, i) => {
     cctx.fillStyle = c;
     cctx.fillRect(tx + 8 + i * ((tw - 16) / 3), ty + th - 22, (tw - 16) / 3, 14);
   });
