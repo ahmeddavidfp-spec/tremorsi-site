@@ -742,9 +742,7 @@ footer{background:var(--ink);color:var(--crema)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media (max-width:719px){
-  .burger{display:flex;order:2;margin-left:auto}
-  .topbar nav{order:3}
-  .topbar{justify-content:flex-start}
+  .burger{display:flex}
   .topbar-nav li:not(:last-child){display:none}
 }
 .mobnav{
