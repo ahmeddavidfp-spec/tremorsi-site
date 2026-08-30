@@ -33,6 +33,9 @@ Puis ouvrir http://localhost:8765
 
 ## À valider avec le client
 
+- [ ] Prénom de « son complice » (section Chi siamo — elle : Tressy ; lui : à compléter)
+- [ ] Valider le texte « Chi siamo » avec le couple
+
 - [ ] Menu réel + prix (placeholders actuellement)
 - [ ] Agenda hebdo réel (emplacements/horaires placeholders)
 - [ ] Photos en meilleure résolution (celles récupérées sont des miniatures Facebook)
