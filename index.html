@@ -4,29 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tre Mor Si</title>
-<meta name="description" content="Tre Mor Si — food truck italiano à Charleroi et alentours. Arrosticini des Abruzzes, puccia des Pouilles. Ogni morso racconta l'Italia.">
+<meta name="description" content="Tre Mor Si — food truck italiano à Fleurus, Charleroi & alentours. Arrosticini, puccia, cozze & aperitivo. Ogni morso racconta l'Italia.">
 <meta property="og:title" content="Tre Mor Si · Food Truck Italiano">
-<meta property="og:description" content="Arrosticini, puccia & amore — chaque bouchée raconte l'Italie. Charleroi & alentours.">
+<meta property="og:description" content="Arrosticini, puccia, cozze & amore — chaque bouchée raconte l'Italie. Fleurus, Charleroi & alentours.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23E23A2E'/%3E%3Ccircle cx='50' cy='50' r='34' fill='%23FFFDF6'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23157A43'/%3E%3C/svg%3E">
+<meta property="og:image" content="assets/cover-truck.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23FAF6EA'/%3E%3Crect x='8' y='8' width='84' height='84' rx='16' fill='none' stroke='%23211C15' stroke-width='4'/%3E%3Cpath d='M20 62h18M42 62h18M64 62h18' stroke='%23D93325' stroke-width='6' stroke-linecap='round'/%3E%3Ctext x='50' y='48' text-anchor='middle' font-family='Georgia' font-style='italic' font-size='30' fill='%23211C15'%3ETMS%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <style>
 /* ==========================================================================
-   TRE MOR SI — identité : affiche de marché italien, jeune & solaire.
+   TRE MOR SI — riviera italienne rétro-illustrée (inspiration cover Facebook) :
+   trait noir fin sur crème, rayures sauge verticales, rouge en accent, citrons.
    Thème unique clair assumé : tous les fonds et couleurs sont explicites.
    ========================================================================== */
 :root{
-  --panna:#FFFDF6;        /* fond chaud lumineux */
-  --panna-2:#FBF4E4;      /* variante crème pour cartes */
-  --basilico:#157A43;
-  --basilico-scuro:#0E4D2C;
-  --pomodoro:#E23A2E;
-  --pomodoro-scuro:#B72A20;
-  --sole:#FFC93C;
-  --inchiostro:#1F2A24;   /* quasi-noir biaisé vert */
-  --inchiostro-60:rgba(31,42,36,.62);
+  --crema:#FAF6EA;        /* fond crème du dessin de couverture */
+  --carta:#FFFDF4;        /* papier des cartes */
+  --verde:#9BBE90;        /* vert sauge des rayures riviera */
+  --verde-pallido:#EDF2E0;
+  --verde-scuro:#41633A;
+  --rosso:#D93325;        /* rouge du trait (bikini, joues, néon) */
+  --rosso-scuro:#B02417;
+  --limone:#F2C94C;
+  --nero:#211C15;         /* encre du trait */
+  --nero-60:rgba(33,28,21,.62);
+  --nero-15:rgba(33,28,21,.15);
   --display:'Anton', 'Arial Narrow', Impact, sans-serif;
   --body:'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
   --script:'Caveat', 'Comic Sans MS', cursive;
@@ -35,283 +39,272 @@
 html{scroll-behavior:smooth}
 body{
   font-family:var(--body);
-  background:var(--panna);
-  color:var(--inchiostro);
+  background:var(--crema);
+  color:var(--nero);
   line-height:1.6;
   overflow-x:hidden;
 }
-img{max-width:100%}
+img{max-width:100%;display:block}
 a{color:inherit}
-::selection{background:var(--sole);color:var(--inchiostro)}
+::selection{background:var(--limone);color:var(--nero)}
+:focus-visible{outline:3px solid var(--rosso);outline-offset:2px}
 
-/* ---------- Auvent rayé (bandeau haut + festons) ---------- */
-.awning{
-  background:repeating-linear-gradient(90deg,
-    var(--basilico) 0 44px, var(--panna) 44px 88px);
-  height:18px;
-}
+/* rayures riviera verticales (cf. illustration bikini) */
+.stripes{background:repeating-linear-gradient(90deg,var(--verde) 0 26px,#F4EFD9 26px 52px)}
+.tricolore{height:5px;background:linear-gradient(90deg,#3E9B4F 0 33.3%,#FCFAF2 33.3% 66.6%,var(--rosso) 66.6% 100%)}
+
+/* ---------- Auvent ---------- */
+.awning{height:16px}
 .awning-scallop{
-  height:14px;
+  height:13px;
   background:
-    radial-gradient(circle at 22px -8px, var(--basilico) 20px, transparent 21px) 0 0/88px 14px repeat-x,
-    radial-gradient(circle at 66px -8px, var(--panna) 20px, transparent 21px) 0 0/88px 14px repeat-x;
-  filter:drop-shadow(0 2px 2px rgba(31,42,36,.12));
+    radial-gradient(circle at 13px -7px, var(--verde) 18px, transparent 19px) 0 0/52px 13px repeat-x,
+    radial-gradient(circle at 39px -7px, #F4EFD9 18px, transparent 19px) 0 0/52px 13px repeat-x;
+  filter:drop-shadow(0 2px 2px var(--nero-15));
 }
 
 /* ---------- Nav ---------- */
 .nav{
   position:sticky;top:0;z-index:50;
   display:flex;align-items:center;justify-content:space-between;
-  gap:1rem;padding:.7rem clamp(1rem,4vw,2.5rem);
-  background:rgba(255,253,246,.88);
+  gap:1rem;padding:.65rem clamp(1rem,4vw,2.5rem);
+  background:rgba(250,246,234,.9);
   backdrop-filter:blur(10px);
-  border-bottom:2px solid var(--inchiostro);
+  border-bottom:1.5px solid var(--nero);
 }
 .nav-logo{
-  font-family:var(--display);
-  font-size:1.35rem;letter-spacing:.04em;text-transform:uppercase;
-  text-decoration:none;display:flex;align-items:center;gap:.55rem;
+  font-family:var(--script);font-weight:700;
+  font-size:1.75rem;line-height:1;
+  text-decoration:none;display:flex;align-items:center;gap:.5rem;
 }
-.nav-logo .dot{width:.85em;height:.85em;border-radius:50%;display:inline-block;border:2px solid var(--inchiostro)}
-.nav-links{display:flex;gap:.35rem;list-style:none;flex-wrap:wrap}
+.nav-logo .heart{color:var(--rosso)}
+.nav-links{display:flex;gap:.3rem;list-style:none;flex-wrap:wrap}
 .nav-links a{
   text-decoration:none;font-weight:600;font-size:.92rem;
-  padding:.4rem .95rem;border-radius:999px;border:2px solid transparent;
+  padding:.38rem .95rem;border-radius:999px;border:1.5px solid transparent;
   transition:border-color .18s, background .18s;
 }
-.nav-links a:hover,.nav-links a:focus-visible{border-color:var(--inchiostro);background:var(--sole)}
-.nav-links a.nav-cta{background:var(--pomodoro);color:var(--panna);border-color:var(--inchiostro)}
-.nav-links a.nav-cta:hover,.nav-links a.nav-cta:focus-visible{background:var(--pomodoro-scuro)}
-:focus-visible{outline:3px solid var(--pomodoro);outline-offset:2px}
+.nav-links a:hover,.nav-links a:focus-visible{border-color:var(--nero);background:var(--verde-pallido)}
+.nav-links a.nav-cta{background:var(--rosso);color:var(--crema);border-color:var(--nero)}
+.nav-links a.nav-cta:hover,.nav-links a.nav-cta:focus-visible{background:var(--rosso-scuro)}
 
 /* ---------- Hero ---------- */
 .hero{
-  position:relative;
-  padding:clamp(2.5rem,7vh,5rem) clamp(1rem,4vw,2.5rem) clamp(3rem,8vh,6rem);
-  text-align:center;
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 108%, rgba(255,201,60,.4), transparent 70%),
-    var(--panna);
+  padding:clamp(2.2rem,6vh,4rem) clamp(1rem,4vw,2.5rem) 0;
+  text-align:center;position:relative;
 }
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:.5rem;
-  font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.14em;
-  border:2px solid var(--inchiostro);border-radius:999px;
-  padding:.45rem 1.1rem;background:var(--panna);
-  box-shadow:3px 3px 0 var(--inchiostro);
+  font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.15em;
+  border:1.5px solid var(--nero);border-radius:999px;
+  padding:.42rem 1.1rem;background:var(--carta);
+  box-shadow:3px 3px 0 var(--nero-15);
 }
 .hero h1{
   font-family:var(--display);
-  font-size:clamp(3.4rem,14vw,10.5rem);
-  line-height:.92;letter-spacing:.01em;
-  text-transform:uppercase;
-  margin:.35em 0 .12em;
-  text-wrap:balance;
+  font-size:clamp(3.2rem,13vw,9.5rem);
+  line-height:.94;letter-spacing:.015em;text-transform:uppercase;
+  margin:.3em 0 .1em;text-wrap:balance;
 }
-.hero h1 .w1{color:var(--pomodoro)}
-.hero h1 .w2{color:var(--sole);-webkit-text-stroke:2px var(--inchiostro);text-shadow:4px 4px 0 rgba(31,42,36,.15)}
-.hero h1 .w3{color:var(--basilico)}
+.hero h1 .w1{color:var(--rosso)}
+.hero h1 .w2{color:var(--nero)}
+.hero h1 .w3{color:var(--verde-scuro)}
 .hero-tagline{
   font-family:var(--script);
-  font-size:clamp(1.5rem,3.4vw,2.3rem);
-  font-weight:700;color:var(--basilico-scuro);
-  transform:rotate(-2deg);display:inline-block;
+  font-size:clamp(1.5rem,3.2vw,2.2rem);font-weight:700;
+  color:var(--rosso);transform:rotate(-1.6deg);display:inline-block;
 }
-.hero-sub{
-  max-width:34rem;margin:1rem auto 2rem;
-  font-size:clamp(1rem,1.4vw,1.15rem);color:var(--inchiostro-60);
-}
-.hero-ctas{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+.hero-sub{max-width:34rem;margin:.9rem auto 1.8rem;font-size:clamp(1rem,1.4vw,1.12rem);color:var(--nero-60)}
+.hero-ctas{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.6rem}
 .btn{
   display:inline-flex;align-items:center;gap:.5rem;
-  font-family:var(--body);font-weight:700;font-size:1.02rem;
+  font-weight:700;font-size:1rem;
   text-decoration:none;text-transform:uppercase;letter-spacing:.05em;
-  padding:.85rem 1.7rem;border-radius:999px;
-  border:2.5px solid var(--inchiostro);
-  box-shadow:4px 4px 0 var(--inchiostro);
+  padding:.8rem 1.6rem;border-radius:999px;
+  border:1.8px solid var(--nero);
+  box-shadow:4px 4px 0 var(--nero);
   transition:transform .15s, box-shadow .15s;
 }
-.btn:hover,.btn:focus-visible{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--inchiostro)}
-.btn-red{background:var(--pomodoro);color:var(--panna)}
-.btn-cream{background:var(--panna);color:var(--inchiostro)}
-.btn-yellow{background:var(--sole);color:var(--inchiostro)}
-
-/* badge circulaire tournant */
-.badge-wrap{position:absolute;top:clamp(.5rem,3vw,2.5rem);right:clamp(.5rem,4vw,4rem);width:clamp(88px,12vw,150px);pointer-events:none}
-.badge-wrap svg{width:100%;height:auto;animation:spin 18s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.hero-emoji{position:absolute;font-size:clamp(1.6rem,3.5vw,3rem);animation:float 5s ease-in-out infinite;pointer-events:none}
-.hero-emoji.e1{left:6%;top:30%;animation-delay:0s}
-.hero-emoji.e2{left:10%;bottom:14%;animation-delay:1.4s}
-.hero-emoji.e3{right:8%;bottom:26%;animation-delay:2.6s}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+.btn:hover,.btn:focus-visible{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--nero)}
+.btn-rosso{background:var(--rosso);color:var(--crema)}
+.btn-crema{background:var(--carta);color:var(--nero)}
+.btn-limone{background:var(--limone);color:var(--nero)}
+.hero-cover{
+  max-width:860px;margin:0 auto;
+  border:1.8px solid var(--nero);border-radius:18px 18px 0 0;border-bottom:none;
+  overflow:hidden;box-shadow:0 -6px 30px var(--nero-15);
+  background:var(--carta);
+}
+.hero-cover img{width:100%}
+.hero-lemon{position:absolute;font-size:clamp(1.5rem,3vw,2.6rem);animation:float 6s ease-in-out infinite;pointer-events:none}
+.hero-lemon.l1{left:7%;top:34%}
+.hero-lemon.l2{right:7%;top:22%;animation-delay:2.2s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-12px) rotate(8deg)}}
 
 /* ---------- Marquee ---------- */
 .marquee{
-  background:var(--basilico);color:var(--panna);
-  border-top:2.5px solid var(--inchiostro);border-bottom:2.5px solid var(--inchiostro);
-  overflow:hidden;white-space:nowrap;padding:.65rem 0;
+  background:var(--carta);
+  border-top:1.5px solid var(--nero);border-bottom:1.5px solid var(--nero);
+  overflow:hidden;white-space:nowrap;padding:.6rem 0;
 }
-.marquee-track{display:inline-flex;gap:2.2rem;padding-right:2.2rem;animation:slide 26s linear infinite}
+.marquee-track{display:inline-flex;gap:2.2rem;padding-right:2.2rem;animation:slide 28s linear infinite}
 .marquee span{
-  font-family:var(--display);font-size:1.15rem;letter-spacing:.09em;text-transform:uppercase;
-  display:inline-flex;align-items:center;gap:2.2rem;
+  font-family:var(--display);font-size:1.1rem;letter-spacing:.09em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:2.2rem;color:var(--nero);
 }
-.marquee .star{color:var(--sole);font-family:var(--body)}
+.marquee .star{color:var(--rosso);font-family:var(--body)}
 @keyframes slide{to{transform:translateX(-50%)}}
 
 /* ---------- Sections ---------- */
-.section{padding:clamp(3.2rem,8vh,6rem) clamp(1rem,4vw,2.5rem)}
+.section{padding:clamp(3.2rem,8vh,5.5rem) clamp(1rem,4vw,2.5rem)}
 .section-inner{max-width:1080px;margin:0 auto}
 .kicker{
-  font-family:var(--script);font-size:clamp(1.3rem,2.4vw,1.8rem);font-weight:700;
-  color:var(--pomodoro);transform:rotate(-1.5deg);display:inline-block;
+  font-family:var(--script);font-size:clamp(1.35rem,2.4vw,1.8rem);font-weight:700;
+  color:var(--rosso);transform:rotate(-1.4deg);display:inline-block;
 }
 .section h2{
   font-family:var(--display);
-  font-size:clamp(2.1rem,5.5vw,3.6rem);
-  text-transform:uppercase;letter-spacing:.015em;line-height:1.05;
-  margin:.15em 0 .6em;text-wrap:balance;
+  font-size:clamp(2rem,5.2vw,3.4rem);
+  text-transform:uppercase;letter-spacing:.02em;line-height:1.05;
+  margin:.15em 0 .55em;text-wrap:balance;
 }
-.section-lead{max-width:38rem;color:var(--inchiostro-60);margin-bottom:2.4rem}
+.section-lead{max-width:38rem;color:var(--nero-60);margin-bottom:2.3rem}
 
 /* ---------- Concept : tre morsi ---------- */
-#concept{background:var(--panna-2)}
-.morsi{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem}
+#concept{position:relative;background:
+  linear-gradient(rgba(250,246,234,.92),rgba(250,246,234,.92)),
+  repeating-linear-gradient(90deg,var(--verde) 0 26px,#F4EFD9 26px 52px)}
+.morsi{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
 .morso{
-  background:var(--panna);border:2.5px solid var(--inchiostro);border-radius:22px;
+  background:var(--carta);border:1.6px solid var(--nero);border-radius:16px;
   padding:1.8rem 1.5rem;position:relative;
-  box-shadow:6px 6px 0 var(--inchiostro);
+  box-shadow:5px 5px 0 var(--nero-15);
   transition:transform .18s;
 }
-.morso:hover{transform:translateY(-6px) rotate(-1deg)}
+.morso:hover{transform:translateY(-6px) rotate(-.8deg)}
 .morso .n{
-  position:absolute;top:-1.1rem;left:1.2rem;
-  font-family:var(--display);font-size:1rem;letter-spacing:.05em;
-  padding:.2rem .8rem;border:2px solid var(--inchiostro);border-radius:999px;
+  position:absolute;top:-1.05rem;left:1.2rem;
+  font-family:var(--script);font-weight:700;font-size:1.15rem;
+  padding:.12rem .8rem;border:1.6px solid var(--nero);border-radius:999px;
+  background:var(--crema);
 }
-.morso.m1 .n{background:var(--pomodoro);color:var(--panna)}
-.morso.m2 .n{background:var(--sole);color:var(--inchiostro)}
-.morso.m3 .n{background:var(--panna);color:var(--inchiostro)}
-.morso .emo{font-size:2.6rem;display:block;margin-bottom:.6rem}
-.morso h3{font-family:var(--display);font-size:1.5rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.4rem}
-.morso h3 small{display:block;font-family:var(--script);font-size:1.15rem;color:var(--basilico);text-transform:none;letter-spacing:0}
-.morso p{font-size:.98rem;color:var(--inchiostro-60)}
+.morso.m1 .n{background:var(--rosso);color:var(--crema)}
+.morso.m2 .n{background:var(--limone)}
+.morso .emo{font-size:2.4rem;display:block;margin-bottom:.55rem}
+.morso h3{font-family:var(--display);font-size:1.4rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.35rem}
+.morso h3 small{display:block;font-family:var(--script);font-size:1.15rem;color:var(--verde-scuro);text-transform:none;letter-spacing:0}
+.morso p{font-size:.97rem;color:var(--nero-60)}
 
 /* ---------- Menu ---------- */
 .menu-board{
-  background:var(--basilico-scuro);color:var(--panna);
-  border:3px solid var(--inchiostro);border-radius:26px;
-  padding:clamp(1.6rem,4vw,3rem);
-  box-shadow:8px 8px 0 var(--inchiostro);
+  background:var(--carta);
+  border:1.8px solid var(--nero);border-radius:20px;
+  padding:clamp(1.7rem,4vw,3rem);
+  box-shadow:7px 7px 0 var(--nero-15);
   position:relative;
 }
 .menu-board::before{
   content:"MENU DEL GIORNO";
-  position:absolute;top:-1.3rem;left:50%;transform:translateX(-50%) rotate(-1.5deg);
-  font-family:var(--display);letter-spacing:.1em;font-size:1.05rem;white-space:nowrap;
-  background:var(--sole);color:var(--inchiostro);
-  border:2.5px solid var(--inchiostro);border-radius:8px;padding:.35rem 1.2rem;
-  box-shadow:3px 3px 0 var(--inchiostro);
+  position:absolute;top:-1.25rem;left:50%;transform:translateX(-50%) rotate(-1.4deg);
+  font-family:var(--display);letter-spacing:.1em;font-size:1rem;white-space:nowrap;
+  background:var(--limone);color:var(--nero);
+  border:1.6px solid var(--nero);border-radius:8px;padding:.32rem 1.2rem;
+  box-shadow:3px 3px 0 var(--nero);
 }
-.menu-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2.2rem;margin-top:1rem}
+.menu-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem 2.4rem;margin-top:.8rem}
 .menu-cat h3{
-  font-family:var(--display);font-size:1.45rem;text-transform:uppercase;letter-spacing:.05em;
-  color:var(--sole);border-bottom:2px dashed rgba(255,253,246,.35);
-  padding-bottom:.45rem;margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;
+  font-family:var(--script);font-weight:700;font-size:1.65rem;
+  color:var(--rosso);border-bottom:1.5px dashed var(--nero-15);
+  padding-bottom:.35rem;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;
 }
-.menu-item{display:flex;align-items:baseline;gap:.6rem;padding:.42rem 0}
+.menu-item{display:flex;align-items:baseline;gap:.6rem;padding:.4rem 0}
 .menu-item .name{font-weight:600}
-.menu-item .name small{display:block;font-weight:400;font-size:.85rem;color:rgba(255,253,246,.65)}
-.menu-item .dots{flex:1;border-bottom:2px dotted rgba(255,253,246,.4);transform:translateY(-4px)}
-.menu-item .price{font-weight:700;color:var(--sole);font-variant-numeric:tabular-nums;white-space:nowrap}
+.menu-item .name small{display:block;font-weight:400;font-size:.85rem;color:var(--nero-60)}
+.menu-item .dots{flex:1;border-bottom:2px dotted var(--nero-15);transform:translateY(-4px)}
+.menu-item .price{font-weight:700;color:var(--rosso);font-variant-numeric:tabular-nums;white-space:nowrap}
 .menu-note{
-  margin-top:1.8rem;text-align:center;font-family:var(--script);
-  font-size:1.3rem;color:var(--sole);transform:rotate(-1deg);
+  margin-top:1.7rem;text-align:center;font-family:var(--script);
+  font-size:1.3rem;color:var(--verde-scuro);transform:rotate(-1deg);
 }
 
-/* ---------- Agenda / Dove siamo ---------- */
-#dove{background:var(--panna-2)}
-.dove-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:start}
+/* ---------- Dove siamo ---------- */
+#dove{background:
+  linear-gradient(rgba(250,246,234,.92),rgba(250,246,234,.92)),
+  repeating-linear-gradient(90deg,var(--verde) 0 26px,#F4EFD9 26px 52px)}
+.dove-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:2.4rem;align-items:start}
 .week{list-style:none;display:flex;flex-direction:column;gap:.55rem}
 .week li{
   display:flex;align-items:center;gap:1rem;
-  background:var(--panna);border:2px solid var(--inchiostro);border-radius:14px;
-  padding:.75rem 1.1rem;box-shadow:3px 3px 0 var(--inchiostro);
+  background:var(--carta);border:1.5px solid var(--nero);border-radius:12px;
+  padding:.72rem 1.1rem;box-shadow:3px 3px 0 var(--nero-15);
 }
 .week .day{
-  font-family:var(--display);text-transform:uppercase;font-size:.95rem;letter-spacing:.06em;
-  min-width:4.6rem;color:var(--pomodoro);
+  font-family:var(--display);text-transform:uppercase;font-size:.92rem;letter-spacing:.06em;
+  min-width:4.6rem;color:var(--rosso);
 }
 .week .place{font-weight:600}
-.week .place small{display:block;font-weight:400;color:var(--inchiostro-60);font-size:.85rem}
+.week .place small{display:block;font-weight:400;color:var(--nero-60);font-size:.85rem}
 .week li.off{opacity:.55;box-shadow:none}
 .privat{
-  background:var(--pomodoro);color:var(--panna);
-  border:3px solid var(--inchiostro);border-radius:22px;
-  padding:2rem 1.7rem;box-shadow:7px 7px 0 var(--inchiostro);
-  transform:rotate(1.2deg);
+  background:var(--rosso);color:var(--crema);
+  border:1.8px solid var(--nero);border-radius:18px;
+  padding:2rem 1.7rem;box-shadow:6px 6px 0 var(--nero-15);
+  transform:rotate(1.1deg);
 }
-.privat h3{font-family:var(--display);font-size:1.7rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.6rem}
-.privat p{color:rgba(255,253,246,.9);margin-bottom:1.3rem}
+.privat h3{font-family:var(--display);font-size:1.6rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.55rem}
+.privat p{color:rgba(250,246,234,.92);margin-bottom:1.2rem}
+.privat .tel{display:block;font-family:var(--script);font-size:1.5rem;font-weight:700;color:var(--crema);text-decoration:none;margin-bottom:1.1rem}
 
-/* ---------- Instagram ---------- */
-.insta-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
-.polaroids{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.6rem}
+/* ---------- Galerie / Instagram ---------- */
+.insta-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2.1rem}
+.polaroids{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.6rem}
 .polaroid{
-  background:#fff;border:2px solid var(--inchiostro);border-radius:6px;
-  padding:.65rem .65rem 2.6rem;text-decoration:none;
-  box-shadow:5px 5px 0 rgba(31,42,36,.25);
+  background:#fff;border:1.5px solid var(--nero);border-radius:5px;
+  padding:.6rem .6rem 2.5rem;text-decoration:none;
+  box-shadow:5px 5px 0 var(--nero-15);
   transition:transform .2s;position:relative;
 }
-.polaroid:nth-child(odd){transform:rotate(-2.4deg)}
-.polaroid:nth-child(even){transform:rotate(2deg)}
+.polaroid:nth-child(odd){transform:rotate(-2.2deg)}
+.polaroid:nth-child(even){transform:rotate(1.9deg)}
 .polaroid:hover,.polaroid:focus-visible{transform:rotate(0) scale(1.04);z-index:2}
-.polaroid .ph{
-  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
-  font-size:3.4rem;border-radius:3px;
-}
+.polaroid .ph{aspect-ratio:1;border-radius:3px;overflow:hidden}
+.polaroid .ph img{width:100%;height:100%;object-fit:cover}
 .polaroid .cap{
-  position:absolute;left:0;right:0;bottom:.5rem;text-align:center;
-  font-family:var(--script);font-size:1.15rem;font-weight:600;color:var(--inchiostro);
+  position:absolute;left:0;right:0;bottom:.45rem;text-align:center;
+  font-family:var(--script);font-size:1.15rem;font-weight:600;color:var(--nero);
 }
-.ph1{background:repeating-linear-gradient(135deg,#FBE6C8 0 14px,#F6D6A4 14px 28px)}
-.ph2{background:repeating-linear-gradient(90deg,#DFF0E3 0 16px,#BFE0C8 16px 32px)}
-.ph3{background:radial-gradient(circle at 30% 30%,#FFE1A8,#FFC93C)}
-.ph4{background:repeating-linear-gradient(90deg,#F9D7D2 0 16px,#F3B9B1 16px 32px)}
-.insta-cta{margin-top:2.4rem;text-align:center}
+.insta-cta{margin-top:2.3rem;text-align:center}
 
 /* ---------- Footer ---------- */
-footer{background:var(--basilico-scuro);color:var(--panna)}
+footer{background:var(--verde-scuro);color:var(--crema)}
 .foot-inner{
   max-width:1080px;margin:0 auto;
-  padding:3.2rem clamp(1rem,4vw,2.5rem) 2.2rem;
+  padding:3rem clamp(1rem,4vw,2.5rem) 2rem;
   display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;
 }
-.foot-inner h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:1.15rem;color:var(--sole);margin-bottom:.7rem}
-.foot-inner a{color:var(--panna);text-decoration:none;border-bottom:1.5px dashed rgba(255,253,246,.4)}
+.foot-inner h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:1.1rem;color:var(--limone);margin-bottom:.65rem}
+.foot-inner a{color:var(--crema);text-decoration:none;border-bottom:1.5px dashed rgba(250,246,234,.4)}
 .foot-inner a:hover{border-bottom-style:solid}
-.foot-logo{font-family:var(--display);font-size:1.8rem;text-transform:uppercase;letter-spacing:.03em}
-.foot-tag{font-family:var(--script);font-size:1.3rem;color:var(--sole)}
+.foot-logo{font-family:var(--script);font-weight:700;font-size:2.2rem;line-height:1.1}
+.foot-tag{font-family:var(--script);font-size:1.3rem;color:var(--limone)}
 .foot-base{
-  border-top:1px solid rgba(255,253,246,.2);
-  padding:1.1rem clamp(1rem,4vw,2.5rem);
+  border-top:1px solid rgba(250,246,234,.2);
+  padding:1.05rem clamp(1rem,4vw,2.5rem);
   display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
-  font-size:.85rem;color:rgba(255,253,246,.65);
+  font-size:.85rem;color:rgba(250,246,234,.65);
   max-width:1080px;margin:0 auto;
 }
 
 /* ---------- Reveal ---------- */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
 
 @media (max-width:760px){
   .dove-grid{grid-template-columns:1fr}
   .nav-links a:not(.nav-cta){display:none}
-  .badge-wrap{top:auto;bottom:-1rem}
 }
 @media (prefers-reduced-motion:reduce){
-  .badge-wrap svg,.hero-emoji{animation:none}
+  .hero-lemon{animation:none}
   .marquee-track{animation:none}
   .reveal{opacity:1;transform:none;transition:none}
   html{scroll-behavior:auto}
@@ -320,14 +313,11 @@ footer{background:var(--basilico-scuro);color:var(--panna)}
 </head>
 <body>
 
-<div class="awning" aria-hidden="true"></div>
+<div class="awning stripes" aria-hidden="true"></div>
 <div class="awning-scallop" aria-hidden="true"></div>
 
 <nav class="nav" aria-label="Navigation principale">
-  <a class="nav-logo" href="#top">
-    <span class="dot" style="background:var(--pomodoro)"></span><span class="dot" style="background:var(--sole)"></span><span class="dot" style="background:var(--panna)"></span>
-    Tre&nbsp;Mor&nbsp;Si
-  </a>
+  <a class="nav-logo" href="#top">TreMorSi<span class="heart">♥</span></a>
   <ul class="nav-links">
     <li><a href="#concept">Il Concetto</a></li>
     <li><a href="#menu">Menu</a></li>
@@ -338,41 +328,32 @@ footer{background:var(--basilico-scuro);color:var(--panna)}
 </nav>
 
 <header class="hero" id="top">
-  <span class="hero-emoji e1" aria-hidden="true">🍢</span>
-  <span class="hero-emoji e2" aria-hidden="true">🥖</span>
-  <span class="hero-emoji e3" aria-hidden="true">🇮🇹</span>
+  <span class="hero-lemon l1" aria-hidden="true">🍋</span>
+  <span class="hero-lemon l2" aria-hidden="true">🍋</span>
 
-  <div class="badge-wrap" aria-hidden="true">
-    <svg viewBox="0 0 120 120">
-      <defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
-      <circle cx="60" cy="60" r="58" fill="#FFC93C" stroke="#1F2A24" stroke-width="2.5"/>
-      <circle cx="60" cy="60" r="30" fill="#E23A2E" stroke="#1F2A24" stroke-width="2.5"/>
-      <text fill="#1F2A24" font-family="Anton, Impact, sans-serif" font-size="12.5" letter-spacing="2.5">
-        <textPath href="#circ">100% ITALIANO · FATTO A MANO ·</textPath>
-      </text>
-      <text x="60" y="66" text-anchor="middle" font-size="17" font-family="Anton, Impact, sans-serif" fill="#FFFDF6">🔥</text>
-    </svg>
-  </div>
-
-  <p class="hero-eyebrow">🚚 Food truck italiano · Charleroi &amp; alentours</p>
+  <p class="hero-eyebrow">🚚 Food truck italiano · Fleurus — Charleroi &amp; alentours</p>
   <h1><span class="w1">Tre</span> <span class="w2">Mor</span> <span class="w3">Si</span></h1>
   <p class="hero-tagline">« Ogni morso racconta l’Italia » ✦ chaque bouchée raconte l’Italie</p>
   <p class="hero-sub">
-    Arrosticini grillés à la braise, puccia dorée au four, produits authentiques
-    préparés avec passione e am<span style="color:var(--pomodoro)">♥</span>re.
-    L’Italie de rue, servie à votre coin de rue.
+    Arrosticini grillés à la braise, puccia dorée, cozze au citron —
+    des produits authentiques préparés avec passione e am<span style="color:var(--rosso)">♥</span>re.
+    La dolce vita, servie à votre coin de rue.
   </p>
   <div class="hero-ctas">
-    <a class="btn btn-red" href="#menu">Voir le menu 🍢</a>
-    <a class="btn btn-cream" href="#dove">Nous trouver 📍</a>
-    <a class="btn btn-yellow" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">@tre.mor.si</a>
+    <a class="btn btn-rosso" href="#menu">Voir le menu 🍢</a>
+    <a class="btn btn-crema" href="#dove">Nous trouver 📍</a>
+    <a class="btn btn-limone" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">@tre.mor.si</a>
+  </div>
+  <div class="hero-cover">
+    <img src="assets/cover-truck.jpg" alt="Illustration du food truck Tre Mor Si : le couple derrière le comptoir, guirlande de piments, néon tricolore, puccia et arrosticini" width="1448" height="1086">
   </div>
 </header>
 
+<div class="tricolore" aria-hidden="true"></div>
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Arrosticini <i class="star">✦</i> Puccia <i class="star">✦</i> Amore <i class="star">✦</i> Fatto a mano <i class="star">✦</i> Charleroi <i class="star">✦</i></span>
-    <span>Arrosticini <i class="star">✦</i> Puccia <i class="star">✦</i> Amore <i class="star">✦</i> Fatto a mano <i class="star">✦</i> Charleroi <i class="star">✦</i></span>
+    <span>Arrosticini <i class="star">✦</i> Puccia <i class="star">✦</i> Cozze <i class="star">✦</i> Aperitivo <i class="star">✦</i> Dolce Vita <i class="star">✦</i></span>
+    <span>Arrosticini <i class="star">✦</i> Puccia <i class="star">✦</i> Cozze <i class="star">✦</i> Aperitivo <i class="star">✦</i> Dolce Vita <i class="star">✦</i></span>
   </div>
 </div>
 
@@ -386,19 +367,19 @@ footer{background:var(--basilico-scuro);color:var(--panna)}
     </p>
     <div class="morsi">
       <article class="morso m1 reveal">
-        <span class="n">Morso Nº1</span>
+        <span class="n">Morso nº1</span>
         <span class="emo" aria-hidden="true">🌊</span>
-        <h3>La Mer <small>la puccia del Salento</small></h3>
-        <p>Petit pain rustique des Pouilles, cuit et doré, garni généreusement de produits italiens authentiques. Le sandwich préféré du sud.</p>
+        <h3>La Mer <small>cozze &amp; puccia del sud</small></h3>
+        <p>Les moules au citron et persil, la puccia dorée des Pouilles : le sud de l’Italie dans un bol en carton, les pieds dans l’eau.</p>
       </article>
       <article class="morso m2 reveal">
-        <span class="n">Morso Nº2</span>
+        <span class="n">Morso nº2</span>
         <span class="emo" aria-hidden="true">☀️</span>
-        <h3>Le Soleil <small>la passione</small></h3>
-        <p>Des recettes de famille, des produits choisis avec soin et beaucoup d’amore. Ici, tout est preparato con passione — et ça se goûte.</p>
+        <h3>Le Soleil <small>limoni e passione</small></h3>
+        <p>Citrons, produits choisis avec soin et recettes de famille : tout est preparato con passione — et ça se goûte.</p>
       </article>
       <article class="morso m3 reveal">
-        <span class="n">Morso Nº3</span>
+        <span class="n">Morso nº3</span>
         <span class="emo" aria-hidden="true">🌬️</span>
         <h3>Le Vent <small>gli arrosticini d’Abruzzo</small></h3>
         <p>Les célèbres brochettes des montagnes des Abruzzes, grillées à la braise sous vos yeux. Simples, fumées, addictives.</p>
@@ -424,7 +405,13 @@ footer{background:var(--basilico-scuro);color:var(--panna)}
           <h3>🥖 Puccia</h3>
           <div class="menu-item"><span class="name">Puccia salsiccia<small>saucisse italienne, friarielli, provola</small></span><span class="dots"></span><span class="price">9&nbsp;€</span></div>
           <div class="menu-item"><span class="name">Puccia caprese<small>mozzarella, tomate, basilic, olio EVO</small></span><span class="dots"></span><span class="price">8&nbsp;€</span></div>
-          <div class="menu-item"><span class="name">Puccia del giorno<small>l’inspiration du chef — demandez !</small></span><span class="dots"></span><span class="price">9,5&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Puccia Nutella<small>la douceur de fin de service</small></span><span class="dots"></span><span class="price">6&nbsp;€</span></div>
+        </div>
+        <div class="menu-cat">
+          <h3>🦪 Cozze &amp; Aperitivo</h3>
+          <div class="menu-item"><span class="name">Cozze al limone<small>moules, citron, persil, poivre</small></span><span class="dots"></span><span class="price">12&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Tagliere aperitivo<small>charcuteries, fromages, olives, grissini</small></span><span class="dots"></span><span class="price">15&nbsp;€</span></div>
+          <div class="menu-item"><span class="name">Olive &amp; grissini</span><span class="dots"></span><span class="price">4&nbsp;€</span></div>
         </div>
         <div class="menu-cat">
           <h3>🍋 Dolci &amp; Drinks</h3>
@@ -443,13 +430,15 @@ footer{background:var(--basilico-scuro);color:var(--panna)}
     <span class="kicker reveal">Dove siamo?</span>
     <h2 class="reveal">Où nous trouver 📍</h2>
     <p class="section-lead reveal">
-      Le truck bouge toute la semaine autour de Charleroi. L’agenda en temps réel est
-      toujours sur <a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram</a>.
+      Basé à Fleurus, le truck bouge toute la semaine entre Charleroi et ses alentours.
+      L’agenda en temps réel est toujours sur
+      <a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram</a> et
+      <a href="https://www.facebook.com/profile.php?id=61590317361492" target="_blank" rel="noopener">Facebook</a>.
     </p>
     <div class="dove-grid">
       <ul class="week reveal">
-        <li><span class="day">Mer.</span><span class="place">Marché de Charleroi<small>11h30 – 14h30</small></span></li>
-        <li><span class="day">Jeu.</span><span class="place">Zone d’entreprises<small>11h30 – 14h00</small></span></li>
+        <li><span class="day">Mer.</span><span class="place">Marché — Fleurus<small>11h30 – 14h30</small></span></li>
+        <li><span class="day">Jeu.</span><span class="place">Zone d’entreprises — Charleroi<small>11h30 – 14h00</small></span></li>
         <li><span class="day">Ven.</span><span class="place">Place communale<small>17h00 – 21h00 · soirée arrosticini 🔥</small></span></li>
         <li><span class="day">Sam.</span><span class="place">Événements &amp; festivals<small>selon l’agenda Instagram</small></span></li>
         <li class="off"><span class="day">Dim.</span><span class="place">Riposo !<small>même les Italiens se reposent 😴</small></span></li>
@@ -458,33 +447,38 @@ footer{background:var(--basilico-scuro);color:var(--panna)}
         <h3>Privatisez le truck 🎉</h3>
         <p>Mariage, anniversaire, événement d’entreprise ou fête de village :
         on débarque avec la braise, la puccia et la bonne humeur italienne.</p>
-        <a class="btn btn-yellow" href="mailto:contact@tremorsi.be?subject=Privatisation%20food%20truck">Demander un devis</a>
+        <a class="tel" href="tel:+32495802201">☎ 0495 80 22 01</a>
+        <a class="btn btn-limone" href="mailto:Tressy_colombo@hotmail.com?subject=Privatisation%20food%20truck%20Tre%20Mor%20Si">Demander un devis</a>
       </aside>
     </div>
   </div>
 </section>
 
-<section class="section" id="insta" style="background:var(--panna)">
+<section class="section" id="insta">
   <div class="section-inner">
     <div class="insta-head">
       <div>
         <span class="kicker reveal">Molto instagramable</span>
         <h2 class="reveal" style="margin-bottom:0">@tre.mor.si</h2>
       </div>
-      <a class="btn btn-red reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Suivre ➜</a>
+      <a class="btn btn-rosso reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Suivre ➜</a>
     </div>
     <div class="polaroids">
       <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-        <span class="ph ph1" aria-hidden="true">🍢</span><span class="cap">la braise qui crépite</span>
+        <span class="ph"><img src="assets/cozze.jpg" alt="Bol de moules au citron et persil" loading="lazy"></span>
+        <span class="cap">cozze al limone 🌊</span>
       </a>
       <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-        <span class="ph ph2" aria-hidden="true">🥖</span><span class="cap">puccia du jour</span>
+        <span class="ph"><img src="assets/aperitivo.jpg" alt="Planche aperitivo avec charcuteries, olives et moules" loading="lazy"></span>
+        <span class="cap">aperitivo time 🥂</span>
       </a>
       <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-        <span class="ph ph3" aria-hidden="true">🚚</span><span class="cap">on est où aujourd’hui ?</span>
+        <span class="ph"><img src="assets/limoni.jpg" alt="Citrons jaunes sous un filet d'eau" loading="lazy"></span>
+        <span class="cap">il sole in cucina ☀️</span>
       </a>
       <a class="polaroid reveal" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-        <span class="ph ph4" aria-hidden="true">🇮🇹</span><span class="cap">amore &amp; basilico</span>
+        <span class="ph"><img src="assets/riviera.jpg" alt="Illustration rétro : maillot rouge séchant sur fond de rayures vertes" loading="lazy"></span>
+        <span class="cap">dolce vita 🏖️</span>
       </a>
     </div>
     <p class="insta-cta reveal">
@@ -494,25 +488,30 @@ footer{background:var(--basilico-scuro);color:var(--panna)}
 </section>
 
 <footer>
-  <div class="awning" aria-hidden="true" style="background:repeating-linear-gradient(90deg,var(--pomodoro) 0 44px,var(--panna) 44px 88px)"></div>
+  <div class="tricolore" aria-hidden="true"></div>
   <div class="foot-inner">
     <div>
-      <p class="foot-logo">Tre Mor Si</p>
+      <p class="foot-logo">TreMorSi<span style="color:var(--rosso)">♥</span></p>
       <p class="foot-tag">ogni morso racconta l’Italia ✦</p>
     </div>
     <div>
       <h4>Contact</h4>
-      <p><a href="mailto:contact@tremorsi.be">contact@tremorsi.be</a></p>
-      <p style="margin-top:.4rem"><a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram @tre.mor.si</a></p>
+      <p><a href="tel:+32495802201">0495 80 22 01</a></p>
+      <p style="margin-top:.4rem"><a href="mailto:Tressy_colombo@hotmail.com">Tressy_colombo@hotmail.com</a></p>
+    </div>
+    <div>
+      <h4>Suivez-nous</h4>
+      <p><a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram @tre.mor.si</a></p>
+      <p style="margin-top:.4rem"><a href="https://www.facebook.com/profile.php?id=61590317361492" target="_blank" rel="noopener">Facebook Tremorsi</a></p>
     </div>
     <div>
       <h4>Zone</h4>
-      <p>Charleroi &amp; alentours 🇧🇪<br>Marchés · événements · privatisations</p>
+      <p>Fleurus · Charleroi &amp; alentours 🇧🇪<br>Marchés · événements · privatisations</p>
     </div>
   </div>
   <div class="foot-base">
     <span>© 2026 Tre Mor Si — Food Truck Italiano</span>
-    <span>Fatto con am<span style="color:var(--pomodoro)">♥</span>re</span>
+    <span>Fatto con am<span style="color:var(--limone)">♥</span>re</span>
   </div>
 </footer>
 

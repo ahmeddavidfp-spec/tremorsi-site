@@ -25,10 +25,15 @@ Puis ouvrir http://localhost:8765
 3. Cloudflare → DNS : `CNAME` du domaine vers l'URL `*.onrender.com`, proxy activé (orange)
 4. Render → Settings → Custom Domain : ajouter le domaine
 
+## Contact client (source : page Facebook)
+
+- Base : Fleurus · tél 0495 80 22 01 · Tressy_colombo@hotmail.com
+- Facebook : https://www.facebook.com/profile.php?id=61590317361492
+- Photos dans `assets/` récupérées de leur page Facebook (cover illustrée + plats)
+
 ## À valider avec le client
 
 - [ ] Menu réel + prix (placeholders actuellement)
 - [ ] Agenda hebdo réel (emplacements/horaires placeholders)
-- [ ] Email de contact (`contact@tremorsi.be` supposé) + téléphone
-- [ ] Vraies photos pour remplacer les tuiles polaroid emoji (section Instagram)
+- [ ] Photos en meilleure résolution (celles récupérées sont des miniatures Facebook)
 - [ ] Nom de domaine
