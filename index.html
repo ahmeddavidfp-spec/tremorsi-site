@@ -406,6 +406,48 @@ footer{background:var(--ink);color:var(--crema)}
 .foot-si span{color:var(--rosso)}
 .foot-si:hover{letter-spacing:.04em}
 
+/* ---------- Calcolatore di festa ---------- */
+#festa{background:
+  linear-gradient(rgba(247,242,231,.94),rgba(247,242,231,.94)),
+  repeating-linear-gradient(90deg,#9BBE90 0 26px,#F4EFD9 26px 52px)}
+.festa-box{
+  background:var(--carta);border:1px solid var(--ink);border-radius:16px;
+  padding:clamp(1.5rem,4vw,2.6rem);max-width:56rem;
+  box-shadow:6px 6px 0 var(--ink-15);
+}
+.festa-n{font-family:var(--serif);font-size:1.4rem;text-align:center}
+.festa-n strong{
+  font-size:clamp(3rem,8vw,4.6rem);font-weight:400;color:var(--rosso);
+  font-variant-numeric:tabular-nums;line-height:1;display:inline-block;min-width:2.2ch;
+}
+#festa-range{
+  width:100%;margin:1.1rem 0 .6rem;accent-color:var(--rosso);
+  height:2.2rem;cursor:grab;
+}
+#festa-range:active{cursor:grabbing}
+.festa-mood{
+  text-align:center;font-family:var(--serif);font-style:italic;
+  font-size:1.2rem;color:var(--ink-55);min-height:1.8em;margin-bottom:1.4rem;
+}
+.festa-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+@media (min-width:720px){.festa-stats{grid-template-columns:repeat(4,1fr)}}
+.festa-stat{
+  border:1px solid var(--ink-15);border-radius:12px;
+  padding:1rem .8rem;text-align:center;background:#FCFAF3;
+  display:flex;flex-direction:column;gap:.15rem;
+}
+.fs-emoji{font-size:1.6rem}
+.festa-stat strong{
+  font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,3vw,2.3rem);
+  font-variant-numeric:tabular-nums;line-height:1.1;
+}
+.festa-stat strong.pop{animation:statpop .25s ease}
+@keyframes statpop{50%{transform:scale(1.12);color:var(--rosso)}}
+.fs-name{font-weight:600;font-size:.92rem}
+.fs-sub{font-family:var(--serif);font-style:italic;font-size:.88rem;color:var(--ink-55)}
+.festa-cta{text-align:center;margin-top:1.6rem}
+@media (prefers-reduced-motion:reduce){.festa-stat strong.pop{animation:none}}
+
 /* ---------- Formulaire devis ---------- */
 #devis{background:var(--verde-chiaro)}
 .devis-form{
@@ -745,6 +787,56 @@ footer{background:var(--ink);color:var(--crema)}
     </div>
   </section>
 
+  <section class="section" id="festa">
+    <div class="section-inner">
+      <div class="sec-head reveal">
+        <p class="sec-label">Mai visto prima</p>
+        <h2>Combien de bonheur pour <span class="it">vos invités&nbsp;?</span></h2>
+        <p class="sec-lead">
+          Faites glisser le curseur — on calcule votre fête en direct :
+          ce que le camion apporte, prépare et grille pour vous.
+        </p>
+      </div>
+      <div class="festa-box reveal">
+        <div class="festa-slider">
+          <p class="festa-n"><strong id="festa-count">60</strong> convives</p>
+          <input type="range" id="festa-range" min="10" max="300" step="5" value="60"
+                 aria-label="Nombre de convives">
+          <p class="festa-mood" id="festa-mood">La piazza commence à danser 💃</p>
+        </div>
+        <div class="festa-stats">
+          <div class="festa-stat">
+            <span class="fs-emoji">🍢</span>
+            <strong id="fs-arro">180</strong>
+            <span class="fs-name">arrosticini</span>
+            <span class="fs-sub" id="fs-arro-sub">45 m de brochettes bout à bout</span>
+          </div>
+          <div class="festa-stat">
+            <span class="fs-emoji">🥖</span>
+            <strong id="fs-pucce">60</strong>
+            <span class="fs-name">pucce dorées</span>
+            <span class="fs-sub">pétries le matin même</span>
+          </div>
+          <div class="festa-stat">
+            <span class="fs-emoji">🥂</span>
+            <strong id="fs-spritz">90</strong>
+            <span class="fs-name">spritz</span>
+            <span class="fs-sub" id="fs-spritz-sub">18 litres de soleil orange</span>
+          </div>
+          <div class="festa-stat">
+            <span class="fs-emoji">🍋</span>
+            <strong id="fs-cannoli">60</strong>
+            <span class="fs-name">cannoli</span>
+            <span class="fs-sub">croquants jusqu’au dernier</span>
+          </div>
+        </div>
+        <div class="festa-cta">
+          <a class="btn btn-solid" id="festa-btn" href="#devis">Réserver pour 60 convives <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="devis">
     <div class="section-inner">
       <div class="sec-head reveal">
@@ -920,6 +1012,42 @@ lb.addEventListener('pointerup', (e) => {
   const dx = e.clientX - touchX;
   if (Math.abs(dx) > 45) lbShow(lbIndex + (dx < 0 ? 1 : -1));
   touchX = null;
+});
+
+// Calcolatore di festa : le curseur qui donne faim
+const festaRange = document.getElementById('festa-range');
+const festaBtn = document.getElementById('festa-btn');
+const pop = (el) => { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); };
+function festaUpdate() {
+  const n = parseInt(festaRange.value, 10);
+  document.getElementById('festa-count').textContent = n;
+  const arro = document.getElementById('fs-arro');
+  const pucce = document.getElementById('fs-pucce');
+  const spritz = document.getElementById('fs-spritz');
+  const cannoli = document.getElementById('fs-cannoli');
+  arro.textContent = n * 3;
+  document.getElementById('fs-arro-sub').textContent =
+    Math.round(n * 3 * 0.25) + ' m de brochettes bout à bout';
+  pucce.textContent = n;
+  spritz.textContent = Math.round(n * 1.5);
+  document.getElementById('fs-spritz-sub').textContent =
+    Math.round(n * 1.5 * 0.2) + ' litres de soleil orange';
+  cannoli.textContent = n;
+  [arro, pucce, spritz, cannoli].forEach(pop);
+  const mood = document.getElementById('festa-mood');
+  mood.textContent =
+    n < 30 ? 'Una festa intima — perfetto.' :
+    n < 80 ? 'La piazza commence à danser 💃' :
+    n < 150 ? 'On appelle les cousins en renfort !' :
+    'Livello matrimonio : on double la plancha 🔥';
+  festaBtn.innerHTML = 'Réserver pour ' + n + ' convives <span class="arr">→</span>';
+}
+festaRange.addEventListener('input', festaUpdate);
+festaUpdate();
+festaBtn.addEventListener('click', () => {
+  const conv = document.getElementById('f-convives');
+  conv.value = festaRange.value;
+  conv.classList.remove('err');
 });
 
 // Formulaire de devis → WhatsApp ou email

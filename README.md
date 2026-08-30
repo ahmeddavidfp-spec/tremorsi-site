@@ -33,6 +33,8 @@ Puis ouvrir http://localhost:8765
 
 ## À valider avec le client
 
+- [ ] Ratios du « Calcolatore di Festa » (3 arrosticini / 1 puccia / 1,5 spritz / 1 cannolo par convive — à ajuster avec eux)
+
 - [ ] Prénom de « son complice » (section Chi siamo — elle : Tressy ; lui : à compléter)
 - [ ] Valider le texte « Chi siamo » avec le couple
 
