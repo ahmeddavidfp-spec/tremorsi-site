@@ -147,6 +147,37 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 .only-desktop{display:none}
 @media (min-width:720px){.only-desktop{display:inline}}
 
+/* ---------- L'insegna del giorno ---------- */
+.oggi{
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  flex-wrap:wrap;text-align:center;
+  padding:.7rem var(--gutter);
+  font-size:.95rem;font-weight:500;text-decoration:none;
+  border-bottom:1px solid var(--ink-15);
+  transition:filter .2s;
+}
+.oggi:hover{filter:brightness(1.03)}
+.oggi.aperto{background:linear-gradient(90deg,#FFE7AE,#FFF4D6 55%,#FFE7AE)}
+.oggi.chiuso{background:var(--crema-2)}
+.oggi .dot{
+  width:9px;height:9px;border-radius:50%;flex:none;
+  background:#2F9E55;box-shadow:0 0 0 0 rgba(47,158,85,.5);
+  animation:oggi-pulse 2s ease-out infinite;
+}
+.oggi.chiuso .dot{background:var(--rosso);animation:none;opacity:.55}
+@keyframes oggi-pulse{
+  0%{box-shadow:0 0 0 0 rgba(47,158,85,.45)}
+  70%{box-shadow:0 0 0 8px rgba(47,158,85,0)}
+  100%{box-shadow:0 0 0 0 rgba(47,158,85,0)}
+}
+.oggi .oggi-tag{
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;
+  color:var(--ink-55);
+}
+.oggi strong{font-family:var(--serif);font-weight:400;font-style:italic;font-size:1.12em}
+.oggi .arr{font-family:var(--serif)}
+@media (prefers-reduced-motion:reduce){.oggi .dot{animation:none}}
+
 /* ---------- Hero ---------- */
 .hero{
   padding:clamp(3rem,9vh,6.5rem) var(--gutter) 0;
@@ -669,6 +700,8 @@ footer{background:var(--ink);color:var(--crema)}
   <div class="tricolore" aria-hidden="true"></div>
 </header>
 
+<a class="oggi" id="oggi" href="#dove"></a>
+
 <main id="top">
   <section class="hero">
     <div class="hero-inner">
@@ -1172,6 +1205,35 @@ window.addEventListener('load', () => {
   setTimeout(loaderHide, Math.max(0, 1400 - (performance.now() - loaderT0)));
 });
 setTimeout(loaderHide, 5000); // filet de sécurité
+
+// L'insegna del giorno : où est le camion aujourd'hui ?
+// ⚠ Agenda à tenir synchronisé avec la section "Dove siamo" (placeholders à valider)
+const AGENDA_OGGI = {
+  3: { lieu: 'au marché de Fleurus', heures: '11h30 - 14h30' },
+  4: { lieu: 'à la zone d’entreprises de Charleroi', heures: '11h30 - 14h00' },
+  5: { lieu: 'sur la place communale', heures: '17h00 - 21h00 · soirée arrosticini' },
+  6: { lieu: 'en événement - l’adresse est sur Instagram', heures: '' },
+};
+const RIPOSO_OGGI = {
+  0: 'Oggi riposo ! Même les Italiens se reposent le dimanche - a mercoledì al mercato',
+  1: 'Fourneaux éteints, marinades en cours : on prépare votre semaine. A mercoledì !',
+  2: 'Oggi si impasta - les pucce de demain se pétrissent aujourd’hui. A domani !',
+};
+(function () {
+  const el = document.getElementById('oggi');
+  const jour = new Date().getDay();
+  const ouvert = AGENDA_OGGI[jour];
+  if (ouvert) {
+    el.classList.add('aperto');
+    el.innerHTML = '<span class="dot"></span><span class="oggi-tag">Oggi</span>' +
+      '<span>Aujourd’hui nous sommes <strong>' + ouvert.lieu + '</strong>' +
+      (ouvert.heures ? ' · ' + ouvert.heures : '') + ' <span class="arr">→</span></span>';
+  } else {
+    el.classList.add('chiuso');
+    el.innerHTML = '<span class="dot"></span><span class="oggi-tag">Riposo</span>' +
+      '<span>' + RIPOSO_OGGI[jour] + ' <span class="arr">→</span></span>';
+  }
+})();
 
 // Révélation au scroll
 const io = new IntersectionObserver((entries) => {

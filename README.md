@@ -39,6 +39,6 @@ Puis ouvrir http://localhost:8765
 - [ ] Valider le texte « Chi siamo » avec le couple
 
 - [ ] Menu réel + prix (placeholders actuellement)
-- [ ] Agenda hebdo réel (emplacements/horaires placeholders)
+- [ ] Agenda hebdo réel (emplacements/horaires placeholders) - à mettre à jour à DEUX endroits dans `index.html` : la liste « Dove siamo » et l'objet JS `AGENDA_OGGI`/`RIPOSO_OGGI` (bandeau dynamique du jour)
 - [ ] Photos en meilleure résolution (celles récupérées sont des miniatures Facebook)
 - [ ] Nom de domaine
