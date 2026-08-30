@@ -58,14 +58,15 @@ a{color:inherit}
 em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size:1.06em;letter-spacing:.01em}
 
 /* ---------- Header ---------- */
-.topbar{
+.topwrap{
   position:sticky;top:0;z-index:50;
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:.8rem var(--gutter);
-  padding-top:calc(.8rem + env(safe-area-inset-top, 0px));
+  padding-top:env(safe-area-inset-top, 0px);
   background:rgba(247,242,231,.92);
   backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--ink);
+}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.7rem var(--gutter);
 }
 .wordmark{
   font-family:var(--serif);font-size:1.5rem;letter-spacing:.02em;
@@ -425,6 +426,38 @@ footer{background:var(--ink);color:var(--crema)}
 .foot-si span{color:var(--rosso)}
 .foot-si:hover{letter-spacing:.04em}
 
+/* ---------- Formulaire devis ---------- */
+#devis{background:var(--verde-chiaro)}
+.devis-form{
+  display:grid;gap:1.1rem 1.4rem;max-width:52rem;
+  background:var(--carta);border:1px solid var(--ink);border-radius:16px;
+  padding:clamp(1.4rem,4vw,2.4rem);
+  box-shadow:6px 6px 0 var(--ink-15);
+}
+@media (min-width:640px){.devis-form{grid-template-columns:1fr 1fr}}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.field-full{grid-column:1 / -1}
+.field label{
+  font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--ink-55);
+}
+.field input,.field select,.field textarea{
+  font-family:var(--body, inherit);font-size:1rem;color:var(--ink);
+  background:#FCFAF3;border:1px solid var(--ink);border-radius:10px;
+  padding:.7rem .85rem;width:100%;
+}
+.field textarea{resize:vertical}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
+  outline:3px solid var(--rosso);outline-offset:1px;
+}
+.field input.err,.field select.err{border-color:var(--rosso);outline:2px solid var(--rosso)}
+.devis-error{
+  grid-column:1 / -1;font-weight:600;color:var(--rosso);
+  font-size:.95rem;margin:-.3rem 0;
+}
+.devis-actions{display:flex;gap:.8rem;flex-wrap:wrap}
+.devis-actions .btn{cursor:pointer;font-family:inherit}
+
 /* ---------- Novità ---------- */
 .novita{
   display:inline-block;font-family:var(--sans);font-style:normal;font-weight:700;
@@ -500,17 +533,21 @@ footer{background:var(--ink);color:var(--crema)}
 </head>
 <body>
 
-<header class="topbar">
-  <a class="wordmark" href="#top" aria-label="Tre Mor Si — retour en haut"><img src="assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
-  <nav aria-label="Navigation principale">
-    <ul class="topbar-nav">
-      <li class="only-desktop"><a href="#storia">La storia</a></li>
-      <li class="only-desktop"><a href="#concept">Il viaggio</a></li>
-      <li class="only-desktop"><a href="#gallery">Galerie</a></li>
-      <li><a href="#menu">Menu</a></li>
-      <li><a class="pill" href="#dove">Nous trouver</a></li>
-    </ul>
-  </nav>
+<header class="topwrap">
+  <div class="tricolore" aria-hidden="true"></div>
+  <div class="topbar">
+    <a class="wordmark" href="#top" aria-label="Tre Mor Si — retour en haut"><img src="assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
+    <nav aria-label="Navigation principale">
+      <ul class="topbar-nav">
+        <li class="only-desktop"><a href="#storia">La storia</a></li>
+        <li class="only-desktop"><a href="#concept">Il viaggio</a></li>
+        <li class="only-desktop"><a href="#gallery">Galerie</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a class="pill" href="#devis">Devis 🎉</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="tricolore" aria-hidden="true"></div>
 </header>
 
 <main id="top">
@@ -751,9 +788,76 @@ footer{background:var(--ink);color:var(--crema)}
           <p>Mariage, anniversaire, événement d’entreprise ou fête de village :
           on arrive avec la plancha, les pucce et la bonne humeur italienne.</p>
           <a class="tel" href="tel:+32495802201">0495 80 22 01</a>
-          <a class="btn" href="mailto:Tressy_colombo@hotmail.com?subject=Privatisation%20food%20truck%20Tre%20Mor%20Si">Demander un devis <span class="arr">→</span></a>
+          <a class="btn" href="#devis">Demander un devis <span class="arr">→</span></a>
         </aside>
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="devis">
+    <div class="section-inner">
+      <div class="sec-head reveal">
+        <p class="sec-label">Il preventivo</p>
+        <h2>Votre événement, <span class="it">si festeggia.</span></h2>
+        <p class="sec-lead">
+          Dites-nous tout — on revient vers vous rapidement avec un devis.
+          La demande part directement sur notre WhatsApp (ou par email, comme vous préférez).
+        </p>
+      </div>
+      <form class="devis-form reveal" id="devis-form" novalidate>
+        <div class="field">
+          <label for="f-nom">Votre nom *</label>
+          <input id="f-nom" name="nom" type="text" required autocomplete="name" placeholder="Prénom & nom">
+        </div>
+        <div class="field">
+          <label for="f-tel">Téléphone ou email *</label>
+          <input id="f-tel" name="contact" type="text" required autocomplete="tel" placeholder="Pour vous répondre">
+        </div>
+        <div class="field">
+          <label for="f-date">Date de l’événement *</label>
+          <input id="f-date" name="date" type="date" required>
+        </div>
+        <div class="field">
+          <label for="f-heure">Heure</label>
+          <input id="f-heure" name="heure" type="time">
+        </div>
+        <div class="field">
+          <label for="f-convives">Nombre de convives *</label>
+          <input id="f-convives" name="convives" type="number" min="10" max="1000" required placeholder="ex. 60">
+        </div>
+        <div class="field">
+          <label for="f-lieu">Lieu *</label>
+          <input id="f-lieu" name="lieu" type="text" required placeholder="Ville, salle, jardin…">
+        </div>
+        <div class="field">
+          <label for="f-type">Type d’événement</label>
+          <select id="f-type" name="type">
+            <option>Mariage</option>
+            <option>Anniversaire</option>
+            <option>Événement d’entreprise</option>
+            <option>Fête de village / festival</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-formule">Envies</label>
+          <select id="f-formule" name="formule">
+            <option>Pucce &amp; arrosticini</option>
+            <option>Aperitivo (planches &amp; Spritz)</option>
+            <option>Moules à la plancha</option>
+            <option>La totale — tutto&nbsp;!</option>
+          </select>
+        </div>
+        <div class="field field-full">
+          <label for="f-msg">Un mot de plus&nbsp;?</label>
+          <textarea id="f-msg" name="message" rows="3" placeholder="Horaires, contraintes, envies particulières…"></textarea>
+        </div>
+        <p class="devis-error" id="devis-error" hidden>Il manque quelques infos — les champs marqués * sont nécessaires.</p>
+        <div class="devis-actions field-full">
+          <button class="btn btn-solid" type="submit">Envoyer sur WhatsApp <span class="arr">→</span></button>
+          <button class="btn btn-ghost" type="button" id="devis-mail">Ou par email <span class="arr">→</span></button>
+        </div>
+      </form>
     </div>
   </section>
 </main>
@@ -768,8 +872,8 @@ footer{background:var(--ink);color:var(--crema)}
   <button class="lb-btn lb-next" id="lb-next" type="button" aria-label="Photo suivante">→</button>
 </div>
 
-<button class="mare" id="mare" type="button" aria-pressed="false" aria-label="Ambiance sonore : la mer Méditerranée">
-  🌊<span class="mare-label">aria di mare</span>
+<button class="mare" id="mare" type="button" aria-pressed="false" aria-label="Radio dolce vita — musique et ambiance sonore">
+  <span id="mare-ico">📻</span><span class="mare-label">radio dolce vita</span>
 </button>
 
 <a class="wa" href="https://wa.me/32495802201?text=Ciao%20Tre%20Mor%20Si%20!%20%F0%9F%8D%A2%20Je%20vous%20%C3%A9cris%20depuis%20le%20site%20%E2%80%94" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp">
@@ -891,9 +995,20 @@ lb.addEventListener('pointerup', (e) => {
   touchX = null;
 });
 
-// Aria di mare : la Méditerranée en WebAudio (vagues + mouettes), zéro fichier
+// Radio dolce vita : musique originale + ambiance mer, en WebAudio (zéro fichier)
 const mareBtn = document.getElementById('mare');
-let sea = null;
+const mareIco = document.getElementById('mare-ico');
+const mareLabel = mareBtn.querySelector('.mare-label');
+let radio = null;   // { ctx, timers: [] }
+let radioMode = 0;  // 0 off · 1 musica · 2 mare
+
+function radioStop() {
+  if (!radio) return;
+  radio.timers.forEach(clearInterval);
+  radio.ctx.close();
+  radio = null;
+}
+
 function seaStart() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const master = ctx.createGain();
@@ -915,8 +1030,8 @@ function seaStart() {
     src.connect(lp); lp.connect(g); g.connect(master);
     src.start(); lfo.start();
   };
-  makeWave(0.07, 480, 0.16, 0.11);   // la houle lente
-  makeWave(0.115, 900, 0.09, 0.07);  // le clapotis
+  makeWave(0.07, 480, 0.16, 0.11);
+  makeWave(0.115, 900, 0.09, 0.07);
   const gull = () => {
     const t = ctx.currentTime + 0.05;
     for (let k = 0; k < 2; k++) {
@@ -932,21 +1047,123 @@ function seaStart() {
     }
   };
   const gullTimer = setInterval(() => { if (Math.random() < 0.7) gull(); }, 11000);
-  setTimeout(gull, 4000);
-  return { ctx, gullTimer };
+  return { ctx, timers: [gullTimer] };
 }
+
+// Petite valse italienne originale, façon terrasse au bord de mer
+function musicaStart() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const master = ctx.createGain();
+  master.gain.value = 0;
+  master.connect(ctx.destination);
+  master.gain.linearRampToValueAtTime(0.32, ctx.currentTime + 1.2);
+  const hz = (m) => 440 * Math.pow(2, (m - 69) / 12);
+  const beat = 60 / 152;               // valse allègre, 3 temps
+  const barLen = 3 * beat;
+  // 8 mesures : C · Am · F · G7 · C · E7/Am · Dm/G7 · C
+  const chords = [
+    [60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62, 65],
+    [60, 64, 67], [57, 61, 64], [50, 53, 57], [60, 64, 67],
+  ];
+  const basses = [48, 45, 41, 43, 48, 45, 38, 48];
+  // mélodie (note midi, durée en temps) — 3 temps par mesure
+  const melody = [
+    [76, 1], [79, 1], [81, 1],
+    [79, 1.5], [76, .5], [72, 1],
+    [77, 1], [81, 1], [84, 1],
+    [83, 2], [79, 1],
+    [76, 1], [79, 1], [84, 1],
+    [83, 1.5], [81, .5], [76, 1],
+    [74, 1], [77, 1], [71, 1],
+    [72, 3],
+  ];
+  const pluck = (midi, t, dur, vol, type) => {
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type = type; o.frequency.value = hz(midi);
+    const v = ctx.createOscillator(); const vg = ctx.createGain();
+    v.frequency.value = 5.5; vg.gain.value = 3;
+    v.connect(vg); vg.connect(o.frequency); v.start(t); v.stop(t + dur);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.95);
+    o.connect(g); g.connect(master);
+    o.start(t); o.stop(t + dur);
+  };
+  let nextLoop = ctx.currentTime + 0.1;
+  const scheduleLoop = () => {
+    while (nextLoop < ctx.currentTime + 1.2) {
+      const t0 = nextLoop;
+      for (let bar = 0; bar < 8; bar++) {
+        const tb = t0 + bar * barLen;
+        pluck(basses[bar], tb, beat * 0.9, 0.22, 'sine');                 // oum
+        for (const b of [1, 2]) {                                          // pah-pah
+          chords[bar].forEach((n) => pluck(n, tb + b * beat, beat * 0.55, 0.045, 'triangle'));
+        }
+      }
+      let tm = t0;
+      melody.forEach(([m, d]) => { pluck(m, tm, d * beat, 0.12, 'triangle'); tm += d * beat; });
+      nextLoop += 8 * barLen;
+    }
+  };
+  scheduleLoop();
+  const loopTimer = setInterval(scheduleLoop, 400);
+  return { ctx, timers: [loopTimer] };
+}
+
 mareBtn.addEventListener('click', () => {
-  if (sea) {
-    clearInterval(sea.gullTimer);
-    sea.ctx.close();
-    sea = null;
-    mareBtn.setAttribute('aria-pressed', 'false');
-    mareBtn.querySelector('.mare-label').textContent = 'aria di mare';
-  } else {
-    sea = seaStart();
+  radioStop();
+  radioMode = (radioMode + 1) % 3;
+  if (radioMode === 1) {
+    radio = musicaStart();
+    mareIco.textContent = '🎶';
+    mareLabel.textContent = 'musica…';
     mareBtn.setAttribute('aria-pressed', 'true');
-    mareBtn.querySelector('.mare-label').textContent = 'la mer… 🐚';
+  } else if (radioMode === 2) {
+    radio = seaStart();
+    mareIco.textContent = '🌊';
+    mareLabel.textContent = 'la mer…';
+    mareBtn.setAttribute('aria-pressed', 'true');
+  } else {
+    mareIco.textContent = '📻';
+    mareLabel.textContent = 'radio dolce vita';
+    mareBtn.setAttribute('aria-pressed', 'false');
   }
+});
+
+// Formulaire de devis → WhatsApp ou email
+const devisForm = document.getElementById('devis-form');
+const devisError = document.getElementById('devis-error');
+function devisMessage() {
+  const v = (id) => document.getElementById(id).value.trim();
+  const required = ['f-nom', 'f-tel', 'f-date', 'f-convives', 'f-lieu'];
+  let ok = true;
+  required.forEach((id) => {
+    const el = document.getElementById(id);
+    el.classList.toggle('err', !el.value.trim());
+    if (!el.value.trim()) ok = false;
+  });
+  devisError.hidden = ok;
+  if (!ok) return null;
+  const lines = [
+    'Ciao Tre Mor Si ! Demande de devis 🍢',
+    '👤 ' + v('f-nom') + ' — ' + v('f-tel'),
+    '📅 ' + v('f-date') + (v('f-heure') ? ' à ' + v('f-heure') : ''),
+    '👥 ' + v('f-convives') + ' convives',
+    '📍 ' + v('f-lieu'),
+    '🎉 ' + v('f-type') + ' · ' + v('f-formule'),
+  ];
+  if (v('f-msg')) lines.push('💬 ' + v('f-msg'));
+  return lines.join('\n');
+}
+devisForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const msg = devisMessage();
+  if (msg) window.open('https://wa.me/32495802201?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+});
+document.getElementById('devis-mail').addEventListener('click', () => {
+  const msg = devisMessage();
+  if (msg) location.href = 'mailto:Tressy_colombo@hotmail.com?subject=' +
+    encodeURIComponent('Demande de devis — Tre Mor Si') + '&body=' + encodeURIComponent(msg);
 });
 </script>
 </body>
