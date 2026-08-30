@@ -263,23 +263,28 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 }
 
 /* ---------- Galerie ---------- */
-.gallery{display:grid;gap:1.2rem}
-@media (min-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
-@media (min-width:900px){.gallery{grid-template-columns:repeat(3,1fr)}}
+.gallery{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:3px;
+  border:1px solid var(--ink);border-radius:14px;overflow:hidden;
+  background:var(--ink-15);
+}
 .shot{
-  position:relative;display:block;overflow:hidden;border-radius:10px;
-  border:1px solid var(--ink);text-decoration:none;background:var(--crema-2);
+  position:relative;display:block;overflow:hidden;
+  border:none;border-radius:0;text-decoration:none;background:var(--crema-2);
   padding:0;cursor:zoom-in;font:inherit;text-align:left;
 }
 .shot img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform .5s ease}
-.shot:hover img,.shot:focus-visible img{transform:scale(1.05)}
+.shot:hover img,.shot:focus-visible img{transform:scale(1.06)}
 .shot .cap{
   position:absolute;left:0;right:0;bottom:0;
   padding:1.4rem .9rem .7rem;
   background:linear-gradient(transparent,rgba(26,26,22,.72));
   color:var(--crema);
-  font-family:var(--serif);font-style:italic;font-size:1.05rem;letter-spacing:.02em;
+  font-family:var(--serif);font-style:italic;font-size:1.02rem;letter-spacing:.02em;
+  opacity:0;transition:opacity .3s;
 }
+.shot:hover .cap,.shot:focus-visible .cap{opacity:1}
+@media (hover:none){.shot .cap{opacity:0}}
 .insta-row{
   margin-top:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
   border-top:1px solid var(--ink-15);padding-top:1.5rem;
@@ -459,6 +464,12 @@ footer{background:var(--ink);color:var(--crema)}
   font-family:var(--serif);font-style:italic;font-size:1.25rem;
   color:var(--crema);margin-top:.9rem;
 }
+.lb-count{
+  color:rgba(247,242,231,.6);font-size:.85rem;letter-spacing:.18em;
+  margin-top:.3rem;font-variant-numeric:tabular-nums;
+}
+.lightbox img{transition:opacity .18s}
+.lightbox img.fading{opacity:0}
 .lb-btn{
   position:absolute;width:46px;height:46px;border-radius:50%;
   background:var(--crema);color:var(--ink);border:1px solid var(--ink);
@@ -495,7 +506,7 @@ footer{background:var(--ink);color:var(--crema)}
         <li class="only-desktop"><a href="#concept">Il viaggio</a></li>
         <li class="only-desktop"><a href="#gallery">Galerie</a></li>
         <li><a href="#menu">Menu</a></li>
-        <li><a class="pill" href="#devis">Devis 🎉</a></li>
+        <li><a class="pill" href="#devis">Réserver</a></li>
       </ul>
     </nav>
   </div>
@@ -808,6 +819,7 @@ footer{background:var(--ink);color:var(--crema)}
   <figure>
     <img id="lb-img" alt="">
     <figcaption id="lb-cap"></figcaption>
+    <p class="lb-count" id="lb-count"></p>
   </figure>
   <button class="lb-btn lb-next" id="lb-next" type="button" aria-label="Photo suivante">→</button>
 </div>
@@ -879,9 +891,14 @@ let lbIndex = 0;
 function lbShow(i) {
   lbIndex = (i + shots.length) % shots.length;
   const img = shots[lbIndex].querySelector('img');
-  lbImg.src = img.src;
-  lbImg.alt = img.alt;
-  lbCap.textContent = shots[lbIndex].querySelector('.cap').textContent;
+  lbImg.classList.add('fading');
+  setTimeout(() => {
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbCap.textContent = shots[lbIndex].querySelector('.cap').textContent;
+    document.getElementById('lb-count').textContent = (lbIndex + 1) + ' / ' + shots.length;
+    lbImg.onload = () => lbImg.classList.remove('fading');
+  }, 120);
 }
 function lbOpen(i) { lbShow(i); lb.hidden = false; document.body.style.overflow = 'hidden'; }
 function lbClose() { lb.hidden = true; document.body.style.overflow = ''; }
