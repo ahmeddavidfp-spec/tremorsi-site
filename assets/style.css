@@ -128,7 +128,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 
 /* ---------- La strada : Fiat 500 + remorque ---------- */
 .strada{
-  display:block;width:100%;height:128px;position:relative;
+  display:block;width:100%;height:134px;margin-top:.3rem;position:relative;
   background:none;border:none;padding:0;cursor:pointer;
   overflow:hidden;overflow:clip;
 }
@@ -215,7 +215,7 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 
 /* ---------- Hero ---------- */
 .hero{
-  padding:clamp(3rem,9vh,6.5rem) var(--gutter) 0;
+  padding:clamp(.7rem,2vh,1.4rem) var(--gutter) 0;
   background:
     radial-gradient(55% 42% at 80% -10%, rgba(255,164,64,.5), rgba(255,164,64,0) 62%),
     radial-gradient(90% 60% at 50% -15%, rgba(255,205,125,.55), rgba(255,205,125,0) 70%),
