@@ -177,8 +177,9 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 /* ---------- La storia ---------- */
 .storia-grid{display:grid;gap:2.5rem}
 @media (min-width:860px){.storia-grid{grid-template-columns:.8fr 1.2fr;gap:4.5rem;align-items:center}}
+.storia-pics{position:relative;max-width:24rem}
 .storia-fig{
-  margin:0;max-width:24rem;
+  margin:0;
   border:1px solid var(--ink);border-radius:14px;overflow:hidden;
   background:#FCFAF3;transform:rotate(-1.3deg);
   box-shadow:5px 5px 0 var(--ink-15);
@@ -186,8 +187,16 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 .storia-fig figcaption{
   font-family:var(--serif);font-style:italic;font-size:1.05rem;
   text-align:center;padding:.55rem;color:var(--ink-55);
-  border-top:1px solid var(--ink-15);
+  border-top:1px solid var(--ink-15);background:#fff;
 }
+.storia-fig .cuore{color:var(--rosso)}
+.storia-fig.mini{
+  position:absolute;right:-1.2rem;bottom:-1.8rem;width:38%;
+  transform:rotate(3.5deg);border-radius:8px;
+  box-shadow:4px 4px 0 var(--ink-15);
+}
+.storia-fig.mini figcaption{font-size:.8rem;padding:.3rem}
+@media (max-width:860px){.storia-pics{margin-bottom:2rem}}
 .storia-txt p{max-width:34rem;color:var(--ink-55);margin-top:1rem}
 .storia-txt p:first-of-type{margin-top:1.1rem}
 .promessa{list-style:none;margin-top:2.1rem;display:grid;gap:1rem;max-width:34rem}
@@ -254,8 +263,13 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 
 /* ---------- Galerie ---------- */
 .gallery{display:grid;gap:1.2rem}
-@media (min-width:720px){.gallery{grid-template-columns:repeat(4,1fr)}}
-.shot{position:relative;display:block;overflow:hidden;border-radius:10px;border:1px solid var(--ink);text-decoration:none;background:var(--crema-2)}
+@media (min-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.gallery{grid-template-columns:repeat(3,1fr)}}
+.shot{
+  position:relative;display:block;overflow:hidden;border-radius:10px;
+  border:1px solid var(--ink);text-decoration:none;background:var(--crema-2);
+  padding:0;cursor:zoom-in;font:inherit;text-align:left;
+}
 .shot img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform .5s ease}
 .shot:hover img,.shot:focus-visible img{transform:scale(1.05)}
 .shot .cap{
@@ -411,6 +425,66 @@ footer{background:var(--ink);color:var(--crema)}
 .foot-si span{color:var(--rosso)}
 .foot-si:hover{letter-spacing:.04em}
 
+/* ---------- Novità ---------- */
+.novita{
+  display:inline-block;font-family:var(--sans);font-style:normal;font-weight:700;
+  font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;
+  background:var(--limone);color:var(--ink);
+  border-radius:999px;padding:.1rem .55rem;margin-left:.35rem;
+  transform:rotate(-2deg);vertical-align:middle;
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(20,17,12,.93);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(.8rem,3vw,2.5rem);
+}
+.lightbox[hidden]{display:none}
+.lightbox figure{margin:0;max-width:min(88vw,900px);text-align:center}
+.lightbox img{
+  max-height:76vh;max-width:100%;width:auto;margin:0 auto;
+  border:2px solid var(--crema);border-radius:10px;
+}
+.lightbox figcaption{
+  font-family:var(--serif);font-style:italic;font-size:1.25rem;
+  color:var(--crema);margin-top:.9rem;
+}
+.lb-btn{
+  position:absolute;width:46px;height:46px;border-radius:50%;
+  background:var(--crema);color:var(--ink);border:1px solid var(--ink);
+  font-size:1.15rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s;
+}
+.lb-btn:hover{transform:scale(1.1)}
+.lb-close{top:1rem;right:1rem}
+.lb-prev{left:.8rem;top:50%;transform:translateY(-50%)}
+.lb-next{right:.8rem;top:50%;transform:translateY(-50%)}
+.lb-prev:hover{transform:translateY(-50%) scale(1.1)}
+.lb-next:hover{transform:translateY(-50%) scale(1.1)}
+
+/* ---------- Aria di mare ---------- */
+.mare{
+  position:fixed;bottom:calc(1.15rem + env(safe-area-inset-bottom, 0px));left:1.15rem;z-index:70;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--crema);border:1.5px solid var(--ink);
+  font-size:1.45rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 5px 16px rgba(26,26,22,.2);
+  transition:transform .18s, background .2s;
+}
+.mare:hover{transform:scale(1.08)}
+.mare[aria-pressed="true"]{background:#CFE3D6;animation:mare-bob 3.2s ease-in-out infinite}
+@keyframes mare-bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+.mare-label{
+  position:absolute;left:calc(100% + .7rem);top:50%;transform:translateY(-50%);
+  background:var(--crema);border:1.5px solid var(--ink);border-radius:999px;
+  font-family:var(--serif);font-style:italic;font-size:.98rem;white-space:nowrap;
+  padding:.4rem .9rem;opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.mare:hover .mare-label,.mare[aria-pressed="true"] .mare-label{opacity:1}
+
 /* ---------- Reveal ---------- */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
@@ -445,7 +519,7 @@ footer{background:var(--ink);color:var(--crema)}
       <p class="hero-meta">Food truck italiano · Fleurus — Charleroi</p>
       <h1>Ogni <span class="it">morso</span> raconte l’Italie.</h1>
       <p class="hero-sub">
-        Arrosticini grillés à la braise, moules à la plancha, puccia dorée.
+        Arrosticini qui grésillent, moules à la plancha, puccia dorée.
         L’Italie du Nord au Sud, préparée à la minute devant vous —
         la dolce vita, servie à votre coin de rue.
       </p>
@@ -503,10 +577,16 @@ footer{background:var(--ink);color:var(--crema)}
   <section class="section" id="storia">
     <div class="section-inner">
       <div class="storia-grid">
-        <figure class="storia-fig reveal">
-          <img src="assets/noi.jpg" alt="Le couple Tre Mor Si derrière le comptoir du camion, dessiné au trait" loading="lazy" width="435" height="500">
-          <figcaption>noi due, dietro al banco</figcaption>
-        </figure>
+        <div class="storia-pics reveal">
+          <figure class="storia-fig">
+            <img src="assets/loro-due.jpg" alt="Tressy et son compagnon — un baiser sur le front, au soleil" loading="lazy" width="960" height="960">
+            <figcaption>noi due <span class="cuore">♥</span></figcaption>
+          </figure>
+          <figure class="storia-fig mini">
+            <img src="assets/noi.jpg" alt="Le couple dessiné au trait, derrière le comptoir du camion" loading="lazy" width="435" height="500">
+            <figcaption>dietro al banco</figcaption>
+          </figure>
+        </div>
         <div class="storia-txt reveal">
           <p class="sec-label">Chi siamo</p>
           <h2>Deux, un camion, <span class="it">et toute l’Italie.</span></h2>
@@ -547,7 +627,7 @@ footer{background:var(--ink);color:var(--crema)}
         <li class="reveal">
           <p class="regione">Abruzzo — les montagnes</p>
           <h3>Gli arrosticini</h3>
-          <p>Les brochettes d’agneau grillées à la braise sous vos yeux. Simples, fumées, addictives.</p>
+          <p>Les brochettes d’agneau marinées, grillées à la minute sous vos yeux. Simples, fumées, addictives.</p>
         </li>
         <li class="reveal">
           <p class="regione">Puglia — le talon de la botte</p>
@@ -577,33 +657,33 @@ footer{background:var(--ink);color:var(--crema)}
       </div>
       <div class="menu-cols reveal">
         <div class="menu-cat">
-          <h3>Arrosticini</h3>
-          <div class="menu-item"><span class="name">Arrosticini classici ×10<small>agneau, braise, sel — la tradition d’Abruzzo</small></span><span class="dots"></span><span class="price">10 €</span></div>
-          <div class="menu-item"><span class="name">Arrosticini ×20<small>pour les vrais affamati</small></span><span class="dots"></span><span class="price">18 €</span></div>
-          <div class="menu-item"><span class="name">Pane, olio &amp; arrosticini<small>le combo complet, comme là-bas</small></span><span class="dots"></span><span class="price">13 €</span></div>
+          <h3>Le Pucce Salentine</h3>
+          <div class="menu-item"><span class="name">Porca Miseria<small>porchetta, caciocavallo, rucola, oignons confits au balsamique</small></span></div>
+          <div class="menu-item"><span class="name">Freschissima<small>bresaola, stracciatella, rucola &amp; radicchio de saison, orange, noix, huile EVO au basilic</small></span></div>
+          <div class="menu-item"><span class="name">Mó&nbsp;!<small>mortadella, stracciatella, rucola, pesto de tomates séchées, crème de balsamique</small></span></div>
+          <div class="menu-item"><span class="name">Veggie<small>aubergines &amp; courgettes grillées, stracciatella, artichauts, menthe fraîche, huile au citron</small></span></div>
+          <div class="menu-item"><span class="name">Polpo<small>poulpe grillé, pommes de terre rôties, courgettes, stracciatella, zeste de citron</small></span></div>
+          <div class="menu-item"><span class="name">Puccia dolce<small>duo crema di Nutella &amp; pistacchio</small></span></div>
         </div>
         <div class="menu-cat">
-          <h3>Puccia</h3>
-          <div class="menu-item"><span class="name">Puccia salsiccia<small>saucisse italienne, friarielli, provola</small></span><span class="dots"></span><span class="price">9 €</span></div>
-          <div class="menu-item"><span class="name">Puccia caprese<small>mozzarella, tomate, basilic, olio EVO</small></span><span class="dots"></span><span class="price">8 €</span></div>
-          <div class="menu-item"><span class="name">Puccia Nutella<small>la douceur de fin de service</small></span><span class="dots"></span><span class="price">6 €</span></div>
+          <h3>Alla plancha</h3>
+          <div class="menu-item"><span class="name">Arrosticini<small>brochettes d’agneau marinées &amp; grillées, sel — la tradition d’Abruzzo</small></span></div>
+          <div class="menu-item"><span class="name">Moules à la plancha<small>ail, persil, basilic frais, vin blanc</small></span></div>
+          <div class="menu-item"><span class="name">La Frisa <em class="novita">novità&nbsp;!</em><small>tomates fraîches, oignons rouges, stracciatella, basilic &amp; huile d’olive</small></span></div>
         </div>
         <div class="menu-cat">
-          <h3>Moules &amp; Aperitivo</h3>
-          <div class="menu-item"><span class="name">Moules à la plancha<small>ail, persil, basilic frais, vin blanc</small></span><span class="dots"></span><span class="price">12 €</span></div>
-          <div class="menu-item"><span class="name">Planche apéritive<small>charcuteries &amp; fromages importés d’Italie</small></span><span class="dots"></span><span class="price">15 €</span></div>
-          <div class="menu-item"><span class="name">Olive &amp; grissini</span><span class="dots"></span><span class="price">4 €</span></div>
+          <h3>Aperitivo</h3>
+          <div class="menu-item"><span class="name">Planche apéritive<small>charcuteries &amp; fromages importés d’Italie, grissini, taralli, olives</small></span></div>
+          <div class="menu-item"><span class="name">Aperol Spritz<small>le rituel, bien frais</small></span></div>
         </div>
         <div class="menu-cat">
-          <h3>Dolci &amp; Drinks</h3>
-          <div class="menu-item"><span class="name">Cannolo siciliano<small>croquant, ricotta douce — comme à Palerme</small></span><span class="dots"></span><span class="price">4 €</span></div>
-          <div class="menu-item"><span class="name">Tiramisù della casa</span><span class="dots"></span><span class="price">4,5 €</span></div>
-          <div class="menu-item"><span class="name">Aperol Spritz</span><span class="dots"></span><span class="price">6 €</span></div>
-          <div class="menu-item"><span class="name">Limonata / Chinotto</span><span class="dots"></span><span class="price">3 €</span></div>
-          <div class="menu-item"><span class="name">Caffè espresso</span><span class="dots"></span><span class="price">2 €</span></div>
+          <h3>Dolci &amp; Caffè</h3>
+          <div class="menu-item"><span class="name">Cannoli siciliani<small>pistache ou chocolat, ricotta douce — comme à Palerme</small></span></div>
+          <div class="menu-item"><span class="name">Limonata / Chinotto</span></div>
+          <div class="menu-item"><span class="name">Caffè espresso</span></div>
         </div>
       </div>
-      <p class="menu-note reveal">Menu et prix donnés à titre indicatif — la carte du jour vit sur Instagram.</p>
+      <p class="menu-note reveal">Les prix et la carte du jour sont affichés au camion — et racontés sur Instagram.</p>
     </div>
   </section>
 
@@ -613,23 +693,31 @@ footer{background:var(--ink);color:var(--crema)}
         <p class="sec-label">Dal vivo</p>
         <h2>Un aperçu, <span class="it">dal banco.</span></h2>
       </div>
-      <div class="gallery reveal">
-        <a class="shot" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-          <img src="assets/cozze.jpg" alt="Bol de moules au citron et persil" loading="lazy">
+      <div class="gallery reveal" id="gallery-grid">
+        <button class="shot" type="button">
+          <img src="assets/puccia-mano.jpg" alt="Puccia mortadella-stracciatella tenue en main devant les carreaux colorés du camion" loading="lazy">
+          <span class="cap">la puccia du jour</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/cozze.jpg" alt="Bol de moules à la plancha, citron et persil" loading="lazy">
           <span class="cap">moules à la plancha</span>
-        </a>
-        <a class="shot" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-          <img src="assets/aperitivo.jpg" alt="Planche aperitivo : charcuteries, olives, grissini et moules" loading="lazy">
-          <span class="cap">aperitivo</span>
-        </a>
-        <a class="shot" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-          <img src="assets/limoni.jpg" alt="Citrons jaunes sous un filet d'eau" loading="lazy">
-          <span class="cap">il sole in cucina</span>
-        </a>
-        <a class="shot" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">
-          <img src="assets/riviera.jpg" alt="Illustration rétro : maillot rouge séchant sur fond de rayures vertes" loading="lazy">
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/taglieri.jpg" alt="Deux planches apéritives : charcuteries, fromages, olives et grissini" loading="lazy">
+          <span class="cap">aperitivo time</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/bici.jpg" alt="Guidon de vélo avec panier : grissini et bière italienne au soleil" loading="lazy">
+          <span class="cap">la tournée du matin</span>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/vespa.jpg" alt="Illustration pastel d'une Vespa fleurie" loading="lazy">
           <span class="cap">dolce vita</span>
-        </a>
+        </button>
+        <button class="shot" type="button">
+          <img src="assets/limoni.jpg" alt="Citrons jaunes sous un filet d'eau, peinture ensoleillée" loading="lazy">
+          <span class="cap">il sole in cucina</span>
+        </button>
       </div>
       <div class="insta-row reveal">
         <p>Le quotidien du truck se raconte sur Instagram —</p>
@@ -661,7 +749,7 @@ footer{background:var(--ink);color:var(--crema)}
         <aside class="privat reveal">
           <h3>Privatisez le truck, <i>si festeggia.</i></h3>
           <p>Mariage, anniversaire, événement d’entreprise ou fête de village :
-          on arrive avec la braise, la puccia et la bonne humeur italienne.</p>
+          on arrive avec la plancha, les pucce et la bonne humeur italienne.</p>
           <a class="tel" href="tel:+32495802201">0495 80 22 01</a>
           <a class="btn" href="mailto:Tressy_colombo@hotmail.com?subject=Privatisation%20food%20truck%20Tre%20Mor%20Si">Demander un devis <span class="arr">→</span></a>
         </aside>
@@ -669,6 +757,20 @@ footer{background:var(--ink);color:var(--crema)}
     </div>
   </section>
 </main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerie photos" hidden>
+  <button class="lb-btn lb-close" id="lb-close" type="button" aria-label="Fermer">✕</button>
+  <button class="lb-btn lb-prev" id="lb-prev" type="button" aria-label="Photo précédente">←</button>
+  <figure>
+    <img id="lb-img" alt="">
+    <figcaption id="lb-cap"></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" id="lb-next" type="button" aria-label="Photo suivante">→</button>
+</div>
+
+<button class="mare" id="mare" type="button" aria-pressed="false" aria-label="Ambiance sonore : la mer Méditerranée">
+  🌊<span class="mare-label">aria di mare</span>
+</button>
 
 <a class="wa" href="https://wa.me/32495802201?text=Ciao%20Tre%20Mor%20Si%20!%20%F0%9F%8D%A2%20Je%20vous%20%C3%A9cris%20depuis%20le%20site%20%E2%80%94" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp">
   <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" fill="#FCFAF3">
@@ -753,6 +855,99 @@ mordimi.addEventListener('click', () => {
 const waBubble = document.getElementById('wa-bubble');
 setTimeout(() => waBubble.classList.add('show'), 3500);
 setTimeout(() => waBubble.classList.remove('show'), 11000);
+
+// Lightbox de la galerie
+const shots = [...document.querySelectorAll('#gallery-grid .shot')];
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbCap = document.getElementById('lb-cap');
+let lbIndex = 0;
+function lbShow(i) {
+  lbIndex = (i + shots.length) % shots.length;
+  const img = shots[lbIndex].querySelector('img');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbCap.textContent = shots[lbIndex].querySelector('.cap').textContent;
+}
+function lbOpen(i) { lbShow(i); lb.hidden = false; document.body.style.overflow = 'hidden'; }
+function lbClose() { lb.hidden = true; document.body.style.overflow = ''; }
+shots.forEach((s, i) => s.addEventListener('click', () => lbOpen(i)));
+document.getElementById('lb-close').addEventListener('click', lbClose);
+document.getElementById('lb-prev').addEventListener('click', () => lbShow(lbIndex - 1));
+document.getElementById('lb-next').addEventListener('click', () => lbShow(lbIndex + 1));
+lb.addEventListener('click', (e) => { if (e.target === lb) lbClose(); });
+document.addEventListener('keydown', (e) => {
+  if (lb.hidden) return;
+  if (e.key === 'Escape') lbClose();
+  if (e.key === 'ArrowLeft') lbShow(lbIndex - 1);
+  if (e.key === 'ArrowRight') lbShow(lbIndex + 1);
+});
+let touchX = null;
+lb.addEventListener('pointerdown', (e) => { touchX = e.clientX; });
+lb.addEventListener('pointerup', (e) => {
+  if (touchX === null) return;
+  const dx = e.clientX - touchX;
+  if (Math.abs(dx) > 45) lbShow(lbIndex + (dx < 0 ? 1 : -1));
+  touchX = null;
+});
+
+// Aria di mare : la Méditerranée en WebAudio (vagues + mouettes), zéro fichier
+const mareBtn = document.getElementById('mare');
+let sea = null;
+function seaStart() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const master = ctx.createGain();
+  master.gain.value = 0;
+  master.connect(ctx.destination);
+  master.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 2);
+  const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+  const data = noiseBuf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  const makeWave = (freqLfo, cutoff, base, amp) => {
+    const src = ctx.createBufferSource();
+    src.buffer = noiseBuf; src.loop = true;
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass'; lp.frequency.value = cutoff; lp.Q.value = 0.4;
+    const g = ctx.createGain(); g.gain.value = base;
+    const lfo = ctx.createOscillator(); lfo.frequency.value = freqLfo;
+    const lfoG = ctx.createGain(); lfoG.gain.value = amp;
+    lfo.connect(lfoG); lfoG.connect(g.gain);
+    src.connect(lp); lp.connect(g); g.connect(master);
+    src.start(); lfo.start();
+  };
+  makeWave(0.07, 480, 0.16, 0.11);   // la houle lente
+  makeWave(0.115, 900, 0.09, 0.07);  // le clapotis
+  const gull = () => {
+    const t = ctx.currentTime + 0.05;
+    for (let k = 0; k < 2; k++) {
+      const o = ctx.createOscillator(); const og = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(1350 - k * 120, t + k * 0.28);
+      o.frequency.exponentialRampToValueAtTime(880, t + k * 0.28 + 0.3);
+      og.gain.setValueAtTime(0, t + k * 0.28);
+      og.gain.linearRampToValueAtTime(0.05, t + k * 0.28 + 0.06);
+      og.gain.linearRampToValueAtTime(0, t + k * 0.28 + 0.32);
+      o.connect(og); og.connect(master);
+      o.start(t + k * 0.28); o.stop(t + k * 0.28 + 0.4);
+    }
+  };
+  const gullTimer = setInterval(() => { if (Math.random() < 0.7) gull(); }, 11000);
+  setTimeout(gull, 4000);
+  return { ctx, gullTimer };
+}
+mareBtn.addEventListener('click', () => {
+  if (sea) {
+    clearInterval(sea.gullTimer);
+    sea.ctx.close();
+    sea = null;
+    mareBtn.setAttribute('aria-pressed', 'false');
+    mareBtn.querySelector('.mare-label').textContent = 'aria di mare';
+  } else {
+    sea = seaStart();
+    mareBtn.setAttribute('aria-pressed', 'true');
+    mareBtn.querySelector('.mare-label').textContent = 'la mer… 🐚';
+  }
+});
 </script>
 </body>
 </html>
