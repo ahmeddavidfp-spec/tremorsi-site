@@ -28,7 +28,7 @@
 .prose a{color:var(--rosso)}
 .blog-card{display:block;border:1px solid var(--ink);border-radius:14px;padding:1.6rem;background:var(--carta);text-decoration:none;box-shadow:5px 5px 0 var(--ink-15);transition:transform .18s}
 .blog-card:hover{transform:translateY(-4px)}
-.blog-card h3{font-family:var(--serif);font-weight:400;font-size:1.6rem;margin:.3rem 0 .4rem}
+.blog-card h3,.blog-card .blog-card-title{font-family:var(--serif);font-weight:400;font-size:1.6rem;margin:.3rem 0 .4rem}
 .blog-card p{color:var(--ink-55);font-size:.97rem}
 .blog-grid{display:grid;gap:1.4rem;max-width:44rem}
 </style>
@@ -37,7 +37,7 @@
 
 <header class="topwrap">
   <div class="topbar">
-    <a class="wordmark" href="/" aria-label="Tre Mor Si - accueil"><img src="/assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
+    <a class="wordmark" href="/" aria-label="Tre Mor Si - accueil"><img src="/assets/logo.png" alt="Tre Mor Si" class="logo-img" width="1017" height="327"></a>
     <nav aria-label="Navigation principale">
       <ul class="topbar-nav">
         <li class="only-desktop"><a href="/menu.html">La carte</a></li>
@@ -95,13 +95,13 @@
       <div class="blog-grid">
         <a class="blog-card reveal" href="/blog/la-puccia-salentine.html">
           <p class="sec-label" style="margin-bottom:.2rem">Puglia</p>
-          <h3>La puccia salentine, le sandwich qui a du soleil dedans</h3>
+          <h2 class="blog-card-title">La puccia salentine, le sandwich qui a du soleil dedans</h2>
           <p>D&rsquo;o&ugrave; vient ce petit pain du Salento, pourquoi on le p&eacute;trit le matin m&ecirc;me,
           et comment on le garnit chez Tre Mor Si.</p>
         </a>
         <a class="blog-card reveal" href="/blog/arrosticini-abruzzes.html">
           <p class="sec-label" style="margin-bottom:.2rem">Abruzzo</p>
-          <h3>Arrosticini : la brochette des bergers des Abruzzes</h3>
+          <h2 class="blog-card-title">Arrosticini : la brochette des bergers des Abruzzes</h2>
           <p>Une tradition de montagne, un geste de sel, et pourquoi on ne les mange jamais un par un.</p>
         </a>
       </div>
@@ -126,7 +126,7 @@
       <p class="foot-tag">ogni morso racconta l&rsquo;Italia</p>
     </div>
     <div>
-      <h4>Pages</h4>
+      <h2 class="blog-card-title">Pages</h2>
       <ul>
         <li><a href="/">Accueil</a></li>
         <li><a href="/menu.html">La carte</a></li>
@@ -138,7 +138,7 @@
       </ul>
     </div>
     <div>
-      <h4>Contact</h4>
+      <h2 class="blog-card-title">Contact</h2>
       <ul>
         <li><a href="tel:+32495802201">0495 80 22 01</a></li>
         <li><a href="mailto:contact@tremorsi.com">contact@tremorsi.com</a></li>
@@ -147,7 +147,7 @@
       </ul>
     </div>
     <div>
-      <h4>Zone</h4>
+      <h2 class="blog-card-title">Zone</h2>
       <ul>
         <li>Fleurus &middot; Charleroi &amp; alentours</li>
         <li>March&eacute;s &middot; &eacute;v&eacute;nements &middot; privatisations</li>

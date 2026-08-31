@@ -377,12 +377,12 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 #menu .sec-lead{color:rgba(255,253,247,.65)}
 .menu-cols{display:grid;gap:2.6rem}
 @media (min-width:720px){.menu-cols{grid-template-columns:1fr 1fr;gap:3rem 4rem}}
-.menu-cat h3{
+.menu-cat h3,.menu-cat .menu-cat-title{
   font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.24em;
   color:var(--limone);
   display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem;
 }
-.menu-cat h3::after{content:"";height:1px;background:rgba(255,253,247,.25);flex:1}
+.menu-cat h3::after,.menu-cat .menu-cat-title::after{content:"";height:1px;background:rgba(255,253,247,.25);flex:1}
 .menu-item{display:flex;align-items:baseline;gap:.7rem;padding:.5rem 0}
 .menu-item .name{font-weight:500}
 .menu-item .name small{
@@ -474,7 +474,7 @@ footer{background:var(--ink);color:var(--crema)}
 .foot-logo{font-family:var(--serif);font-size:2.1rem;line-height:1.05}
 .foot-logo i{font-style:italic;color:var(--rosso)}
 .foot-tag{font-family:var(--serif);font-style:italic;color:rgba(255,253,247,.6);margin-top:.4rem}
-.foot-inner h4{
+.foot-inner h4,.foot-inner h3{
   font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.22em;
   color:rgba(255,253,247,.5);margin-bottom:.8rem;
 }
