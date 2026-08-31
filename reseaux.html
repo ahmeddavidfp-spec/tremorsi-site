@@ -138,7 +138,7 @@
         <p class="sec-lead">Les derni&egrave;res publications, telles qu&rsquo;elles apparaissent sur nos r&eacute;seaux.</p>
       </div>
 
-      <div class="live-grid reveal">
+      <div class="live-stack reveal">
         <div class="live-col">
           <h3 class="live-title">Instagram</h3>
           <div id="ig-feed" class="ig-feed"></div>
@@ -147,8 +147,8 @@
         </div>
       </div>
 
-      <p class="live-note reveal">Le flux ne s&rsquo;affiche pas&nbsp;? Certains navigateurs bloquent les contenus externes -
-      les liens ci-dessus ouvrent directement nos pages.</p>
+      <p class="live-note reveal">Les publications viennent directement d&rsquo;Instagram et Facebook. Si votre navigateur bloque les contenus externes,
+      les liens ci-dessus ouvrent nos pages.</p>
     </div>
   </section>
 
@@ -243,16 +243,15 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.
 
 </script>
 
-<script async src="https://www.instagram.com/embed.js"></script>
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0">
 </script>
 <script>
-// Mur Instagram : 6 derniers posts, rafraîchis chaque semaine par le Worker
+// Mur Instagram : 6 dernières publications en iframes directes (aucun script tiers requis)
 (async () => {
   const box = document.getElementById('ig-feed');
   if (!box) return;
-  const FALLBACK = ['Dcsxtr7IAg4', 'Dcswx2IIEIJ', 'DcswNk2IZDh'];
+  const FALLBACK = ['Dcsxtr7IAg4', 'Dcswx2IIEIJ', 'DcswNk2IZDh', 'Dcsv6R0IZ7a', 'Da_i2uSoYl1', 'Da_idALoMEy'];
   let posts = FALLBACK;
   try {
     const r = await fetch('https://agenda.tremorsi.com/instagram', { signal: AbortSignal.timeout(3500) });
@@ -262,18 +261,11 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.
     }
   } catch (e) { /* repli silencieux */ }
   box.innerHTML = posts.slice(0, 6).map((code) =>
-    '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/' + code + '/" data-instgrm-version="14"' +
-    ' style="background:#FFF;border:1px solid rgba(26,26,22,.15);border-radius:14px;margin:0 0 14px;max-width:540px;min-width:260px;padding:0;width:100%">' +
-    '<div style="padding:14px 16px"><a href="https://www.instagram.com/p/' + code + '/" target="_blank" rel="noopener"' +
-    ' style="text-decoration:none;color:#1A1A16">Publication de <b>@tre.mor.si</b> sur Instagram</a></div></blockquote>'
+    '<div class="ig-card"><iframe src="https://www.instagram.com/p/' + code + '/embed/" ' +
+    'loading="lazy" scrolling="no" frameborder="0" allowtransparency="true" ' +
+    'title="Publication Instagram de tre.mor.si"></iframe></div>'
   ).join('');
-  // (re)lancer le rendu des embeds une fois le script Instagram chargé
-  const render = () => { if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process(); };
-  render();
-  setTimeout(render, 800);
-  setTimeout(render, 2500);
 })();
-
 </script>
 </body>
 </html>

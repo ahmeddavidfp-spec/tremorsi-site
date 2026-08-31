@@ -843,6 +843,16 @@ footer{background:var(--ink);color:var(--crema)}
 .social-card:hover .arr{transform:translateX(4px)}
 .live-grid{display:grid;gap:1.6rem}
 @media (min-width:860px){.live-grid{grid-template-columns:1fr 1fr;align-items:start}}
+.live-stack{display:grid;gap:2.2rem}
+.ig-feed{display:grid;grid-template-columns:1fr;gap:1rem}
+@media (min-width:560px){.ig-feed{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.ig-feed{grid-template-columns:repeat(3,1fr)}}
+.ig-card{
+  border:1px solid var(--ink);border-radius:14px;overflow:hidden;
+  background:#fff;box-shadow:4px 4px 0 var(--ink-15);
+  aspect-ratio:1 / 1.28;
+}
+.ig-card iframe{width:100%;height:100%;display:block;border:0}
 .live-col{min-width:0}
 .live-title{
   font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.24em;
