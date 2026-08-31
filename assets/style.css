@@ -128,6 +128,9 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
 .pill:hover,.pill:focus-visible{transform:scale(1.05);box-shadow:0 3px 10px rgba(26,26,22,.18)}
 .only-desktop{display:none}
 @media (min-width:720px){.only-desktop{display:inline}}
+/* Liens secondaires : seulement quand la barre a vraiment la place (nav complet = 828px + logo) */
+.only-large{display:none}
+@media (min-width:1080px){.only-large{display:inline}}
 
 /* ---------- La strada : Fiat 500 + remorque ---------- */
 .strada{
@@ -741,8 +744,8 @@ footer{background:var(--ink);color:var(--crema)}
 .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:1079px){ .burger{display:flex} }
 @media (max-width:719px){
-  .burger{display:flex}
   .topbar-nav li:not(:last-child){display:none}
 }
 .mobnav{

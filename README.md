@@ -33,6 +33,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `reseaux.html` | Réseaux sociaux : cartes + murs Instagram/Facebook en iframes directes |
 | `faq.html` | 14 questions fréquentes en accordéons + JSON-LD FAQPage |
 | `dove-andiamo.html` | Vote des communes : les visiteurs réclament le camion chez eux |
+| `olivier.html` | **Olivier** - le top 10 des plats à manger en Italie : compte à rebours 10→1, une couleur par région, secret à révéler, JSON-LD `ItemList` |
 | `passaporto.html` | Carte de fidélité : 5 régions à tamponner **avec le code du jour remis au camion**, dolce offert au tour complet |
 | `blog/index.html` + 2 articles | La puccia salentine · Arrosticini des Abruzzes |
 | `sitemap.xml`, `robots.txt` | SEO |
@@ -40,7 +41,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `assets/style.css` | **Feuille de style partagée par toutes les pages** |
 | `worker/` | Worker Cloudflare : API agenda + bot Telegram (voir §7) |
 
-**Navigation** - desktop : La carte · Privatiser · Blog · Contact · [Réserver].
+**Navigation** - desktop : La carte · Privatiser · Blog · Réseaux · Passaporto · Dove andiamo ? · FAQ · Olivier · Contact · [Réserver].
 Mobile : burger en 2 groupes (**Il sito** / **Scopri**) + bouton Réserver tricolore.
 
 ---
