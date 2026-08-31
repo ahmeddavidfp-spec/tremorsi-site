@@ -31,7 +31,7 @@
   "image": "https://tremorsi.com/assets/cover-truck.jpg",
   "logo": "https://tremorsi.com/assets/icons/icon-512.png",
   "telephone": "+32495802201",
-  "email": "Tressy_colombo@hotmail.com",
+  "email": "contact@tremorsi.com",
   "servesCuisine": "Italienne",
   "priceRange": "€€",
   "address": {
@@ -618,7 +618,7 @@
       <h4>Contact</h4>
       <ul>
         <li><a href="tel:+32495802201">0495 80 22 01</a></li>
-        <li><a href="mailto:Tressy_colombo@hotmail.com">Tressy_colombo@hotmail.com</a></li>
+        <li><a href="mailto:contact@tremorsi.com">contact@tremorsi.com</a></li>
       </ul>
     </div>
     <div>
@@ -1214,10 +1214,23 @@ devisForm.addEventListener('submit', (e) => {
   const msg = devisMessage();
   if (msg) window.open('https://wa.me/32495802201?text=' + encodeURIComponent(msg), '_blank', 'noopener');
 });
-document.getElementById('devis-mail').addEventListener('click', () => {
-  const msg = devisMessage();
-  if (msg) location.href = 'mailto:Tressy_colombo@hotmail.com?subject=' +
-    encodeURIComponent('Demande de devis - Tre Mor Si') + '&body=' + encodeURIComponent(msg);
+document.getElementById('devis-mail').addEventListener('click', async () => {
+  const m = devisMessage();
+  if (!m) return;
+  const btn = document.getElementById('devis-mail');
+  btn.disabled = true; btn.textContent = 'Envoi en cours…';
+  try {
+    const r = await fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ _subject: 'Demande de devis - tremorsi.com', demande: m }),
+    });
+    if (!r.ok) throw new Error('http');
+    btn.outerHTML = '<p class="form-ok">&#10003; Demande envoy&eacute;e ! On vous r&eacute;pond tr&egrave;s vite - grazie.</p>';
+  } catch (e) {
+    btn.disabled = false; btn.innerHTML = 'Ou par email <span class="arr">&rarr;</span>';
+    location.href = 'mailto:contact@tremorsi.com?subject=' + encodeURIComponent('Demande de devis - Tre Mor Si') + '&body=' + encodeURIComponent(m);
+  }
 });
 
 // Menu mobile

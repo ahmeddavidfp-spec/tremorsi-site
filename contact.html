@@ -88,7 +88,7 @@
         <div class="prose reveal">
           <h2 style="font-family:var(--serif);font-weight:400">Nous joindre</h2>
           <p>&#9742;&nbsp;T&eacute;l&eacute;phone &amp; WhatsApp&nbsp;: <a href="tel:+32495802201"><strong>0495 80 22 01</strong></a></p>
-          <p>&#9993;&nbsp;Email&nbsp;: <a href="mailto:Tressy_colombo@hotmail.com"><strong>Tressy_colombo@hotmail.com</strong></a></p>
+          <p>&#9993;&nbsp;Email&nbsp;: <a href="mailto:contact@tremorsi.com"><strong>contact@tremorsi.com</strong></a></p>
           <p>&#128247;&nbsp;Instagram&nbsp;: <a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener"><strong>@tre.mor.si</strong></a>
           &middot; Facebook&nbsp;: <a href="https://www.facebook.com/profile.php?id=61590317361492" target="_blank" rel="noopener"><strong>Tremorsi</strong></a></p>
           <p>&#128205;&nbsp;Base&nbsp;: <strong>Fleurus</strong> - le camion circule &agrave; Charleroi et alentours.
@@ -106,6 +106,24 @@
           </ul>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="ecrire" style="padding-top:0">
+    <div class="section-inner">
+      <div class="sec-head reveal">
+        <p class="sec-label">Scrivici</p>
+        <h2>&Eacute;crivez-nous, <span class="it">si legge tutto.</span></h2>
+      </div>
+      <form class="devis-form reveal" id="contact-form" novalidate>
+        <div class="field"><label for="c-nom2">Votre nom *</label><input id="c-nom2" type="text" required autocomplete="name" placeholder="Pr&eacute;nom &amp; nom"></div>
+        <div class="field"><label for="c-mail2">Votre email *</label><input id="c-mail2" type="email" required autocomplete="email" placeholder="pour vous r&eacute;pondre"></div>
+        <div class="field field-full"><label for="c-msg2">Votre message *</label><textarea id="c-msg2" rows="4" required placeholder="Une question, une envie, un compliment sur la puccia&hellip;"></textarea></div>
+        <p class="devis-error" id="contact-error" hidden>Il manque quelques infos - les champs marqu&eacute;s * sont n&eacute;cessaires.</p>
+        <div class="devis-actions field-full">
+          <button class="btn btn-solid" type="submit" id="contact-send">Envoyer le message <span class="arr">&rarr;</span></button>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -140,7 +158,7 @@
       <h4>Contact</h4>
       <ul>
         <li><a href="tel:+32495802201">0495 80 22 01</a></li>
-        <li><a href="mailto:Tressy_colombo@hotmail.com">Tressy_colombo@hotmail.com</a></li>
+        <li><a href="mailto:contact@tremorsi.com">contact@tremorsi.com</a></li>
         <li><a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://www.facebook.com/profile.php?id=61590317361492" target="_blank" rel="noopener">Facebook</a></li>
       </ul>
@@ -181,6 +199,35 @@ function mobnavToggle(force) {
 burger.addEventListener('click', () => mobnavToggle());
 mobnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mobnavToggle(false)));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.hidden) mobnavToggle(false); });
+
+const contactForm = document.getElementById('contact-form');
+contactForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const v = (id) => document.getElementById(id).value.trim();
+  let ok = true;
+  ['c-nom2', 'c-mail2', 'c-msg2'].forEach((id) => {
+    const el = document.getElementById(id);
+    el.classList.toggle('err', !el.value.trim());
+    if (!el.value.trim()) ok = false;
+  });
+  document.getElementById('contact-error').hidden = ok;
+  if (!ok) return;
+  const btn = document.getElementById('contact-send');
+  btn.disabled = true; btn.textContent = 'Envoi en cours…';
+  const corps = 'De : ' + v('c-nom2') + ' <' + v('c-mail2') + '>\n\n' + v('c-msg2');
+  try {
+    const r = await fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ _subject: 'Message via tremorsi.com', nom: v('c-nom2'), email: v('c-mail2'), message: v('c-msg2') }),
+    });
+    if (!r.ok) throw new Error('http');
+    btn.outerHTML = '<p class="form-ok">&#10003; Message envoy&eacute; ! On vous r&eacute;pond tr&egrave;s vite - grazie.</p>';
+  } catch (err) {
+    btn.disabled = false; btn.innerHTML = 'Envoyer le message <span class="arr">&rarr;</span>';
+    location.href = 'mailto:contact@tremorsi.com?subject=' + encodeURIComponent('Message via tremorsi.com') + '&body=' + encodeURIComponent(corps);
+  }
+});
 </script>
 </body>
 </html>
