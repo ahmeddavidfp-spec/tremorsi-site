@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation complète - Tre Mor Si</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rosso:#c92e1f; --rosso-2:#a8241a; --rosso-soft:rgba(201,46,31,.10);
+  --verde:#234b33; --verde-soft:rgba(35,75,51,.10);
+  --bg:#fffdf7; --bg-2:#fff3dc; --card:#ffffff; --text:#1a1a16; --muted:#7a736a;
+  --border:#eee3cf; --shadow:0 1px 3px rgba(26,26,22,.05),0 8px 28px rgba(26,26,22,.06);
+  --green:#2f7a45; --green-bg:rgba(47,122,69,.12);
+  --orange:#b8740a; --orange-bg:rgba(233,185,59,.20);
+  --serif:'Instrument Serif',Georgia,serif; --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#14130f; --bg-2:#1d1b15; --card:#221f19; --text:#f2ece0; --muted:#a49a8b;
+    --border:#332e24; --shadow:0 1px 3px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.25);
+    --rosso:#e8604f; --rosso-2:#e8604f; --rosso-soft:rgba(232,96,79,.14);
+    --verde:#7fb894; --verde-soft:rgba(127,184,148,.12);
+    --green:#6fbf7c; --green-bg:rgba(111,191,124,.14);
+    --orange:#e8b34e; --orange-bg:rgba(232,179,78,.16);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14130f; --bg-2:#1d1b15; --card:#221f19; --text:#f2ece0; --muted:#a49a8b;
+  --border:#332e24; --shadow:0 1px 3px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.25);
+  --rosso:#e8604f; --rosso-2:#e8604f; --rosso-soft:rgba(232,96,79,.14);
+  --verde:#7fb894; --verde-soft:rgba(127,184,148,.12);
+  --green:#6fbf7c; --green-bg:rgba(111,191,124,.14);
+  --orange:#e8b34e; --orange-bg:rgba(232,179,78,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+a{color:var(--rosso-2);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg-2);border:1px solid var(--border);border-radius:6px;padding:1.5px 6px;font-size:13px;word-break:break-word}
+pre{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:15px 16px;overflow-x:auto;margin:12px 0}
+pre code{background:none;border:none;padding:0;font-size:13px;line-height:1.7}
+.tricolore{height:4px;background:linear-gradient(90deg,#2f7a45 0 33.3%,#fffefa 33.3% 66.6%,#c92e1f 66.6% 100%)}
+header.hero{background:radial-gradient(1200px 420px at 78% -12%,var(--orange-bg),transparent),linear-gradient(180deg,var(--bg-2),var(--bg));border-bottom:1px solid var(--border);padding:56px 0 42px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--rosso-2);background:var(--rosso-soft);padding:6px 12px;border-radius:99px;margin-bottom:18px}
+.hero h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);line-height:1.08;font-weight:400}
+.hero h1 i{color:var(--rosso)}
+.hero .sub{color:var(--muted);font-size:1.1rem;margin-top:14px;max-width:660px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:99px;padding:7px 14px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow)}
+.chip b{font-weight:600}
+nav.toc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin-top:34px}
+nav.toc p{font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+nav.toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:4px 16px;counter-reset:s}
+nav.toc li{counter-increment:s;font-size:14.5px}
+nav.toc li a::before{content:counter(s) ". ";color:var(--muted)}
+main{padding:36px 0 80px}
+section{margin-top:44px}
+h2{font-family:var(--serif);font-size:1.7rem;font-weight:400;margin-bottom:6px;scroll-margin-top:24px}
+h2 i{color:var(--rosso)}
+h3{font-size:1.05rem;font-weight:700;margin:22px 0 6px}
+.lead{color:var(--muted);margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:14px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14.5px}
+th{text-align:left;font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:8px 10px;border-bottom:2px solid var(--border)}
+td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.tbl-wrap{overflow-x:auto}
+ul.clean{list-style:none;margin-top:10px}
+ul.clean li{padding:5px 0 5px 22px;position:relative;font-size:14.8px}
+ul.clean li::before{content:"→";position:absolute;left:0;color:var(--rosso);font-weight:600}
+.note{border-left:3px solid var(--orange);background:var(--orange-bg);border-radius:0 10px 10px 0;padding:12px 16px;margin-top:14px;font-size:14.5px}
+.ok{border-left:3px solid var(--green);background:var(--green-bg);border-radius:0 10px 10px 0;padding:12px 16px;margin-top:14px;font-size:14.5px}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+.badge.on{background:var(--green-bg);color:var(--green)}
+.badge.todo{background:var(--orange-bg);color:var(--orange)}
+.flow{display:grid;gap:8px;margin-top:14px;font-size:14.5px}
+.flow div{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:10px 14px}
+.flow div b{color:var(--rosso-2)}
+footer{border-top:1px solid var(--border);background:var(--bg-2);padding:26px 0;font-size:13.5px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media print{header.hero{padding:24px 0}nav.toc{display:none}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="tricolore"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Documentation projet</span>
+    <h1>Tre Mor <i>Si</i> - Food Truck Italiano</h1>
+    <p class="sub">Site vitrine, agenda piloté par bot Telegram, email professionnel et référencement.
+    Tout ce qu'il faut savoir pour maintenir et faire évoluer le projet.</p>
+    <div class="meta">
+      <span class="chip">🌐 <b>tremorsi.com</b></span>
+      <span class="chip">📦 <b>GitHub</b> tremorsi-site</span>
+      <span class="chip">☁️ <b>Render</b> + Cloudflare</span>
+      <span class="chip">🤖 <b>@TreMorSiBot</b></span>
+      <span class="chip">📅 Août 2026</span>
+    </div>
+    <nav class="toc">
+      <p>Sommaire</p>
+      <ol>
+        <li><a href="#client">Le client</a></li>
+        <li><a href="#archi">Architecture des pages</a></li>
+        <li><a href="#identite">Identité visuelle</a></li>
+        <li><a href="#fonctions">Fonctionnalités</a></li>
+        <li><a href="#deploiement">Déploiement</a></li>
+        <li><a href="#email">Email &amp; formulaires</a></li>
+        <li><a href="#bot">Agenda &amp; bot Telegram</a></li>
+        <li><a href="#seo">Référencement</a></li>
+        <li><a href="#annexes">Ressources annexes</a></li>
+        <li><a href="#todo">À finaliser</a></li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="client">
+    <h2>1. Le <i>client</i></h2>
+    <p class="lead">Food truck italien itinérant, basé à Fleurus, actif à Charleroi et alentours.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>Enseigne</th><td>Tre Mor Si (« TremorSi ») - <i>Ogni morso racconta l'Italia</i></td></tr>
+      <tr><th>Société</th><td><b>COLOMBO TRESSY</b> · TVA <b>BE 1026.396.788</b> · créée le 01/10/2025</td></tr>
+      <tr><th>Siège</th><td>Chaussée de Gilly 194/1b, 6220 Fleurus</td></tr>
+      <tr><th>Téléphone</th><td>0495 80 22 01 (aussi WhatsApp)</td></tr>
+      <tr><th>Email pro</th><td>contact@tremorsi.com <span class="badge on">routé</span></td></tr>
+      <tr><th>Réseaux</th><td><a href="https://www.instagram.com/tre.mor.si/">@tre.mor.si</a> · <a href="https://www.facebook.com/profile.php?id=61590317361492">Facebook Tremorsi</a></td></tr>
+      <tr><th>Spécialités</th><td>Pucce salentine, arrosticini d'Abruzzo, moules à la plancha, aperitivo, cannoli</td></tr>
+      <tr><th>Concept</th><td>Voyage culinaire du Nord au Sud de l'Italie, préparé à la minute devant le client</td></tr>
+    </table></div>
+  </section>
+
+  <section id="archi">
+    <h2>2. Architecture des <i>pages</i></h2>
+    <p class="lead">Site statique multi-pages. Chaque contenu vit à un seul endroit - pas de doublon.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Fichier</th><th>Rôle</th></tr></thead>
+      <tbody>
+        <tr><td><code>index.html</code></td><td><b>Vitrine</b> : hero + Fiat 500, La storia, Il viaggio (Nord→Sud illustré), teaser carte, galerie, quiz Carta d'Identità, cartolina, CTA final</td></tr>
+        <tr><td><code>menu.html</code></td><td>La carte complète (seul endroit où elle vit)</td></tr>
+        <tr><td><code>privatisation.html</code></td><td>Pitch privatisation + <b>Calcolatore di festa</b> + formulaire de devis</td></tr>
+        <tr><td><code>contact.html</code></td><td>Coordonnées, agenda de la semaine (<code>#semaine</code>), formulaire de contact</td></tr>
+        <tr><td><code>blog/</code></td><td>Index + 2 articles (puccia salentine, arrosticini des Abruzzes)</td></tr>
+        <tr><td><code>assets/style.css</code></td><td><b>Feuille de style partagée</b> par toutes les pages</td></tr>
+        <tr><td><code>worker/</code></td><td>Worker Cloudflare : API agenda + bot Telegram</td></tr>
+        <tr><td><code>sitemap.xml</code>, <code>robots.txt</code>, <code>manifest.webmanifest</code></td><td>SEO et PWA</td></tr>
+      </tbody>
+    </table></div>
+    <div class="card">
+      <h3>Navigation</h3>
+      <ul class="clean">
+        <li><b>Desktop</b> : La carte · Privatiser · Blog · Contact · [Réserver] (bouton tricolore)</li>
+        <li><b>Mobile</b> : logo · [Réserver] · burger. Le panneau s'ouvre en 2 groupes : <b>Il sito</b> (pages) et <b>Scopri</b> (sections de l'accueil)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="identite">
+    <h2>3. Identité <i>visuelle</i></h2>
+    <p class="lead">Direction « golden hour » : lumière chaude et éclatante, jamais de beige plat.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Typographies</h3>
+        <ul class="clean">
+          <li><code>Instrument Serif</code> - titres, italiques rouges</li>
+          <li><code>Instrument Sans</code> - texte courant</li>
+          <li><code>Caveat</code> - annotations manuscrites</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Règles</h3>
+        <ul class="clean">
+          <li>Halos ambrés en dégradé dans le hero et La storia</li>
+          <li>Tirets simples uniquement (jamais de cadratin)</li>
+          <li>Mobile-first, testé systématiquement en 375px</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Token CSS</th><th>Valeur</th><th>Usage</th></tr></thead>
+      <tbody>
+        <tr><td><code>--crema</code></td><td>#FFFDF7</td><td>fond blanc chaud</td></tr>
+        <tr><td><code>--crema-2</code></td><td>#FFF3DC</td><td>sections alternées</td></tr>
+        <tr><td><code>--carta</code></td><td>#FFFFFF</td><td>cartes, formulaires</td></tr>
+        <tr><td><code>--ink</code></td><td>#1A1A16</td><td>texte, traits</td></tr>
+        <tr><td><code>--verde</code></td><td>#234B33</td><td>section carte, footer</td></tr>
+        <tr><td><code>--rosso</code></td><td>#C92E1F</td><td>accent principal</td></tr>
+        <tr><td><code>--limone</code></td><td>#E9B93B</td><td>accent secondaire</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="fonctions">
+    <h2>4. <i>Fonctionnalités</i></h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Fonction</th><th>Page</th><th>Détail</th></tr></thead>
+      <tbody>
+        <tr><td><b>Loader</b></td><td>toutes</td><td>« Tre mor Sì » s'assemble en 3 temps, barre tricolore, sortie en auvent</td></tr>
+        <tr><td><b>Insegna del giorno</b></td><td>accueil</td><td>Bandeau : où est le camion aujourd'hui (lit l'API agenda, point vert pulsant si ouvert)</td></tr>
+        <tr><td><b>Fiat 500 musicale</b></td><td>accueil</td><td>Tap → le convoi traverse l'écran + extrait <code>assets/musica.m4a</code> (26 s)</td></tr>
+        <tr><td><b>Quiz Carta d'Identità</b></td><td>accueil</td><td>5 questions → carte d'identité italienne 1080×1350 (format Instagram), partage natif</td></tr>
+        <tr><td><b>La Cartolina</b></td><td>accueil</td><td>Carte postale personnalisée dessinée en canvas (timbre, cachet Fleurus), partageable</td></tr>
+        <tr><td><b>Galerie</b></td><td>accueil</td><td>Grille 3 colonnes façon Instagram + carrousel plein écran (flèches, swipe, clavier)</td></tr>
+        <tr><td><b>Calcolatore di festa</b></td><td>privatisation</td><td>Curseur convives → arrosticini, pucce, spritz, cannoli en direct ; pré-remplit le devis</td></tr>
+        <tr><td><b>Formulaires</b></td><td>privatisation, contact</td><td>Envoi serveur (FormSubmit) + repli <code>mailto:</code></td></tr>
+        <tr><td><b>Agenda dynamique</b></td><td>accueil, contact</td><td>Piloté par bot Telegram (§7)</td></tr>
+        <tr><td><b>Boutons flottants</b></td><td>toutes</td><td>WhatsApp (droite) et Torna su (gauche, après 700 px de scroll)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="deploiement">
+    <h2>5. <i>Déploiement</i></h2>
+    <p class="lead">Site 100 % statique. Render redéploie automatiquement à chaque push GitHub.</p>
+    <div class="flow">
+      <div><b>1.</b> <code>git push</code> sur <code>ahmeddavidfp-spec/tremorsi-site</code> (branche <code>main</code>)</div>
+      <div><b>2.</b> Render détecte le commit et publie (static site, publish dir <code>.</code>, pas de build)</div>
+      <div><b>3.</b> Cloudflare sert le domaine et redirige www vers l'apex</div>
+    </div>
+    <h3>Développement local</h3>
+    <pre><code>cd "Tre Mor Si"
+python3 -m http.server 8765     # http://localhost:8765</code></pre>
+    <h3>Publier une modification</h3>
+    <pre><code>git add -A && git commit -m "description" && git push
+# Render redéploie en ~1 minute</code></pre>
+    <div class="card">
+      <h3>Configuration DNS (Cloudflare, zone tremorsi.com)</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Type</th><th>Nom</th><th>Cible</th><th>Proxy</th></tr></thead>
+        <tbody>
+          <tr><td>CNAME</td><td>@</td><td>tremorsi.onrender.com</td><td>DNS only (gris)</td></tr>
+          <tr><td>CNAME</td><td>www</td><td>tremorsi.onrender.com</td><td>DNS only (gris)</td></tr>
+          <tr><td>CNAME</td><td>agenda</td><td>Worker (créé automatiquement)</td><td>proxy</td></tr>
+          <tr><td>MX ×3 + TXT</td><td>@</td><td>Cloudflare Email Routing</td><td>-</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><b>Attention</b> : garder les CNAME du site en <b>DNS only</b>. Passer en proxy orange empêche
+      Render de vérifier le domaine et de renouveler son certificat.</div>
+    </div>
+    <div class="note"><b>Node</b> (nécessaire pour wrangler) est installé en portable :
+    <code>export PATH="$HOME/tools/node/bin:$PATH"</code> avant toute commande <code>npx</code>.</div>
+  </section>
+
+  <section id="email">
+    <h2>6. Email &amp; <i>formulaires</i></h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Réception - Cloudflare Email Routing <span class="badge on">actif</span></h3>
+        <p style="font-size:14.5px;color:var(--muted);margin-top:8px">Gratuit, illimité en alias. Redirige vers une boîte existante.</p>
+        <ul class="clean">
+          <li><code>contact@tremorsi.com</code> → <code>david@bems.be</code></li>
+          <li>MX, SPF et DKIM posés et verrouillés par Cloudflare</li>
+          <li>Console : zone tremorsi.com → <b>E-mail → Email Routing</b></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Envoi - FormSubmit</h3>
+        <p style="font-size:14.5px;color:var(--muted);margin-top:8px">Service gratuit sans compte ni backend, appelé en AJAX.</p>
+        <ul class="clean">
+          <li>Formulaires devis et contact → <code>contact@tremorsi.com</code></li>
+          <li>Confirmation « ✓ Message envoyé ! » sans quitter la page</li>
+          <li>Repli automatique sur <code>mailto:</code> si l'envoi échoue</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">Le <b>tout premier envoi</b> déclenche un email d'activation FormSubmit à cliquer (une seule fois, définitif).</div>
+    <h3>Ajouter une adresse de destination</h3>
+    <p style="font-size:14.5px;color:var(--muted)">Cloudflare → Email Routing → <b>Adresses de destination</b> → ajouter →
+    la personne clique le lien de vérification reçu → créer/modifier la règle de routage.</p>
+  </section>
+
+  <section id="bot">
+    <h2>7. Agenda &amp; bot <i>Telegram</i></h2>
+    <p class="lead">Le client gère sa semaine depuis Telegram, sans toucher au code. Le site se met à jour en quelques secondes.</p>
+    <div class="flow">
+      <div><b>Tressy</b> écrit au bot <code>@TreMorSiBot</code> (boutons, aucune commande à retenir)</div>
+      <div><b>Worker Cloudflare</b> <code>agenda.tremorsi.com</code> reçoit le webhook signé et écrit dans KV</div>
+      <div><b>tremorsi.com</b> lit <code>GET /agenda</code> → bandeau du jour + semaine de la page contact</div>
+    </div>
+    <div class="card">
+      <h3>Parcours utilisateur</h3>
+      <ul class="clean">
+        <li>Elle écrit au bot → menu : <b>📅 Voir la semaine</b> / <b>✏️ Modifier un jour</b></li>
+        <li>Choisit le jour → tape le lieu → tape les horaires → « ✓ C'est en ligne sur tremorsi.com ! »</li>
+        <li>Bouton <b>😴 Repos ce jour-là</b> pour marquer un riposo</li>
+      </ul>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Élément</th><th>Valeur</th></tr></thead>
+      <tbody>
+        <tr><td>Code</td><td><code>worker/src/index.js</code></td></tr>
+        <tr><td>Endpoints</td><td><code>GET /agenda</code> (JSON public) · <code>POST /telegram</code> (webhook signé)</td></tr>
+        <tr><td>Stockage</td><td>Cloudflare KV, namespace <code>AGENDA</code>, clé <code>week</code></td></tr>
+        <tr><td>Secrets</td><td><code>BOT_TOKEN</code>, <code>WEBHOOK_SECRET</code>, <code>ALLOWED_IDS</code></td></tr>
+        <tr><td>Sécurité</td><td>Webhook validé par <code>secret_token</code> + liste blanche d'identifiants Telegram</td></tr>
+        <tr><td>Repli</td><td>Si le Worker ne répond pas, le site affiche l'agenda par défaut codé en dur</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Déployer une modification du Worker</h3>
+    <pre><code>export PATH="$HOME/tools/node/bin:$PATH"
+cd worker && npx wrangler deploy</code></pre>
+    <h3>Autoriser une nouvelle personne</h3>
+    <pre><code># 1. Elle écrit au bot : il lui renvoie son identifiant Telegram
+# 2. Ajouter cet identifiant à la liste (séparés par des virgules)
+cd worker && npx wrangler secret put ALLOWED_IDS</code></pre>
+    <div class="note">Le token du bot peut être régénéré à tout moment via <code>/revoke</code> chez @BotFather -
+    il faut alors le réenregistrer (<code>npx wrangler secret put BOT_TOKEN</code>) et refaire le <code>setWebhook</code>.</div>
+  </section>
+
+  <section id="seo">
+    <h2>8. <i>Référencement</i></h2>
+    <div class="grid">
+      <div class="card">
+        <h3>En place <span class="badge on">fait</span></h3>
+        <ul class="clean">
+          <li>Titre, méta-description, canonical et un seul <code>h1</code> par page</li>
+          <li>Attributs <code>alt</code> sur toutes les images</li>
+          <li>JSON-LD <code>FoodEstablishment</code> (nom légal, TVA, adresse, téléphone, réseaux)</li>
+          <li><code>sitemap.xml</code> (7 URLs) et <code>robots.txt</code></li>
+          <li>Mentions légales en pied de page (obligation belge)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Google Search Console</h3>
+        <ul class="clean">
+          <li>Propriété <code>tremorsi.com</code> vérifiée par enregistrement TXT</li>
+          <li>Sitemap soumis - « Opération effectuée », 7 pages découvertes</li>
+          <li>Rapports complets disponibles après quelques jours de collecte</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ok"><b>Piste d'évolution</b> : créer une fiche <b>Google Business Profile</b> pour le food truck -
+    c'est le levier n°1 pour les recherches locales « food truck italien Charleroi ».</div>
+  </section>
+
+  <section id="annexes">
+    <h2>9. Ressources <i>annexes</i></h2>
+    <div class="grid">
+      <div class="card">
+        <h3>QR code brandé</h3>
+        <ul class="clean">
+          <li>Dégradé vert → rouge, modules arrondis, logo « Sì » au centre</li>
+          <li>Correction d'erreur maximale (reste scannable malgré le style)</li>
+          <li>Deux versions : QR seul + affichette prête à imprimer</li>
+          <li>Généré en Python (<code>qrcode</code> + <code>Pillow</code>)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Assets</h3>
+        <ul class="clean">
+          <li><code>assets/logo.png</code> - logo officiel détouré</li>
+          <li><code>assets/icons/</code> - favicon, apple-touch, PWA 192/512</li>
+          <li>Photos du camion et des plats (sources : réseaux du client)</li>
+          <li><code>assets/musica.m4a</code> - extrait 26 s pour la Fiat 500</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="todo">
+    <h2>10. À <i>finaliser</i></h2>
+    <p class="lead">Points à valider avec le client lors du rendez-vous.</p>
+    <div class="card">
+      <h3>Technique</h3>
+      <ul class="clean">
+        <li><span class="badge todo">à faire</span> Identifiant Telegram de Tressy → l'ajouter à <code>ALLOWED_IDS</code></li>
+        <li><span class="badge todo">à faire</span> Vérification email Cloudflare de Tressy → basculer <code>contact@tremorsi.com</code> vers sa boîte</li>
+        <li><span class="badge todo">à faire</span> Clic sur l'email d'activation FormSubmit (premier envoi)</li>
+      </ul>
+      <h3>Contenu</h3>
+      <ul class="clean">
+        <li>Prénom de son compagnon (la section « Chi siamo » dit encore « son complice »)</li>
+        <li>Leur vraie histoire : région d'Italie, comment l'aventure a commencé → enrichir Chi siamo + article de blog</li>
+        <li>Horaires réels de la semaine (à saisir directement via le bot)</li>
+        <li>Ratios du Calcolatore di festa (3 arrosticini / 1 puccia / 1,5 spritz / 1 cannolo par convive)</li>
+        <li>Prix de la carte (le site indique « affichés au camion »)</li>
+        <li>Photos en haute résolution supplémentaires</li>
+      </ul>
+      <h3>Juridique &amp; communication</h3>
+      <ul class="clean">
+        <li><b>Droits de la musique</b> de la Fiat 500 (SABAM) - sinon remplacer par un morceau libre</li>
+        <li>Mettre <code>tremorsi.com</code> dans les bios Instagram et Facebook</li>
+        <li>Imprimer le QR code brandé pour le camion</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Documentation Tre Mor Si · Food Truck Italiano</span>
+    <span>David Mertens · août 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
