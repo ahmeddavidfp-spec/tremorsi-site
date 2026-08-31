@@ -88,8 +88,9 @@
       <div class="sec-head reveal">
         <p class="sec-label">Il passaporto del gusto</p>
         <h1>Faites le tour de l&rsquo;Italie, <span class="it">une bouch&eacute;e &agrave; la fois.</span></h1>
-        <p class="sec-lead">Cinq r&eacute;gions, cinq tampons. &Agrave; chaque plat go&ucirc;t&eacute;, tamponnez votre
-        passeport. Quand il est complet, montrez-le au camion&nbsp;: <b>le dolce est offert</b>.</p>
+        <p class="sec-lead">Cinq r&eacute;gions, cinq tampons, cinq visites. &Agrave; chaque passage au camion,
+        demandez-nous le <b>code du jour</b> pour tamponner une r&eacute;gion. Le tour d&rsquo;Italie termin&eacute;&nbsp;:
+        <b>le dolce est offert</b>.</p>
       </div>
     </div>
   </section>
@@ -108,6 +109,17 @@
         <div class="pass-progres">
           <div class="pass-barre"><i id="pass-jauge" style="width:0%"></i></div>
           <p class="pass-compte" id="pass-compte">0 r&eacute;gion sur 5</p>
+        </div>
+
+        <div class="pass-code" id="pass-code">
+          <label for="code-jour">Code du jour</label>
+          <p class="pass-code-aide">Demandez-le au camion, il change chaque jour.</p>
+          <div class="pass-code-ligne">
+            <input id="code-jour" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+                   autocomplete="off" placeholder="0000" aria-describedby="code-msg">
+            <span class="pass-code-etat" id="code-etat" aria-hidden="true">&nbsp;</span>
+          </div>
+          <p class="pass-code-msg" id="code-msg" role="status"></p>
         </div>
 
         <div class="tappe-grid">
@@ -185,19 +197,22 @@
             </button>
         </div>
 
-        <p class="pass-complet" id="pass-complet" hidden>
-          🎉 <b>Passaporto completo&nbsp;!</b> Montrez cet &eacute;cran au camion et r&eacute;clamez votre dolce.
-        </p>
+        <div class="pass-complet" id="pass-complet" hidden>
+          <p>🎉 <b>Passaporto completo&nbsp;!</b> Montrez ce code au camion&nbsp;:</p>
+          <p class="pass-retrait" id="pass-retrait">------</p>
+          <p class="pass-retrait-aide" id="pass-retrait-aide">Valable une seule fois, pour un dolce offert.</p>
+        </div>
 
         <div class="pass-actions">
           <button class="btn btn-solid" type="button" id="pass-share">Partager mon voyage <span class="arr">&rarr;</span></button>
           <a class="btn btn-ghost" href="/menu.html">Voir la carte <span class="arr">&rarr;</span></a>
         </div>
-        <button class="pass-reset" type="button" id="pass-reset">recommencer le voyage</button>
+        <button class="pass-reset" type="button" id="pass-reset">pourquoi je ne peux pas tamponner moi-m&ecirc;me&nbsp;?</button>
       </div>
 
-      <p class="pass-note reveal">Votre passeport reste sur votre t&eacute;l&eacute;phone&nbsp;: aucun compte,
-      aucune inscription, rien n&rsquo;est envoy&eacute;. Tamponnez apr&egrave;s avoir go&ucirc;t&eacute;&nbsp;- on vous fait confiance&nbsp;!</p>
+      <p class="pass-note reveal">Aucun compte, aucune inscription, aucune donn&eacute;e personnelle&nbsp;:
+      votre passeport est li&eacute; &agrave; ce navigateur. Un tampon par jour et par passeport,
+      uniquement avec le code remis au camion - c&rsquo;est ce qui rend le dolce m&eacute;rit&eacute;.</p>
     </div>
   </section>
 </main>
@@ -278,63 +293,147 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.
 </script>
 
 <script>
-// Il Passaporto del Gusto - tout reste sur l'appareil du visiteur
+// Il Passaporto del Gusto - les tampons sont validés par le camion (code du jour)
 (() => {
-  const CLE = 'tremorsi-passaporto';
+  const API = 'https://agenda.tremorsi.com';
+  const CLE_ID = 'tremorsi-pass-id';
+  const CLE_CACHE = 'tremorsi-passaporto';
   const OBLIGATOIRES = ['veneto', 'abruzzo', 'puglia', 'mare', 'sicilia'];
+
   const jauge = document.getElementById('pass-jauge');
   const compte = document.getElementById('pass-compte');
   const complet = document.getElementById('pass-complet');
+  const retrait = document.getElementById('pass-retrait');
+  const retraitAide = document.getElementById('pass-retrait-aide');
+  const champ = document.getElementById('code-jour');
+  const msg = document.getElementById('code-msg');
+  const etat = document.getElementById('code-etat');
 
-  function lire() {
-    try { return JSON.parse(localStorage.getItem(CLE)) || {}; } catch (e) { return {}; }
+  // Identifiant du passeport : anonyme, généré une seule fois, jamais nominatif
+  function id() {
+    let v = null;
+    try { v = localStorage.getItem(CLE_ID); } catch (e) { /* navigation privée */ }
+    if (!v) {
+      v = (crypto.randomUUID ? crypto.randomUUID() : 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+      try { localStorage.setItem(CLE_ID, v); } catch (e) { /* rien */ }
+    }
+    return v;
   }
-  function ecrire(d) {
-    try { localStorage.setItem(CLE, JSON.stringify(d)); } catch (e) { /* navigation privée */ }
-  }
-  function dateCourte() {
-    const d = new Date();
-    return String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getFullYear()).slice(2);
+  const PASS = id();
+
+  // Cache local : le passeport reste lisible même hors ligne
+  function cache(d) { try { localStorage.setItem(CLE_CACHE, JSON.stringify(d)); } catch (e) { /* rien */ } }
+  function cacheLu() { try { return JSON.parse(localStorage.getItem(CLE_CACHE)) || {}; } catch (e) { return {}; } }
+
+  function dire(texte, type) {
+    msg.textContent = texte || '';
+    msg.className = 'pass-code-msg' + (type ? ' ' + type : '');
   }
 
-  function afficher(anime) {
-    const d = lire();
+  let timbri = cacheLu();
+
+  function afficher(anime, codeRetrait, utilise) {
     document.querySelectorAll('.tappa').forEach((b) => {
       const k = b.dataset.k;
-      const tamponne = !!d[k];
-      b.classList.toggle('tamponne', tamponne);
-      b.setAttribute('aria-pressed', tamponne);
+      const t = !!timbri[k];
+      b.classList.toggle('tamponne', t);
+      b.setAttribute('aria-pressed', t);
       const dateEl = b.querySelector('.timbro-date');
-      if (dateEl) dateEl.textContent = tamponne ? d[k] : '';
-      if (tamponne && anime === k) {
-        b.classList.remove('vient'); void b.offsetWidth; b.classList.add('vient');
-      }
+      if (dateEl) dateEl.textContent = t ? jolie(timbri[k]) : '';
+      if (t && anime === k) { b.classList.remove('vient'); void b.offsetWidth; b.classList.add('vient'); }
     });
-    const n = OBLIGATOIRES.filter((k) => d[k]).length;
+    const n = OBLIGATOIRES.filter((k) => timbri[k]).length;
     jauge.style.width = Math.round((n / OBLIGATOIRES.length) * 100) + '%';
     compte.textContent = n + (n > 1 ? ' régions' : ' région') + ' sur ' + OBLIGATOIRES.length +
-      (d.frisa ? ' · + le tampon Frisa 🍅' : '');
+      (timbri.frisa ? ' · + le tampon Frisa 🍅' : '');
     complet.hidden = n < OBLIGATOIRES.length;
+    if (codeRetrait) {
+      retrait.textContent = codeRetrait;
+      retraitAide.textContent = utilise
+        ? 'Ce dolce a déjà été retiré. Grazie mille !'
+        : 'Valable une seule fois, pour un dolce offert.';
+      retraitAide.classList.toggle('use', !!utilise);
+    }
+  }
+
+  function jolie(iso) {
+    if (!iso || iso.length < 10) return iso || '';
+    return iso.slice(8, 10) + '.' + iso.slice(5, 7) + '.' + iso.slice(2, 4);
+  }
+
+  // Lecture de l'état réel depuis le camion (le local ne fait plus foi)
+  async function synchroniser() {
+    try {
+      const r = await fetch(API + '/passaporto?id=' + encodeURIComponent(PASS), { signal: AbortSignal.timeout(4000) });
+      if (!r.ok) return;
+      const d = await r.json();
+      timbri = d.timbri || {};
+      cache(timbri);
+      afficher(null, d.retrait, d.utilise);
+    } catch (e) { /* hors ligne : on garde le cache */ }
+  }
+
+  async function tamponner(region, bouton) {
+    const code = (champ.value || '').replace(/\D/g, '');
+    if (code.length !== 4) {
+      dire('Entrez d’abord le code du jour, il vous est remis au camion.', 'ko');
+      champ.focus();
+      document.getElementById('pass-code').scrollIntoView({ block: 'center' });
+      return;
+    }
+    bouton.disabled = true;
+    etat.textContent = '…';
+    try {
+      const r = await fetch(API + '/timbro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pass: PASS, code: code, region: region }),
+        signal: AbortSignal.timeout(6000),
+      });
+      const d = await r.json();
+      if (d.timbri) { timbri = d.timbri; cache(timbri); }
+      if (d.ok) {
+        etat.textContent = '✓';
+        dire('Tampon validé ! Rendez-vous à la prochaine visite pour la suite du voyage.', 'ok');
+        afficher(region, d.retrait, false);
+      } else {
+        etat.textContent = '';
+        afficher();
+        if (d.motif === 'code') dire('Ce code n’est pas celui d’aujourd’hui. Demandez-le au camion.', 'ko');
+        else if (d.motif === 'deja-region') dire('Cette région est déjà tamponnée. Choisissez-en une autre.', 'ko');
+        else if (d.motif === 'deja-aujourdhui') dire('Un seul tampon par jour - à très vite pour le prochain !', 'ko');
+        else dire('Tampon impossible pour le moment. Réessayez dans un instant.', 'ko');
+      }
+    } catch (e) {
+      etat.textContent = '';
+      dire('Pas de réseau. Réessayez avec un peu de connexion.', 'ko');
+    }
+    bouton.disabled = false;
   }
 
   document.querySelectorAll('.tappa').forEach((b) => {
     b.addEventListener('click', () => {
-      const d = lire();
-      const k = b.dataset.k;
-      if (d[k]) { delete d[k]; ecrire(d); afficher(); return; }
-      d[k] = dateCourte();
-      ecrire(d);
-      afficher(k);
+      if (timbri[b.dataset.k]) {
+        dire('Région déjà tamponnée le ' + jolie(timbri[b.dataset.k]) + '.', '');
+        return;
+      }
+      tamponner(b.dataset.k, b);
     });
   });
 
+  champ.addEventListener('input', () => {
+    champ.value = champ.value.replace(/\D/g, '').slice(0, 4);
+    etat.textContent = '';
+    if (champ.value.length === 4) dire('Choisissez la région que vous venez de goûter.', 'ok');
+    else dire('');
+  });
+
   document.getElementById('pass-reset').addEventListener('click', () => {
-    if (confirm('Effacer tous vos tampons ?')) { ecrire({}); afficher(); }
+    alert('Vos tampons sont enregistrés au camion : ils ne peuvent plus être effacés depuis le téléphone. C’est ce qui garantit le dolce offert à celles et ceux qui ont vraiment fait le voyage.');
   });
 
   document.getElementById('pass-share').addEventListener('click', async () => {
-    const d = lire();
-    const n = OBLIGATOIRES.filter((k) => d[k]).length;
+    const n = OBLIGATOIRES.filter((k) => timbri[k]).length;
     const texte = n >= OBLIGATOIRES.length
       ? 'J’ai fait le tour de l’Italie chez Tre Mor Si 🇮🇹 Passaporto complet, les 5 régions goûtées !'
       : 'Je fais le tour de l’Italie chez Tre Mor Si 🇮🇹 ' + n + '/' + OBLIGATOIRES.length + ' régions goûtées. À vous de jouer !';
@@ -347,6 +446,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.
   });
 
   afficher();
+  synchroniser();
 })();
 </script>
 </body>

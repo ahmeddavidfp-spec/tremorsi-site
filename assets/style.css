@@ -1044,3 +1044,33 @@ footer{background:var(--ink);color:var(--crema)}
   .tappa.vient .timbro-ok{animation:none}
   .pass-barre i{transition:none}
 }
+
+/* Passaporto : code du jour remis au camion */
+.pass-code{
+  background:var(--crema-2);border:1px dashed var(--ink-15);border-radius:14px;
+  padding:1rem 1.1rem 1.1rem;margin-bottom:1.2rem;
+}
+.pass-code label{
+  display:block;font-family:'Instrument Sans',sans-serif;font-weight:700;
+  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+}
+.pass-code-aide{font-size:.85rem;color:var(--ink-55);margin:.15rem 0 .6rem}
+.pass-code-ligne{display:flex;align-items:center;gap:.6rem}
+.pass-code input{
+  flex:0 1 8ch;min-width:0;width:8ch;font-family:'Instrument Serif',serif;
+  font-size:1.7rem;letter-spacing:.32em;text-align:center;
+  padding:.35rem .2rem;border:2px solid var(--ink);border-radius:10px;
+  background:var(--carta);color:var(--ink);font-variant-numeric:tabular-nums;
+  -webkit-appearance:none;appearance:none;
+}
+.pass-code input:focus{outline:none;border-color:var(--rosso);box-shadow:0 0 0 3px rgba(201,46,31,.15)}
+.pass-code-etat{font-size:1.3rem;color:var(--verde);min-width:1.2rem}
+.pass-code-msg{font-size:.88rem;line-height:1.4;margin:.55rem 0 0;min-height:1.2em}
+.pass-code-msg.ok{color:var(--verde);font-weight:600}
+.pass-code-msg.ko{color:var(--rosso);font-weight:600}
+.pass-retrait{
+  font-family:'Instrument Serif',serif;font-size:2.3rem;letter-spacing:.22em;
+  color:var(--rosso);margin:.4rem 0 .2rem;font-variant-numeric:tabular-nums;
+}
+.pass-retrait-aide{font-size:.85rem;color:var(--ink-55);margin:0}
+.pass-retrait-aide.use{color:var(--rosso);font-weight:600}

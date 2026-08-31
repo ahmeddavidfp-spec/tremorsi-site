@@ -31,11 +31,14 @@ const DEFAULT_WEEK = {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // Préflight CORS : doit répondre avant tout routage, sinon les POST JSON sont bloqués
+    if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
     if (url.pathname === '/agenda') return handleAgenda(env);
     if (url.pathname === '/instagram') return handleInstagram(env);
     if (url.pathname === '/votes') return handleVotes(env);
+    if (url.pathname === '/passaporto') return handlePassaporto(request, env);
+    if (url.pathname === '/timbro') return handleTimbro(request, env);
     if (url.pathname === '/vote') return handleVote(request, env);
-    if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
     if (url.pathname === '/telegram' && request.method === 'POST') return handleTelegram(request, env);
     return new Response('Tre Mor Si agenda', { status: 200 });
   },
@@ -139,6 +142,83 @@ function votesTexte(classement, total) {
     return `${medaille} ${c.commune} - ${c.voix} voix`;
   });
   return `🗳 Où les gens veulent le camion (${total} votes) :\n\n` + lignes.join('\n');
+}
+
+
+/* ---------------- Passaporto : tampons validés au camion ---------------- */
+
+const REGIONS = ['veneto', 'abruzzo', 'puglia', 'mare', 'sicilia', 'frisa'];
+const OBLIGATOIRES = ['veneto', 'abruzzo', 'puglia', 'mare', 'sicilia'];
+
+async function sha(txt) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** Code à 4 chiffres, différent chaque jour, connu du seul camion. */
+async function codeDuJour(env, decalage = 0) {
+  const d = new Date(Date.now() + decalage * 86400000).toISOString().slice(0, 10);
+  const h = await sha('codice|' + d + '|' + (env.WEBHOOK_SECRET || 'x'));
+  return String(parseInt(h.slice(0, 8), 16) % 10000).padStart(4, '0');
+}
+
+/** Code de retrait à montrer au camion quand le passeport est complet. */
+async function codeRetrait(env, pass) {
+  const h = await sha('riscatto|' + pass + '|' + (env.WEBHOOK_SECRET || 'x'));
+  return h.slice(0, 6).toUpperCase();
+}
+
+async function etatPass(env, pass) {
+  const raw = await env.AGENDA.get('pass:' + pass);
+  try { return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+}
+
+async function handlePassaporto(request, env) {
+  const pass = new URL(request.url).searchParams.get('id') || '';
+  if (!/^[a-z0-9-]{8,40}$/i.test(pass)) {
+    return new Response(JSON.stringify({ error: 'identifiant invalide' }), { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } });
+  }
+  const timbri = await etatPass(env, pass);
+  const n = OBLIGATOIRES.filter((k) => timbri[k]).length;
+  const complet = n >= OBLIGATOIRES.length;
+  const body = { timbri, complet };
+  if (complet) {
+    body.retrait = await codeRetrait(env, pass);
+    body.utilise = !!(await env.AGENDA.get('riscatto:' + pass));
+  }
+  return new Response(JSON.stringify(body), { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...CORS } });
+}
+
+async function handleTimbro(request, env) {
+  if (request.method !== 'POST') return new Response('méthode', { status: 405, headers: CORS });
+  const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'Content-Type': 'application/json', ...CORS } });
+  try {
+    const { pass, code, region } = await request.json();
+    if (!/^[a-z0-9-]{8,40}$/i.test(pass || '')) return json({ ok: false, motif: 'pass' }, 400);
+    if (!REGIONS.includes(region)) return json({ ok: false, motif: 'region' }, 400);
+
+    // le code doit être celui du jour (tolérance : la veille, pour les services de fin de soirée)
+    const propre = String(code || '').replace(/\D/g, '');
+    const attendus = [await codeDuJour(env, 0), await codeDuJour(env, -1)];
+    if (!attendus.includes(propre)) return json({ ok: false, motif: 'code' });
+
+    const timbri = await etatPass(env, pass);
+    if (timbri[region]) return json({ ok: false, motif: 'deja-region', timbri });
+
+    // un seul tampon par jour et par passeport
+    const jour = new Date().toISOString().slice(0, 10);
+    if (Object.values(timbri).includes(jour)) return json({ ok: false, motif: 'deja-aujourdhui', timbri });
+
+    timbri[region] = jour;
+    await env.AGENDA.put('pass:' + pass, JSON.stringify(timbri));
+    const n = OBLIGATOIRES.filter((k) => timbri[k]).length;
+    const complet = n >= OBLIGATOIRES.length;
+    const rep = { ok: true, timbri, complet };
+    if (complet) rep.retrait = await codeRetrait(env, pass);
+    return json(rep);
+  } catch (e) {
+    return json({ ok: false, motif: 'erreur' }, 400);
+  }
 }
 
 /* ---------------- Instagram ---------------- */
@@ -294,6 +374,7 @@ const MENU_KB = {
     [{ text: '✏️ Modifier un jour', callback_data: 'edit' }],
     [{ text: '📸 Mur Instagram (Bêta)', callback_data: 'ig' }],
     [{ text: '🗳 Votes des communes', callback_data: 'votes' }],
+    [{ text: '🔑 Code du jour (passeport)', callback_data: 'codice' }],
   ],
 };
 
@@ -337,6 +418,18 @@ async function handleTelegram(request, env) {
       await tg(env, 'sendMessage', { chat_id: chatId, text: 'Que veux-tu faire ?', reply_markup: MENU_KB });
     } else if (data === 'week') {
       await tg(env, 'sendMessage', { chat_id: chatId, text: weekText(await getWeek(env)), reply_markup: MENU_KB });
+    } else if (data === 'codice') {
+      const c = await codeDuJour(env, 0);
+      await tg(env, 'sendMessage', {
+        chat_id: chatId,
+        text: '🔑 Code du jour : *' + c + '*\n\n' +
+          'À donner aux clients qui veulent tamponner leur Passaporto.\n' +
+          'Il change chaque nuit - un seul tampon par personne et par jour.\n\n' +
+          'Quand un client a fini son tour d\'Italie, il montre un code de 6 lettres : ' +
+          'renvoyez-le-moi ici pour vérifier avant d\'offrir le dolce.',
+        parse_mode: 'Markdown',
+        reply_markup: MENU_KB,
+      });
     } else if (data === 'votes') {
       const r = await handleVotes(env);
       const { classement, total } = await r.json();
@@ -407,6 +500,37 @@ async function handleTelegram(request, env) {
         text: `✓ ${DAYS[state.day]} mis à jour. C'est en ligne sur tremorsi.com !\n\n` + weekText(week),
         reply_markup: MENU_KB,
       });
+    } else if (/^[A-Fa-f0-9]{6}$/.test(text.trim())) {
+      // Vérification d'un code de retrait du Passaporto
+      const code = text.trim().toUpperCase();
+      const liste = await env.AGENDA.list({ prefix: 'pass:' });
+      let trouve = null;
+      for (const k of liste.keys) {
+        const id = k.name.slice(5);
+        if ((await codeRetrait(env, id)) === code) { trouve = id; break; }
+      }
+      if (!trouve) {
+        await tg(env, 'sendMessage', { chat_id: chatId, text: '❌ Code inconnu. Vérifiez la saisie.', reply_markup: MENU_KB });
+      } else {
+        const timbri = await etatPass(env, trouve);
+        const n = OBLIGATOIRES.filter((k) => timbri[k]).length;
+        const deja = await env.AGENDA.get('riscatto:' + trouve);
+        if (n < OBLIGATOIRES.length) {
+          await tg(env, 'sendMessage', { chat_id: chatId, text: `⚠️ Passeport incomplet (${n}/5). Pas encore de dolce.`, reply_markup: MENU_KB });
+        } else if (deja) {
+          await tg(env, 'sendMessage', { chat_id: chatId, text: '⚠️ Ce passeport a déjà été utilisé le ' + deja + '.', reply_markup: MENU_KB });
+        } else {
+          const jour = new Date().toISOString().slice(0, 10);
+          await env.AGENDA.put('riscatto:' + trouve, jour);
+          const dates = OBLIGATOIRES.map((k) => timbri[k]).sort();
+          await tg(env, 'sendMessage', {
+            chat_id: chatId,
+            text: '✅ Passeport valide - offrez le dolce !\n\n5 régions tamponnées entre le ' +
+              dates[0] + ' et le ' + dates[dates.length - 1] + '.\nCe code est maintenant marqué comme utilisé.',
+            reply_markup: MENU_KB,
+          });
+        }
+      }
     } else if (/instagram\.com\/(p|reel)\//i.test(text) && !/^\/instagram/i.test(text)) {
       // Lien Instagram collé directement : on l'ajoute sans commande
       const m = text.match(/instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]{8,20})/i);

@@ -33,7 +33,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `reseaux.html` | Réseaux sociaux : cartes + murs Instagram/Facebook en iframes directes |
 | `faq.html` | 14 questions fréquentes en accordéons + JSON-LD FAQPage |
 | `dove-andiamo.html` | Vote des communes : les visiteurs réclament le camion chez eux |
-| `passaporto.html` | Carte de fidélité : 5 régions à tamponner, dolce offert au tour complet |
+| `passaporto.html` | Carte de fidélité : 5 régions à tamponner **avec le code du jour remis au camion**, dolce offert au tour complet |
 | `blog/index.html` + 2 articles | La puccia salentine · Arrosticini des Abruzzes |
 | `sitemap.xml`, `robots.txt` | SEO |
 | `manifest.webmanifest` | PWA (ajout à l'écran d'accueil) |
@@ -122,8 +122,8 @@ Tressy (Telegram) → bot @TreMorSiBot → Worker Cloudflare → KV
 ```
 
 - **Worker** : `worker/src/index.js`, déployé sur `agenda.tremorsi.com` (`npx wrangler deploy` depuis `worker/`)
-- **Endpoints** : `GET /agenda` · `GET /instagram` (6 derniers posts) · `POST /telegram` (webhook signé)
-- **Stockage** : KV namespace `AGENDA` (clé `week`)
+- **Endpoints** : `GET /agenda` · `GET /instagram` (6 derniers posts) · `GET /votes` · `POST /vote` · `GET /passaporto?id=` · `POST /timbro` · `POST /telegram` (webhook signé)
+- **Stockage** : KV namespace `AGENDA` (clés `week`, `votes`, `pass:<id>`, `riscatto:<id>`)
 - **Secrets** (via `npx wrangler secret put`) : `BOT_TOKEN`, `WEBHOOK_SECRET` (copie locale dans `worker/.webhook-secret`, non versionnée), `ALLOWED_IDS` (identifiants Telegram autorisés, séparés par des virgules)
 - **Sécurité** : webhook validé par `secret_token`, seuls les identifiants de `ALLOWED_IDS` peuvent modifier
 - **Repli** : si le Worker ne répond pas, le site affiche l'agenda par défaut codé en dur (aucune page cassée)
@@ -140,6 +140,34 @@ cd worker && npx wrangler secret put ALLOWED_IDS   # ex. 8451289747,<id de Tress
 ```
 
 Détails complets dans [`worker/README.md`](worker/README.md).
+
+---
+
+## 7 bis. Passaporto : anti-abus
+
+Un tampon ne peut **pas** être posé librement : le passeport serait complétable en trois clics.
+
+```
+Client au camion → demande le code du jour → le tape sur passaporto.html
+                                                      ↓ POST /timbro
+                                            Worker : code juste ? région libre ?
+                                            pas déjà tamponné aujourd'hui ?
+                                                      ↓ KV pass:<id>
+                              5/5 → code de retrait à 6 caractères affiché
+                                                      ↓
+                       Tressy tape ce code dans le bot → ✅ valide, marqué utilisé
+```
+
+- **Code du jour** : 4 chiffres dérivés de `SHA-256(date + WEBHOOK_SECRET)`, donc **jamais stocké**
+  et impossible à deviner. La veille reste acceptée (services de fin de soirée).
+  Tressy le lit dans le bot : bouton **🔑 Code du jour (passeport)**.
+- **Un tampon par jour et par passeport** → le tour d'Italie demande au minimum 5 visites réelles.
+- **L'état vit côté serveur** (`pass:<id>` en KV) : vider le `localStorage` ne redonne pas de tampons,
+  et le bouton « recommencer » a été remplacé par une explication.
+- **Code de retrait** : `SHA-256(id + WEBHOOK_SECRET)` tronqué à 6 caractères. Tressy l'envoie au bot,
+  qui répond valide / incomplet / déjà utilisé, puis écrit `riscatto:<id>` → **un seul dolce par passeport**.
+- **Vie privée** : l'identifiant du passeport est un UUID anonyme généré par le navigateur.
+  Aucun nom, aucun email, aucun cookie.
 
 ---
 
@@ -172,6 +200,7 @@ Détails complets dans [`worker/README.md`](worker/README.md).
 - [ ] Horaires réels de la semaine (à saisir directement via le bot)
 - [ ] Ratios du Calcolatore di festa (actuellement 3 arrosticini / 1 puccia / 1,5 spritz / 1 cannolo par convive)
 - [ ] **Valider la récompense du Passaporto** (un cannolo offert ? une boisson ?) - le site annonce « le dolce est offert »
+- [ ] Lui montrer le bouton **🔑 Code du jour** du bot : c'est ce code qu'elle donne aux clients pour tamponner
 - [ ] Prix de la carte (le site indique « affichés au camion »)
 - [ ] **Droits de la musique** de la Fiat 500 (SABAM) - sinon remplacer par un morceau libre
 - [ ] Photos en haute résolution supplémentaires
