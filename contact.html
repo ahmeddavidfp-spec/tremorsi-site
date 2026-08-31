@@ -233,6 +233,29 @@ contactForm.addEventListener('submit', async (e) => {
     location.href = 'mailto:contact@tremorsi.com?subject=' + encodeURIComponent('Message via tremorsi.com') + '&body=' + encodeURIComponent(corps);
   }
 });
+
+// Semaine en direct (agenda géré par bot Telegram)
+(async () => {
+  try {
+    const r = await fetch('https://agenda.tremorsi.com/agenda', { signal: AbortSignal.timeout(3000) });
+    if (!r.ok) return;
+    const { week } = await r.json();
+    if (!week) return;
+    const DAYS = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+    const NAMES = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    const ul = document.querySelector('.week');
+    if (!ul) return;
+    ul.innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => {
+      const j = week[d] || { riposo: true };
+      if (j.riposo) {
+        return '<li class="off"><span class="day">' + DAYS[d] + '</span><span class="place">Riposo<small>' +
+          (d === 0 ? 'même les Italiens se reposent' : 'on prépare la suite') + '</small></span></li>';
+      }
+      return '<li><span class="day">' + DAYS[d] + '</span><span class="place">' + j.lieu +
+        (j.heures ? '<small>' + j.heures + '</small>' : '') + '</span></li>';
+    }).join('');
+  } catch (e) { /* la liste statique reste */ }
+})();
 </script>
 </body>
 </html>

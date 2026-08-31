@@ -1,0 +1,11 @@
+name = "tremorsi-agenda"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+routes = [
+  { pattern = "agenda.tremorsi.com", custom_domain = true }
+]
+
+[[kv_namespaces]]
+binding = "AGENDA"
+id = "PLACEHOLDER_KV_ID"

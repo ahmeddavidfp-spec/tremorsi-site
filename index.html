@@ -563,32 +563,41 @@ window.addEventListener('scroll', () => {
 tornaSu.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 // L'insegna del giorno : où est le camion aujourd'hui ?
-// ⚠ Agenda à tenir synchronisé avec la section "Dove siamo" (placeholders à valider)
-const AGENDA_OGGI = {
-  3: { lieu: 'au marché de Fleurus', heures: '11h30 - 14h30' },
-  4: { lieu: 'à la zone d’entreprises de Charleroi', heures: '11h30 - 14h00' },
-  5: { lieu: 'sur la place communale', heures: '17h00 - 21h00 · soirée arrosticini' },
-  6: { lieu: 'en événement - l’adresse est sur Instagram', heures: '' },
+// Lit l'agenda en direct (bot Telegram -> Cloudflare KV), repli sur les valeurs par défaut.
+const AGENDA_URL = 'https://agenda.tremorsi.com/agenda';
+const FALLBACK_WEEK = {
+  0: { riposo: true }, 1: { riposo: true }, 2: { riposo: true },
+  3: { lieu: 'Marché de Fleurus', heures: '11h30 - 14h30' },
+  4: { lieu: "Zone d'entreprises - Charleroi", heures: '11h30 - 14h00' },
+  5: { lieu: 'Place communale', heures: '17h00 - 21h00' },
+  6: { lieu: "En événement - l'adresse est sur Instagram", heures: '' },
 };
-const RIPOSO_OGGI = {
-  0: 'Oggi riposo ! Même les Italiens se reposent le dimanche - a mercoledì al mercato',
-  1: 'Fourneaux éteints, marinades en cours : on prépare votre semaine. A mercoledì !',
-  2: 'Oggi si impasta - les pucce de demain se pétrissent aujourd’hui. A domani !',
+const RIPOSO_MSG = {
+  0: 'Oggi riposo ! Même les Italiens se reposent le dimanche - a presto al camion',
+  1: 'Fourneaux éteints, marinades en cours : on prépare votre semaine. A prestissimo !',
+  2: 'Oggi si impasta - les pucce de demain se pétrissent aujourd\u2019hui. A domani !',
 };
-(function () {
+function renderOggi(week) {
   const el = document.getElementById('oggi');
   const jour = new Date().getDay();
-  const ouvert = AGENDA_OGGI[jour];
-  if (ouvert) {
-    el.classList.add('aperto');
+  const d = week[jour] || { riposo: true };
+  if (!d.riposo && d.lieu) {
+    el.className = 'oggi aperto';
     el.innerHTML = '<span class="dot"></span><span class="oggi-tag">Oggi</span>' +
-      '<span>Aujourd’hui nous sommes <strong>' + ouvert.lieu + '</strong>' +
-      (ouvert.heures ? ' · ' + ouvert.heures : '') + ' <span class="arr">→</span></span>';
+      '<span>Aujourd\u2019hui : <strong>' + d.lieu + '</strong>' +
+      (d.heures ? ' · ' + d.heures : '') + ' <span class="arr">→</span></span>';
   } else {
-    el.classList.add('chiuso');
+    el.className = 'oggi chiuso';
     el.innerHTML = '<span class="dot"></span><span class="oggi-tag">Riposo</span>' +
-      '<span>' + RIPOSO_OGGI[jour] + ' <span class="arr">→</span></span>';
+      '<span>' + (RIPOSO_MSG[jour] || 'Oggi riposo - a prestissimo al camion !') + ' <span class="arr">→</span></span>';
   }
+}
+(async () => {
+  renderOggi(FALLBACK_WEEK);
+  try {
+    const r = await fetch(AGENDA_URL, { signal: AbortSignal.timeout(3000) });
+    if (r.ok) { const j = await r.json(); if (j && j.week) renderOggi(j.week); }
+  } catch (e) { /* repli silencieux */ }
 })();
 
 // Révélation au scroll
