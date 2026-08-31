@@ -6,6 +6,10 @@ routes = [
   { pattern = "agenda.tremorsi.com", custom_domain = true }
 ]
 
+# Rafraîchissement du flux Instagram : chaque lundi à 4h00 UTC
+[triggers]
+crons = ["0 4 * * 1"]
+
 [[kv_namespaces]]
 binding = "AGENDA"
 id = "0ea9ff300af54ffc8c46d4bd5f63325a"

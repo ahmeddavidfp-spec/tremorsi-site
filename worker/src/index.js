@@ -1,14 +1,20 @@
 /**
- * Tre Mor Si - agenda dynamique + bot Telegram
+ * Tre Mor Si - agenda dynamique + flux Instagram + bot Telegram
  * GET  /agenda    -> JSON de la semaine (lu par tremorsi.com)
+ * GET  /instagram -> JSON des 6 derniers permaliens Instagram
  * POST /telegram  -> webhook du bot (Tressy modifie la semaine par messages)
+ * CRON            -> rafraîchit le flux Instagram chaque lundi 4h
  *
  * Secrets attendus : BOT_TOKEN, WEBHOOK_SECRET, ALLOWED_IDS (ids Telegram séparés par des virgules)
- * KV : AGENDA (clé "week" + états de conversation "state:<chatId>")
+ * KV : AGENDA (clés "week", "ig", "ig_checked" + états de conversation "state:<chatId>")
  */
 
 const DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 const DAY_ORDER = [1, 2, 3, 4, 5, 6, 0]; // affichage Lun -> Dim
+
+const IG_USER = 'tre.mor.si';
+// Filet de sécurité : posts connus au moment du déploiement.
+const IG_FALLBACK = ['Dcsxtr7IAg4', 'Dcswx2IIEIJ', 'DcswNk2IZDh', 'Dcsv6R0IZ7a', 'Da_i2uSoYl1', 'Da_idALoMEy'];
 
 const DEFAULT_WEEK = {
   0: { riposo: true },
@@ -24,10 +30,97 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/agenda') return handleAgenda(env);
+    if (url.pathname === '/instagram') return handleInstagram(env);
     if (url.pathname === '/telegram' && request.method === 'POST') return handleTelegram(request, env);
     return new Response('Tre Mor Si agenda', { status: 200 });
   },
+  // Cron hebdomadaire : rafraîchit le flux Instagram, et prévient si ça échoue
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil((async () => {
+      const res = await refreshInstagram(env);
+      const admin = (env.ALLOWED_IDS || '').split(',')[0].trim();
+      if (!admin || !env.BOT_TOKEN) return;
+      if (res.ok) {
+        await tg(env, 'sendMessage', {
+          chat_id: admin,
+          text: `🔄 Mur Instagram rafraîchi automatiquement (${res.count} publications).`,
+        });
+      } else {
+        await tg(env, 'sendMessage', {
+          chat_id: admin,
+          text: '📸 Rendez-vous hebdomadaire du mur Instagram\n\n' +
+            'Le rafraîchissement automatique n’a pas abouti (Instagram limite les serveurs).\n' +
+            'Les publications actuelles restent affichées - rien n’est cassé.\n\n' +
+            'Pour mettre à jour : copiez le lien d’une publication Instagram et envoyez-moi\n' +
+            '/instagram <lien>',
+        });
+      }
+    })());
+  },
 };
+
+/* ---------------- Instagram ---------------- */
+
+async function getIg(env) {
+  const raw = await env.AGENDA.get('ig');
+  if (!raw) return IG_FALLBACK;
+  try {
+    const list = JSON.parse(raw);
+    return Array.isArray(list) && list.length ? list : IG_FALLBACK;
+  } catch { return IG_FALLBACK; }
+}
+
+async function handleInstagram(env) {
+  const posts = await getIg(env);
+  const checked = await env.AGENDA.get('ig_checked');
+  return new Response(JSON.stringify({ posts, checked }), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
+}
+
+/**
+ * Récupère les derniers permaliens du profil public.
+ * En cas d'échec (Instagram bloque, format changé), on ne touche à rien :
+ * les anciens permaliens restent servis.
+ */
+async function refreshInstagram(env) {
+  try {
+    const r = await fetch(`https://www.instagram.com/${IG_USER}/`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; TreMorSiBot/1.0; +https://tremorsi.com)',
+        'Accept-Language': 'fr-BE,fr;q=0.9',
+      },
+    });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const html = await r.text();
+    const codes = [];
+    const re = /"(?:shortcode|code)"\s*:\s*"([A-Za-z0-9_-]{8,20})"/g;
+    let m;
+    while ((m = re.exec(html)) && codes.length < 30) {
+      if (!codes.includes(m[1])) codes.push(m[1]);
+    }
+    if (!codes.length) {
+      const re2 = /instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]{8,20})\//g;
+      while ((m = re2.exec(html)) && codes.length < 30) {
+        if (!codes.includes(m[1])) codes.push(m[1]);
+      }
+    }
+    const six = codes.slice(0, 6);
+    if (six.length >= 3) {
+      await env.AGENDA.put('ig', JSON.stringify(six));
+      await env.AGENDA.put('ig_checked', new Date().toISOString());
+      return { ok: true, count: six.length };
+    }
+    throw new Error('aucun permalien trouvé');
+  } catch (e) {
+    await env.AGENDA.put('ig_error', new Date().toISOString() + ' - ' + e.message);
+    return { ok: false, error: e.message };
+  }
+}
 
 async function getWeek(env) {
   const raw = await env.AGENDA.get('week');
@@ -166,10 +259,39 @@ async function handleTelegram(request, env) {
         text: `✓ ${DAYS[state.day]} mis à jour. C'est en ligne sur tremorsi.com !\n\n` + weekText(week),
         reply_markup: MENU_KB,
       });
+    } else if (/^\/instagram/i.test(text)) {
+      // /instagram              -> force le rafraîchissement
+      // /instagram <lien|code>  -> ajoute un post en tête, manuellement
+      const arg = text.replace(/^\/instagram\s*/i, '').trim();
+      if (arg) {
+        const m = arg.match(/([A-Za-z0-9_-]{8,20})\/?$/);
+        if (m) {
+          const list = await getIg(env);
+          const next = [m[1], ...list.filter((c) => c !== m[1])].slice(0, 6);
+          await env.AGENDA.put('ig', JSON.stringify(next));
+          await env.AGENDA.put('ig_checked', new Date().toISOString());
+          await tg(env, 'sendMessage', {
+            chat_id: chatId,
+            text: '✓ Publication ajoutée en tête du mur.\n\n' + next.map((c, i) => `${i + 1}. ${c}`).join('\n'),
+            reply_markup: MENU_KB,
+          });
+        } else {
+          await tg(env, 'sendMessage', { chat_id: chatId, text: 'Lien non reconnu. Envoie l’adresse complète d’une publication Instagram.' });
+        }
+      } else {
+        const res = await refreshInstagram(env);
+        const list = await getIg(env);
+        await tg(env, 'sendMessage', {
+          chat_id: chatId,
+          text: (res.ok ? `✓ Flux Instagram rafraîchi (${res.count} publications).` : `⚠️ Rafraîchissement impossible (${res.error}).\nLes publications précédentes restent affichées.\nAstuce : /instagram <lien du post> pour en ajouter une à la main.`) +
+            '\n\n' + list.map((c, i) => `${i + 1}. ${c}`).join('\n'),
+          reply_markup: MENU_KB,
+        });
+      }
     } else {
       await tg(env, 'sendMessage', {
         chat_id: chatId,
-        text: `Ciao ${msg.from.first_name || ''} ! 🍢 Je gère l'agenda de tremorsi.com.`,
+        text: `Ciao ${msg.from.first_name || ''} ! 🍢 Je gère l'agenda et le mur Instagram de tremorsi.com.`,
         reply_markup: MENU_KB,
       });
     }
