@@ -33,6 +33,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `reseaux.html` | Réseaux sociaux : cartes + murs Instagram/Facebook en iframes directes |
 | `faq.html` | 14 questions fréquentes en accordéons + JSON-LD FAQPage |
 | `dove-andiamo.html` | Vote des communes : les visiteurs réclament le camion chez eux |
+| `passaporto.html` | Carte de fidélité : 5 régions à tamponner, dolce offert au tour complet |
 | `blog/index.html` + 2 articles | La puccia salentine · Arrosticini des Abruzzes |
 | `sitemap.xml`, `robots.txt` | SEO |
 | `manifest.webmanifest` | PWA (ajout à l'écran d'accueil) |
@@ -170,6 +171,7 @@ Détails complets dans [`worker/README.md`](worker/README.md).
 - [ ] Leur vraie histoire : région d'Italie, comment l'aventure a commencé (→ enrichir Chi siamo + article de blog)
 - [ ] Horaires réels de la semaine (à saisir directement via le bot)
 - [ ] Ratios du Calcolatore di festa (actuellement 3 arrosticini / 1 puccia / 1,5 spritz / 1 cannolo par convive)
+- [ ] **Valider la récompense du Passaporto** (un cannolo offert ? une boisson ?) - le site annonce « le dolce est offert »
 - [ ] Prix de la carte (le site indique « affichés au camion »)
 - [ ] **Droits de la musique** de la Fiat 500 (SABAM) - sinon remplacer par un morceau libre
 - [ ] Photos en haute résolution supplémentaires
