@@ -211,7 +211,7 @@ const MENU_KB = {
   inline_keyboard: [
     [{ text: '📅 Voir la semaine', callback_data: 'week' }],
     [{ text: '✏️ Modifier un jour', callback_data: 'edit' }],
-    [{ text: '📸 Mur Instagram', callback_data: 'ig' }],
+    [{ text: '📸 Mur Instagram (Bêta)', callback_data: 'ig' }],
   ],
 };
 
