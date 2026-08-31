@@ -149,6 +149,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <tr><td><code>menu.html</code></td><td>La carte complète (seul endroit où elle vit)</td></tr>
         <tr><td><code>privatisation.html</code></td><td>Pitch privatisation + <b>Calcolatore di festa</b> + formulaire de devis</td></tr>
         <tr><td><code>contact.html</code></td><td>Coordonnées, agenda de la semaine (<code>#semaine</code>), formulaire de contact</td></tr>
+        <tr><td><code>reseaux.html</code></td><td>Réseaux sociaux : cartes Instagram / Facebook / WhatsApp + mur d'embeds officiels</td></tr>
         <tr><td><code>blog/</code></td><td>Index + 2 articles (puccia salentine, arrosticini des Abruzzes)</td></tr>
         <tr><td><code>assets/style.css</code></td><td><b>Feuille de style partagée</b> par toutes les pages</td></tr>
         <tr><td><code>worker/</code></td><td>Worker Cloudflare : API agenda + bot Telegram</td></tr>
@@ -158,7 +159,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <div class="card">
       <h3>Navigation</h3>
       <ul class="clean">
-        <li><b>Desktop</b> : La carte · Privatiser · Blog · Contact · [Réserver] (bouton tricolore)</li>
+        <li><b>Desktop</b> : La carte · Privatiser · Blog · Réseaux · Contact · [Réserver] (bouton tricolore)</li>
         <li><b>Mobile</b> : logo · [Réserver] · burger. Le panneau s'ouvre en 2 groupes : <b>Il sito</b> (pages) et <b>Scopri</b> (sections de l'accueil)</li>
       </ul>
     </div>
@@ -325,7 +326,7 @@ cd worker && npx wrangler secret put ALLOWED_IDS</code></pre>
           <li>Titre, méta-description, canonical et un seul <code>h1</code> par page</li>
           <li>Attributs <code>alt</code> sur toutes les images</li>
           <li>JSON-LD <code>FoodEstablishment</code> (nom légal, TVA, adresse, téléphone, réseaux)</li>
-          <li><code>sitemap.xml</code> (7 URLs) et <code>robots.txt</code></li>
+          <li><code>sitemap.xml</code> (8 URLs) et <code>robots.txt</code></li>
           <li>Mentions légales en pied de page (obligation belge)</li>
         </ul>
       </div>
