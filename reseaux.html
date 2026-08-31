@@ -246,6 +246,8 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.
 <script async src="https://www.instagram.com/embed.js"></script>
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0">
+</script>
+<script>
 // Mur Instagram : 6 derniers posts, rafraîchis chaque semaine par le Worker
 (async () => {
   const box = document.getElementById('ig-feed');
@@ -271,6 +273,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.
   setTimeout(render, 800);
   setTimeout(render, 2500);
 })();
+
 </script>
 </body>
 </html>
