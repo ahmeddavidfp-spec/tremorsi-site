@@ -38,6 +38,7 @@ export default {
   async scheduled(event, env, ctx) {
     ctx.waitUntil((async () => {
       const res = await refreshInstagram(env);
+      if (env.IG_TOKEN) await refreshIgToken(env);
       const admin = (env.ALLOWED_IDS || '').split(',')[0].trim();
       if (!admin || !env.BOT_TOKEN) return;
       if (res.ok) {
@@ -88,41 +89,82 @@ async function handleInstagram(env) {
 }
 
 /**
- * Récupère les derniers permaliens du profil public.
- * En cas d'échec (Instagram bloque, format changé), on ne touche à rien :
- * les anciens permaliens restent servis.
+ * Rafraîchit la liste des 6 derniers permaliens.
+ *
+ * 1. API officielle Meta si le secret IG_TOKEN est présent  -> 100 % automatique
+ * 2. Sinon, tentative de lecture du profil public           -> souvent bloquée par Instagram
+ * En cas d'échec, on ne touche à rien : les permaliens précédents restent servis.
  */
 async function refreshInstagram(env) {
+  if (env.IG_TOKEN) {
+    const viaApi = await refreshViaGraphApi(env);
+    if (viaApi.ok) return viaApi;
+    // si l'API échoue (jeton expiré...), on tente quand même le profil public
+  }
+  return refreshViaScraping(env);
+}
+
+async function refreshViaGraphApi(env) {
+  try {
+    const url = `https://graph.instagram.com/me/media?fields=permalink,timestamp&limit=6&access_token=${env.IG_TOKEN}`;
+    const r = await fetch(url);
+    const j = await r.json();
+    if (!r.ok || !j.data) throw new Error(j?.error?.message || 'réponse inattendue');
+    const codes = j.data
+      .map((m) => (m.permalink || '').match(/\/(?:p|reel)\/([A-Za-z0-9_-]+)/))
+      .filter(Boolean)
+      .map((m) => m[1]);
+    if (!codes.length) throw new Error('aucune publication');
+    await env.AGENDA.put('ig', JSON.stringify(codes.slice(0, 6)));
+    await env.AGENDA.put('ig_checked', new Date().toISOString());
+    await env.AGENDA.delete('ig_error');
+    return { ok: true, count: codes.length, source: 'api' };
+  } catch (e) {
+    await env.AGENDA.put('ig_error', new Date().toISOString() + ' - API: ' + e.message);
+    return { ok: false, error: 'API Meta: ' + e.message };
+  }
+}
+
+async function refreshViaScraping(env) {
   try {
     const r = await fetch(`https://www.instagram.com/${IG_USER}/`, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; TreMorSiBot/1.0; +https://tremorsi.com)',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36',
         'Accept-Language': 'fr-BE,fr;q=0.9',
       },
     });
     if (!r.ok) throw new Error('http ' + r.status);
     const html = await r.text();
     const codes = [];
-    const re = /"(?:shortcode|code)"\s*:\s*"([A-Za-z0-9_-]{8,20})"/g;
-    let m;
-    while ((m = re.exec(html)) && codes.length < 30) {
-      if (!codes.includes(m[1])) codes.push(m[1]);
-    }
-    if (!codes.length) {
-      const re2 = /instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]{8,20})\//g;
-      while ((m = re2.exec(html)) && codes.length < 30) {
+    for (const re of [/"(?:shortcode|code)"\s*:\s*"([A-Za-z0-9_-]{8,20})"/g,
+                      /instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]{8,20})\//g]) {
+      let m;
+      while ((m = re.exec(html)) && codes.length < 30) {
         if (!codes.includes(m[1])) codes.push(m[1]);
       }
+      if (codes.length) break;
     }
     const six = codes.slice(0, 6);
-    if (six.length >= 3) {
-      await env.AGENDA.put('ig', JSON.stringify(six));
-      await env.AGENDA.put('ig_checked', new Date().toISOString());
-      return { ok: true, count: six.length };
-    }
-    throw new Error('aucun permalien trouvé');
+    if (six.length < 3) throw new Error('publications non lisibles (rendu JavaScript)');
+    await env.AGENDA.put('ig', JSON.stringify(six));
+    await env.AGENDA.put('ig_checked', new Date().toISOString());
+    return { ok: true, count: six.length, source: 'profil' };
   } catch (e) {
     await env.AGENDA.put('ig_error', new Date().toISOString() + ' - ' + e.message);
+    return { ok: false, error: e.message };
+  }
+}
+
+/** Prolonge le jeton Meta (valable 60 jours, renouvelable après 24 h). */
+async function refreshIgToken(env) {
+  if (!env.IG_TOKEN) return { ok: false, error: 'aucun jeton' };
+  try {
+    const r = await fetch(`https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${env.IG_TOKEN}`);
+    const j = await r.json();
+    if (!r.ok || !j.access_token) throw new Error(j?.error?.message || 'échec');
+    await env.AGENDA.put('ig_token_refreshed', new Date().toISOString());
+    return { ok: true, expires_in: j.expires_in };
+  } catch (e) {
     return { ok: false, error: e.message };
   }
 }
@@ -309,6 +351,7 @@ async function handleTelegram(request, env) {
         }
       } else {
         const res = await refreshInstagram(env);
+      if (env.IG_TOKEN) await refreshIgToken(env);
         const list = await getIg(env);
         await tg(env, 'sendMessage', {
           chat_id: chatId,
