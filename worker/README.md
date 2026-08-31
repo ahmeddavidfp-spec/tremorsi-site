@@ -42,3 +42,18 @@ Bouton « Repos ce jour-là » pour un riposo.
 export PATH="$HOME/tools/node/bin:$PATH"
 cd worker && npx wrangler deploy
 ```
+
+## Mur Instagram
+
+- API : `GET https://agenda.tremorsi.com/instagram` -> `{ posts: [...6 codes], checked }`
+- Cron : chaque lundi 4h UTC, le worker tente de relire le profil public.
+  Instagram renvoie souvent **429** aux IP de datacenter : dans ce cas rien ne change
+  (les publications précédentes restent affichées) et le bot envoie un rappel Telegram.
+- Mise à jour manuelle (5 secondes, fiable) : envoyer au bot
+  `/instagram https://www.instagram.com/p/XXXXXXXX/`
+  La publication passe en tête, la 6e la plus ancienne sort.
+- `/instagram` seul force une tentative de rafraîchissement automatique.
+
+**Solution définitive** (à faire avec le client) : Meta Graph API - nécessite le compte
+Instagram en mode Business/Creator lié à la Page Facebook, puis une app Meta.
+Gratuit, officiel, 100 % automatique.

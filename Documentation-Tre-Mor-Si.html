@@ -113,7 +113,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <li><a href="#fonctions">Fonctionnalités</a></li>
         <li><a href="#deploiement">Déploiement</a></li>
         <li><a href="#email">Email &amp; formulaires</a></li>
-        <li><a href="#bot">Agenda &amp; bot Telegram</a></li>
+        <li><a href="#bot">Agenda, Instagram &amp; bot</a></li>
         <li><a href="#seo">Référencement</a></li>
         <li><a href="#annexes">Ressources annexes</a></li>
         <li><a href="#todo">À finaliser</a></li>
@@ -214,6 +214,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <tr><td><b>Calcolatore di festa</b></td><td>privatisation</td><td>Curseur convives → arrosticini, pucce, spritz, cannoli en direct ; pré-remplit le devis</td></tr>
         <tr><td><b>Formulaires</b></td><td>privatisation, contact</td><td>Envoi serveur (FormSubmit) + repli <code>mailto:</code></td></tr>
         <tr><td><b>Agenda dynamique</b></td><td>accueil, contact</td><td>Piloté par bot Telegram (§7)</td></tr>
+        <tr><td><b>Mur Instagram</b></td><td>réseaux</td><td>6 dernières publications, servies par le Worker, actualisables par le bot (§7)</td></tr>
         <tr><td><b>Boutons flottants</b></td><td>toutes</td><td>WhatsApp (droite) et Torna su (gauche, après 700 px de scroll)</td></tr>
       </tbody>
     </table></div>
@@ -280,7 +281,7 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
   </section>
 
   <section id="bot">
-    <h2>7. Agenda &amp; bot <i>Telegram</i></h2>
+    <h2>7. Agenda, Instagram &amp; bot <i>Telegram</i></h2>
     <p class="lead">Le client gère sa semaine depuis Telegram, sans toucher au code. Le site se met à jour en quelques secondes.</p>
     <div class="flow">
       <div><b>Tressy</b> écrit au bot <code>@TreMorSiBot</code> (boutons, aucune commande à retenir)</div>
@@ -309,6 +310,17 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
     <h3>Déployer une modification du Worker</h3>
     <pre><code>export PATH="$HOME/tools/node/bin:$PATH"
 cd worker && npx wrangler deploy</code></pre>
+    <h3>Mur Instagram</h3>
+    <p style="font-size:14.5px;color:var(--muted)">La page réseaux affiche les 6 dernières publications, servies par
+    <code>GET /instagram</code>. Un cron tente un rafraîchissement chaque lundi 4h.</p>
+    <div class="note"><b>Limite connue</b> : Instagram répond <code>429</code> aux serveurs Cloudflare, donc le
+    rafraîchissement automatique échoue souvent. Dans ce cas <b>rien ne casse</b> : les publications précédentes restent
+    affichées et le bot envoie un rappel Telegram. Mise à jour manuelle en 5 secondes :
+    <code>/instagram https://www.instagram.com/p/XXXX/</code></div>
+    <div class="ok"><b>Solution définitive</b> à mettre en place avec le client : <b>Meta Graph API</b> (gratuite et
+    officielle). Nécessite le compte Instagram en Business/Creator lié à la Page Facebook, puis une app Meta.
+    Le Worker existant l'appellera à la place du scraping.</div>
+
     <h3>Autoriser une nouvelle personne</h3>
     <pre><code># 1. Elle écrit au bot : il lui renvoie son identifiant Telegram
 # 2. Ajouter cet identifiant à la liste (séparés par des virgules)

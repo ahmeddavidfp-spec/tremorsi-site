@@ -119,11 +119,13 @@ Tressy (Telegram) → bot @TreMorSiBot → Worker Cloudflare → KV
 ```
 
 - **Worker** : `worker/src/index.js`, déployé sur `agenda.tremorsi.com` (`npx wrangler deploy` depuis `worker/`)
-- **Endpoints** : `GET /agenda` (JSON public) · `POST /telegram` (webhook signé)
+- **Endpoints** : `GET /agenda` · `GET /instagram` (6 derniers posts) · `POST /telegram` (webhook signé)
 - **Stockage** : KV namespace `AGENDA` (clé `week`)
 - **Secrets** (via `npx wrangler secret put`) : `BOT_TOKEN`, `WEBHOOK_SECRET` (copie locale dans `worker/.webhook-secret`, non versionnée), `ALLOWED_IDS` (identifiants Telegram autorisés, séparés par des virgules)
 - **Sécurité** : webhook validé par `secret_token`, seuls les identifiants de `ALLOWED_IDS` peuvent modifier
 - **Repli** : si le Worker ne répond pas, le site affiche l'agenda par défaut codé en dur (aucune page cassée)
+
+**Mur Instagram** : cron hebdomadaire (lundi 4h) ; si Instagram bloque (429), rappel Telegram et mise à jour manuelle par `/instagram <lien>`. Solution définitive : Meta Graph API.
 
 **Usage client** : écrire au bot → boutons *Voir la semaine* / *Modifier un jour* → choisir le jour →
 taper le lieu → taper les horaires → en ligne en quelques secondes. Bouton « Repos ce jour-là » pour un riposo.
