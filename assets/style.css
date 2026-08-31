@@ -863,3 +863,8 @@ footer{background:var(--ink);color:var(--crema)}
   margin-top:1.6rem;font-family:var(--serif);font-style:italic;
   color:var(--ink-55);font-size:1.02rem;
 }
+.fb-wrap{
+  border:1px solid var(--ink);border-radius:14px;overflow:hidden;
+  background:#fff;box-shadow:4px 4px 0 var(--ink-15);max-width:500px;
+}
+.fb-wrap iframe{width:100%;max-width:100%;display:block;border:0}

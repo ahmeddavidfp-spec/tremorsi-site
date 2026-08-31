@@ -142,8 +142,26 @@
         <div class="live-col">
           <h3 class="live-title">Instagram</h3>
           <div id="ig-feed" class="ig-feed"></div>
+          <p style="margin-top:1.1rem">
+            <a class="btn btn-ghost" href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener"
+               style="font-size:.92rem;padding:.6rem 1.2rem">Voir tout sur Instagram <span class="arr">&rarr;</span></a>
+          </p>
+        </div>
 
+        <div class="live-col">
+          <h3 class="live-title">Facebook</h3>
+          <div class="fb-wrap">
+            <iframe
+              src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61590317361492&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&locale=fr_FR"
+              width="500" height="700" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+              allowfullscreen="true" loading="lazy"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              title="Publications Facebook de Tremorsi"></iframe>
           </div>
+          <p style="margin-top:1.1rem">
+            <a class="btn btn-ghost" href="https://www.facebook.com/profile.php?id=61590317361492" target="_blank" rel="noopener"
+               style="font-size:.92rem;padding:.6rem 1.2rem">Voir tout sur Facebook <span class="arr">&rarr;</span></a>
+          </p>
         </div>
       </div>
 
@@ -225,7 +243,6 @@ const tornaSu = document.getElementById('torna-su');
 window.addEventListener('scroll', () => { tornaSu.classList.toggle('visibile', window.scrollY > 700); }, { passive: true });
 tornaSu.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-
 // Menu mobile
 const burger = document.getElementById('burger');
 const mobnav = document.getElementById('mobnav');
@@ -243,9 +260,6 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.
 
 </script>
 
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0">
-</script>
 <script>
 // Mur Instagram : 6 dernières publications en iframes directes (aucun script tiers requis)
 (async () => {
