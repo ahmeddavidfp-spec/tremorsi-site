@@ -8,4 +8,4 @@ routes = [
 
 [[kv_namespaces]]
 binding = "AGENDA"
-id = "PLACEHOLDER_KV_ID"
+id = "0ea9ff300af54ffc8c46d4bd5f63325a"
