@@ -151,6 +151,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <tr><td><code>contact.html</code></td><td>Coordonnées, agenda de la semaine (<code>#semaine</code>), formulaire de contact</td></tr>
         <tr><td><code>reseaux.html</code></td><td>Réseaux sociaux : cartes Instagram / Facebook / WhatsApp + murs en iframes directes</td></tr>
         <tr><td><code>faq.html</code></td><td>14 questions fréquentes en accordéons + JSON-LD <code>FAQPage</code> (rich snippets Google)</td></tr>
+        <tr><td><code>dove-andiamo.html</code></td><td><b>Dove andiamo ?</b> Les visiteurs votent pour faire venir le camion dans leur commune - classement en direct</td></tr>
         <tr><td><code>blog/</code></td><td>Index + 2 articles (puccia salentine, arrosticini des Abruzzes)</td></tr>
         <tr><td><code>assets/style.css</code></td><td><b>Feuille de style partagée</b> par toutes les pages</td></tr>
         <tr><td><code>worker/</code></td><td>Worker Cloudflare : API agenda + bot Telegram</td></tr>
@@ -216,6 +217,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         <tr><td><b>Formulaires</b></td><td>privatisation, contact</td><td>Envoi serveur (FormSubmit) + repli <code>mailto:</code></td></tr>
         <tr><td><b>Agenda dynamique</b></td><td>accueil, contact</td><td>Piloté par bot Telegram (§7)</td></tr>
         <tr><td><b>Mur Instagram</b></td><td>réseaux</td><td>6 dernières publications, servies par le Worker, actualisables par le bot (§7)</td></tr>
+        <tr><td><b>Dove andiamo ?</b></td><td>dove-andiamo</td><td>Vote par commune (1 voix/appareil/jour), classement live, rapport hebdomadaire sur Telegram</td></tr>
         <tr><td><b>Boutons flottants</b></td><td>toutes</td><td>WhatsApp (droite) et Torna su (gauche, après 700 px de scroll)</td></tr>
       </tbody>
     </table></div>
@@ -301,7 +303,7 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
       <thead><tr><th>Élément</th><th>Valeur</th></tr></thead>
       <tbody>
         <tr><td>Code</td><td><code>worker/src/index.js</code></td></tr>
-        <tr><td>Endpoints</td><td><code>GET /agenda</code> (JSON public) · <code>POST /telegram</code> (webhook signé)</td></tr>
+        <tr><td>Endpoints</td><td><code>GET /agenda</code> · <code>GET /instagram</code> · <code>GET /votes</code> · <code>POST /vote</code> · <code>POST /telegram</code></td></tr>
         <tr><td>Stockage</td><td>Cloudflare KV, namespace <code>AGENDA</code>, clé <code>week</code></td></tr>
         <tr><td>Secrets</td><td><code>BOT_TOKEN</code>, <code>WEBHOOK_SECRET</code>, <code>ALLOWED_IDS</code></td></tr>
         <tr><td>Sécurité</td><td>Webhook validé par <code>secret_token</code> + liste blanche d'identifiants Telegram</td></tr>
@@ -340,7 +342,7 @@ cd worker && npx wrangler secret put ALLOWED_IDS</code></pre>
           <li>Attributs <code>alt</code> sur toutes les images</li>
           <li>JSON-LD <code>FoodEstablishment</code> (nom légal, TVA, adresse, téléphone, réseaux)</li>
           <li>JSON-LD <code>FAQPage</code> sur /faq.html - éligible aux résultats enrichis Google</li>
-          <li><code>sitemap.xml</code> (9 URLs) et <code>robots.txt</code></li>
+          <li><code>sitemap.xml</code> (10 URLs) et <code>robots.txt</code></li>
           <li>Mentions légales en pied de page (obligation belge)</li>
         </ul>
       </div>
