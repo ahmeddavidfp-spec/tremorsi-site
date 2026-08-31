@@ -757,8 +757,8 @@ footer{background:var(--ink);color:var(--crema)}
 .mobnav ul{list-style:none}
 .mobnav li{border-bottom:1px solid var(--ink-15)}
 .mobnav li a{
-  display:block;padding:.85rem 0;text-decoration:none;
-  font-family:var(--serif);font-size:1.7rem;line-height:1.2;
+  display:block;padding:.62rem 0;text-decoration:none;
+  font-family:var(--serif);font-size:1.45rem;line-height:1.2;
 }
 .mobnav li a:active{color:var(--rosso)}
 .mobnav-cta{margin-top:1.4rem}
