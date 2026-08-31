@@ -815,3 +815,5 @@ footer{background:var(--ink);color:var(--crema)}
   letter-spacing:.22em;text-transform:uppercase;color:var(--ink-55);
   padding:1.2rem 0 .25rem;
 }
+
+.foot-legal{font-size:.75rem;color:rgba(255,253,247,.45)}
