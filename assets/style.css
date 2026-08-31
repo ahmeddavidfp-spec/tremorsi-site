@@ -942,3 +942,8 @@ footer{background:var(--ink);color:var(--crema)}
 .classement .barre i{display:block;height:100%;background:linear-gradient(90deg,#2F7A45,var(--limone),var(--rosso));border-radius:999px}
 .classement .nb{font-weight:700;font-variant-numeric:tabular-nums;color:var(--rosso);text-align:right}
 .classement-total{margin-top:1rem;font-family:var(--serif);font-style:italic;color:var(--ink-55)}
+.section h2.live-title{
+  font-family:var(--sans);font-size:.78rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.24em;color:var(--ink-55);
+  line-height:1.4;margin-bottom:.9rem;
+}
