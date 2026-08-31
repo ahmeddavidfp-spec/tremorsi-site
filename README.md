@@ -30,7 +30,8 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `menu.html` | La carte complète (seul endroit où elle vit) |
 | `privatisation.html` | Pitch privatisation + **Calcolatore di festa** + formulaire de devis |
 | `contact.html` | Coordonnées, **agenda de la semaine** (`#semaine`), formulaire de contact |
-| `reseaux.html` | Réseaux sociaux : cartes Instagram / Facebook / WhatsApp + mur d'embeds |
+| `reseaux.html` | Réseaux sociaux : cartes + murs Instagram/Facebook en iframes directes |
+| `faq.html` | 14 questions fréquentes en accordéons + JSON-LD FAQPage |
 | `blog/index.html` + 2 articles | La puccia salentine · Arrosticini des Abruzzes |
 | `sitemap.xml`, `robots.txt` | SEO |
 | `manifest.webmanifest` | PWA (ajout à l'écran d'accueil) |
