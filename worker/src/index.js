@@ -2,6 +2,8 @@
  * Tre Mor Si - agenda dynamique + flux Instagram + bot Telegram
  * GET  /agenda    -> JSON de la semaine (lu par tremorsi.com)
  * GET  /instagram -> JSON des 6 derniers permaliens Instagram
+ * GET  /votes     -> classement des communes qui réclament le camion
+ * POST /vote      -> ajoute une voix (1 par appareil et par jour)
  * POST /telegram  -> webhook du bot (Tressy modifie la semaine par messages)
  * CRON            -> rafraîchit le flux Instagram chaque lundi 4h
  *
@@ -31,6 +33,9 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === '/agenda') return handleAgenda(env);
     if (url.pathname === '/instagram') return handleInstagram(env);
+    if (url.pathname === '/votes') return handleVotes(env);
+    if (url.pathname === '/vote') return handleVote(request, env);
+    if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
     if (url.pathname === '/telegram' && request.method === 'POST') return handleTelegram(request, env);
     return new Response('Tre Mor Si agenda', { status: 200 });
   },
@@ -41,6 +46,16 @@ export default {
       if (env.IG_TOKEN) await refreshIgToken(env);
       const admin = (env.ALLOWED_IDS || '').split(',')[0].trim();
       if (!admin || !env.BOT_TOKEN) return;
+
+      // Rapport hebdomadaire : où les gens réclament le camion
+      const rv = await handleVotes(env);
+      const { classement, total } = await rv.json();
+      if (total > 0) {
+        await tg(env, 'sendMessage', {
+          chat_id: admin,
+          text: '📊 Rapport de la semaine\n\n' + votesTexte(classement, total),
+        });
+      }
       if (res.ok) {
         await tg(env, 'sendMessage', {
           chat_id: admin,
@@ -59,6 +74,72 @@ export default {
     })());
   },
 };
+
+
+/* ---------------- Dove andiamo : votes des communes ---------------- */
+
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+async function getVotes(env) {
+  const raw = await env.AGENDA.get('votes');
+  try { return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+}
+
+async function handleVotes(env) {
+  const votes = await getVotes(env);
+  const classement = Object.entries(votes)
+    .sort((a, b) => b[1] - a[1])
+    .map(([commune, voix]) => ({ commune, voix }));
+  const total = classement.reduce((n, c) => n + c.voix, 0);
+  return new Response(JSON.stringify({ classement, total }), {
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...CORS },
+  });
+}
+
+async function handleVote(request, env) {
+  if (request.method !== 'POST') return new Response('méthode', { status: 405, headers: CORS });
+  try {
+    const { commune } = await request.json();
+    const nom = String(commune || '').trim().slice(0, 40);
+    if (nom.length < 2) throw new Error('commune invalide');
+
+    // anti-abus : une voix par appareil et par jour
+    const ip = request.headers.get('cf-connecting-ip') || 'anon';
+    const jour = new Date().toISOString().slice(0, 10);
+    const cle = `v:${jour}:${ip}`;
+    if (await env.AGENDA.get(cle)) {
+      const votes = await getVotes(env);
+      return new Response(JSON.stringify({ ok: false, deja: true, voix: votes[nom] || 0 }), {
+        headers: { 'Content-Type': 'application/json', ...CORS },
+      });
+    }
+    await env.AGENDA.put(cle, '1', { expirationTtl: 86400 });
+
+    const votes = await getVotes(env);
+    votes[nom] = (votes[nom] || 0) + 1;
+    await env.AGENDA.put('votes', JSON.stringify(votes));
+    return new Response(JSON.stringify({ ok: true, commune: nom, voix: votes[nom] }), {
+      headers: { 'Content-Type': 'application/json', ...CORS },
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ ok: false, error: e.message }), {
+      status: 400, headers: { 'Content-Type': 'application/json', ...CORS },
+    });
+  }
+}
+
+function votesTexte(classement, total) {
+  if (!classement.length) return '🗳 Aucun vote pour le moment.';
+  const lignes = classement.slice(0, 10).map((c, i) => {
+    const medaille = ['🥇', '🥈', '🥉'][i] || `${i + 1}.`;
+    return `${medaille} ${c.commune} - ${c.voix} voix`;
+  });
+  return `🗳 Où les gens veulent le camion (${total} votes) :\n\n` + lignes.join('\n');
+}
 
 /* ---------------- Instagram ---------------- */
 
@@ -212,6 +293,7 @@ const MENU_KB = {
     [{ text: '📅 Voir la semaine', callback_data: 'week' }],
     [{ text: '✏️ Modifier un jour', callback_data: 'edit' }],
     [{ text: '📸 Mur Instagram (Bêta)', callback_data: 'ig' }],
+    [{ text: '🗳 Votes des communes', callback_data: 'votes' }],
   ],
 };
 
@@ -255,6 +337,15 @@ async function handleTelegram(request, env) {
       await tg(env, 'sendMessage', { chat_id: chatId, text: 'Que veux-tu faire ?', reply_markup: MENU_KB });
     } else if (data === 'week') {
       await tg(env, 'sendMessage', { chat_id: chatId, text: weekText(await getWeek(env)), reply_markup: MENU_KB });
+    } else if (data === 'votes') {
+      const r = await handleVotes(env);
+      const { classement, total } = await r.json();
+      await tg(env, 'sendMessage', {
+        chat_id: chatId,
+        text: votesTexte(classement, total) +
+          '\n\nLes gens votent sur tremorsi.com/dove-andiamo.html',
+        reply_markup: MENU_KB,
+      });
     } else if (data === 'ig') {
       const list = await getIg(env);
       await tg(env, 'sendMessage', {

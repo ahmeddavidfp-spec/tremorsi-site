@@ -892,3 +892,53 @@ footer{background:var(--ink);color:var(--crema)}
 .faq-a{padding:0 1.3rem 1.2rem;color:var(--ink-55);font-size:.98rem}
 .faq-a a{color:var(--rosso);text-decoration:underline;text-underline-offset:2px}
 .faq-a b{color:var(--ink)}
+
+/* ---------- Dove andiamo : votes des communes ---------- */
+.vote-layout{display:grid;gap:2.4rem}
+@media (min-width:900px){.vote-layout{grid-template-columns:1.15fr .85fr;align-items:start}}
+.communes{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.6rem}
+.commune{
+  font-family:inherit;font-size:.95rem;font-weight:500;cursor:pointer;
+  background:var(--carta);color:var(--ink);
+  border:1px solid var(--ink);border-radius:999px;
+  padding:.55rem 1.05rem;
+  display:inline-flex;align-items:center;gap:.5rem;
+  transition:transform .14s,background .18s,color .18s;
+}
+.commune:hover{background:var(--rosso);color:#fff;transform:translateY(-2px)}
+.commune:hover .voix{background:rgba(255,255,255,.25);color:#fff}
+.commune:active{transform:scale(.96)}
+.voix{
+  font-size:.78rem;font-weight:700;min-width:1.5rem;text-align:center;
+  background:var(--crema-2);border-radius:999px;padding:.05rem .4rem;color:var(--ink-55);
+}
+.autre-form label{
+  display:block;font-size:.74rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.16em;color:var(--ink-55);margin-bottom:.45rem;
+}
+.autre-row{display:flex;gap:.6rem;flex-wrap:wrap}
+.autre-row input{
+  flex:1;min-width:12rem;font-family:inherit;font-size:1rem;color:var(--ink);
+  background:#FFFEFA;border:1px solid var(--ink);border-radius:10px;padding:.7rem .9rem;
+  -webkit-appearance:none;appearance:none;
+}
+.autre-row input:focus-visible{outline:3px solid var(--rosso);outline-offset:1px}
+.autre-row .btn{cursor:pointer;font-family:inherit}
+.vote-msg{
+  margin-top:1rem;font-family:var(--serif);font-style:italic;font-size:1.1rem;
+}
+.vote-msg.ok{color:#2F7A45}
+.vote-msg.nope{color:var(--rosso)}
+.classement-box{
+  background:var(--carta);border:1px solid var(--ink);border-radius:16px;
+  padding:1.4rem 1.5rem;box-shadow:6px 6px 0 var(--ink-15);
+}
+.classement{list-style:none;display:grid;gap:.7rem}
+.classement li{display:grid;grid-template-columns:1.7rem 1fr 4rem auto;gap:.5rem;align-items:center;font-size:.95rem}
+.classement li.vide{display:block;color:var(--ink-55);font-family:var(--serif);font-style:italic}
+.classement .rang{font-size:.95rem}
+.classement .nom{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.classement .barre{background:var(--crema-2);border-radius:999px;height:8px;overflow:hidden}
+.classement .barre i{display:block;height:100%;background:linear-gradient(90deg,#2F7A45,var(--limone),var(--rosso));border-radius:999px}
+.classement .nb{font-weight:700;font-variant-numeric:tabular-nums;color:var(--rosso);text-align:right}
+.classement-total{margin-top:1rem;font-family:var(--serif);font-style:italic;color:var(--ink-55)}
