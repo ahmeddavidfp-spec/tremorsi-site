@@ -1,3 +1,7 @@
 User-agent: *
 Allow: /
+
+# Assistants IA : résumé structuré du site
+# https://tremorsi.com/llms.txt
+
 Sitemap: https://tremorsi.com/sitemap.xml
