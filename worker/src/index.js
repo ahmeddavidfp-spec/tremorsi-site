@@ -61,6 +61,11 @@ export default {
 
 /* ---------------- Instagram ---------------- */
 
+
+function igListe(list) {
+  return list.map((c, i) => `${i + 1}. https://www.instagram.com/p/${c}/`).join('\n');
+}
+
 async function getIg(env) {
   const raw = await env.AGENDA.get('ig');
   if (!raw) return IG_FALLBACK;
@@ -164,6 +169,7 @@ const MENU_KB = {
   inline_keyboard: [
     [{ text: '📅 Voir la semaine', callback_data: 'week' }],
     [{ text: '✏️ Modifier un jour', callback_data: 'edit' }],
+    [{ text: '📸 Mur Instagram', callback_data: 'ig' }],
   ],
 };
 
@@ -207,6 +213,15 @@ async function handleTelegram(request, env) {
       await tg(env, 'sendMessage', { chat_id: chatId, text: 'Que veux-tu faire ?', reply_markup: MENU_KB });
     } else if (data === 'week') {
       await tg(env, 'sendMessage', { chat_id: chatId, text: weekText(await getWeek(env)), reply_markup: MENU_KB });
+    } else if (data === 'ig') {
+      const list = await getIg(env);
+      await tg(env, 'sendMessage', {
+        chat_id: chatId,
+        text: '📸 Le mur de tremorsi.com/reseaux.html affiche :\n' + igListe(list) +
+          '\n\nPour ajouter une publication : dans Instagram, appuyez sur Partager → Copier le lien,' +
+          ' puis envoyez-le-moi ici précédé de /instagram',
+        reply_markup: MENU_KB,
+      });
     } else if (data === 'edit') {
       await tg(env, 'sendMessage', { chat_id: chatId, text: 'Quel jour veux-tu modifier ?', reply_markup: daysKb() });
     } else if (data.startsWith('d:')) {
@@ -259,6 +274,20 @@ async function handleTelegram(request, env) {
         text: `✓ ${DAYS[state.day]} mis à jour. C'est en ligne sur tremorsi.com !\n\n` + weekText(week),
         reply_markup: MENU_KB,
       });
+    } else if (/instagram\.com\/(p|reel)\//i.test(text) && !/^\/instagram/i.test(text)) {
+      // Lien Instagram collé directement : on l'ajoute sans commande
+      const m = text.match(/instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]{8,20})/i);
+      if (m) {
+        const list = await getIg(env);
+        const next = [m[1], ...list.filter((c) => c !== m[1])].slice(0, 6);
+        await env.AGENDA.put('ig', JSON.stringify(next));
+        await env.AGENDA.put('ig_checked', new Date().toISOString());
+        await tg(env, 'sendMessage', {
+          chat_id: chatId,
+          text: '✓ C\'est en ligne sur tremorsi.com/reseaux.html\n\nLe mur affiche maintenant :\n' + igListe(next),
+          reply_markup: MENU_KB,
+        });
+      }
     } else if (/^\/instagram/i.test(text)) {
       // /instagram              -> force le rafraîchissement
       // /instagram <lien|code>  -> ajoute un post en tête, manuellement
@@ -272,7 +301,7 @@ async function handleTelegram(request, env) {
           await env.AGENDA.put('ig_checked', new Date().toISOString());
           await tg(env, 'sendMessage', {
             chat_id: chatId,
-            text: '✓ Publication ajoutée en tête du mur.\n\n' + next.map((c, i) => `${i + 1}. ${c}`).join('\n'),
+            text: '✓ C\'est en ligne sur tremorsi.com/reseaux.html\n\nLe mur affiche maintenant :\n' + igListe(next),
             reply_markup: MENU_KB,
           });
         } else {
@@ -283,8 +312,10 @@ async function handleTelegram(request, env) {
         const list = await getIg(env);
         await tg(env, 'sendMessage', {
           chat_id: chatId,
-          text: (res.ok ? `✓ Flux Instagram rafraîchi (${res.count} publications).` : `⚠️ Rafraîchissement impossible (${res.error}).\nLes publications précédentes restent affichées.\nAstuce : /instagram <lien du post> pour en ajouter une à la main.`) +
-            '\n\n' + list.map((c, i) => `${i + 1}. ${c}`).join('\n'),
+          text: (res.ok
+            ? `✓ Mur Instagram rafraîchi (${res.count} publications).`
+            : 'ℹ️ Instagram n\'autorise pas la mise à jour automatique pour le moment.\nLe mur reste affiché tel quel - rien n\'est cassé.\n\nPour ajouter une publication : copiez son lien dans Instagram (Partager → Copier le lien) et envoyez-le-moi précédé de /instagram') +
+            '\n\nActuellement en ligne :\n' + igListe(list),
           reply_markup: MENU_KB,
         });
       }
