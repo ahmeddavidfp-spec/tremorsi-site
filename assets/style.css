@@ -947,3 +947,100 @@ footer{background:var(--ink);color:var(--crema)}
   text-transform:uppercase;letter-spacing:.24em;color:var(--ink-55);
   line-height:1.4;margin-bottom:.9rem;
 }
+
+/* ---------- Il Passaporto del Gusto ---------- */
+.passaporto{
+  max-width:46rem;background:var(--carta);
+  border:1px solid var(--ink);border-radius:18px;
+  padding:clamp(1.4rem,4vw,2.2rem);
+  box-shadow:7px 7px 0 var(--ink-15);
+}
+.pass-tete{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+  padding-bottom:1rem;border-bottom:1px dashed var(--ink-15);margin-bottom:1.3rem;
+}
+.pass-rep{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-55);
+}
+.pass-titre{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,3.4vw,2rem);
+  color:var(--rosso);line-height:1.1;margin-top:.2rem;
+}
+.pass-sceau{
+  flex:none;width:56px;height:56px;border-radius:50%;
+  border:2px solid var(--ink-15);color:var(--rosso);
+  font-family:var(--serif);font-style:italic;font-size:1.4rem;
+  display:flex;align-items:center;justify-content:center;transform:rotate(-8deg);
+}
+.pass-progres{margin-bottom:1.4rem}
+.pass-barre{background:var(--crema-2);border-radius:999px;height:10px;overflow:hidden}
+.pass-barre i{
+  display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,#2F7A45,var(--limone),var(--rosso));
+  transition:width .5s cubic-bezier(.3,.8,.4,1);
+}
+.pass-compte{
+  margin-top:.5rem;font-family:var(--serif);font-style:italic;
+  font-size:1.05rem;color:var(--ink-55);
+}
+.tappe-grid{display:grid;grid-template-columns:1fr;gap:.8rem}
+@media (min-width:620px){.tappe-grid{grid-template-columns:1fr 1fr}}
+.tappa{
+  font-family:inherit;text-align:left;cursor:pointer;
+  background:#FFFEFA;border:1px solid var(--ink-15);border-radius:14px;
+  padding:1rem 1.1rem 1rem 5.4rem;position:relative;min-height:5.6rem;
+  transition:border-color .18s,transform .14s,background .18s;
+}
+.tappa:hover{border-color:var(--ink);transform:translateY(-2px)}
+.tappa:active{transform:scale(.985)}
+.tappa.bonus{border-style:dashed}
+.tappa.tamponne{background:var(--crema-2);border-color:var(--ink)}
+.timbro{
+  position:absolute;left:1rem;top:50%;transform:translateY(-50%);
+  width:3.6rem;height:3.6rem;display:flex;align-items:center;justify-content:center;
+}
+.timbro-emo{font-size:2rem;transition:opacity .3s,transform .3s}
+.tappa.tamponne .timbro-emo{opacity:.18;transform:scale(.9)}
+.timbro-ok{
+  position:absolute;inset:0;border:2.5px solid var(--rosso);border-radius:50%;
+  color:var(--rosso);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:rotate(-14deg) scale(.4);opacity:0;transition:opacity .25s,transform .25s;
+  pointer-events:none;
+}
+.tappa.tamponne .timbro-ok{opacity:.92;transform:rotate(-14deg) scale(1)}
+.timbro-txt{font-size:.42rem;font-weight:700;letter-spacing:.06em;line-height:1.1;text-align:center}
+.timbro-date{font-size:.5rem;font-weight:700;margin-top:.1rem;font-variant-numeric:tabular-nums}
+.tappa.vient .timbro-ok{animation:tampon .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes tampon{
+  0%{transform:rotate(-30deg) scale(2.2);opacity:0}
+  55%{transform:rotate(-10deg) scale(.88);opacity:1}
+  100%{transform:rotate(-14deg) scale(1);opacity:.92}
+}
+.tappa-region{
+  display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.18em;color:var(--rosso);
+}
+.tappa-plat{
+  display:block;font-family:var(--serif);font-size:1.22rem;line-height:1.2;margin:.1rem 0 .15rem;
+}
+.tappa-desc{display:block;font-size:.86rem;color:var(--ink-55);line-height:1.35}
+.pass-complet{
+  margin-top:1.3rem;padding:1rem 1.2rem;border-radius:12px;
+  background:rgba(47,122,69,.12);border-left:3px solid #2F7A45;
+  font-size:1.02rem;
+}
+.pass-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.5rem}
+.pass-actions .btn{cursor:pointer;font-family:inherit}
+.pass-reset{
+  margin-top:.9rem;background:none;border:none;cursor:pointer;
+  font-family:var(--serif);font-style:italic;font-size:.98rem;
+  color:var(--ink-55);text-decoration:underline;padding:0;
+}
+.pass-note{
+  max-width:46rem;margin-top:1.4rem;font-family:var(--serif);font-style:italic;
+  color:var(--ink-55);font-size:1rem;
+}
+@media (prefers-reduced-motion:reduce){
+  .tappa.vient .timbro-ok{animation:none}
+  .pass-barre i{transition:none}
+}
