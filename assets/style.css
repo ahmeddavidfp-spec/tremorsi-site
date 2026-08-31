@@ -809,3 +809,9 @@ footer{background:var(--ink);color:var(--crema)}
 }
 
 .form-ok{font-family:var(--serif);font-style:italic;font-size:1.15rem;color:#2F7A45;align-self:center}
+
+.mobnav .mobnav-label{
+  border-bottom:none;font-family:var(--sans);font-size:.72rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-55);
+  padding:1.2rem 0 .25rem;
+}

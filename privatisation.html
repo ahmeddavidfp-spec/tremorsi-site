@@ -43,7 +43,7 @@
         <li class="only-desktop"><a href="/menu.html">La carte</a></li>
         <li class="only-desktop"><a href="/privatisation.html">Privatiser</a></li>
         <li class="only-desktop"><a href="/blog/">Blog</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li class="only-desktop"><a href="/contact.html">Contact</a></li>
         <li><a class="pill" href="/privatisation.html#devis">R&eacute;server</a></li>
       </ul>
     </nav>
@@ -57,18 +57,18 @@
 <div class="mobnav" id="mobnav" hidden>
   <nav aria-label="Menu mobile">
     <ul>
+      <li class="mobnav-label">Il sito</li>
       <li><a href="/">Accueil</a></li>
+      <li><a href="/menu.html">La carte</a></li>
+      <li><a href="/privatisation.html">Privatiser &amp; devis</a></li>
+      <li><a href="/contact.html">Contact &amp; agenda</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li class="mobnav-label">Scopri</li>
       <li><a href="/#storia">La storia</a></li>
       <li><a href="/#concept">Il viaggio</a></li>
-      <li><a href="/menu.html">La carte</a></li>
       <li><a href="/#gallery">Galerie</a></li>
       <li><a href="/#quiz">Quale morso sei&nbsp;?</a></li>
       <li><a href="/#cartolina">La cartolina</a></li>
-      <li><a href="/#dove">O&ugrave; nous trouver</a></li>
-      <li><a href="/#festa">Calcolatore di festa</a></li>
-      <li><a href="/privatisation.html">Privatiser</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/contact.html">Contact</a></li>
     </ul>
     <a class="btn btn-solid mobnav-cta" href="/privatisation.html#devis">R&eacute;server / devis <span class="arr">&rarr;</span></a>
   </nav>
@@ -87,6 +87,56 @@
       </div>
     </div>
   </section>
+  <section class="section" id="festa">
+    <div class="section-inner">
+      <div class="sec-head reveal">
+        <p class="sec-label">Mai visto prima</p>
+        <h2>Combien de bonheur pour <span class="it">vos invités&nbsp;?</span></h2>
+        <p class="sec-lead">
+          Faites glisser le curseur - on calcule votre fête en direct :
+          ce que le camion apporte, prépare et grille pour vous.
+        </p>
+      </div>
+      <div class="festa-box reveal">
+        <div class="festa-slider">
+          <p class="festa-n"><strong id="festa-count">60</strong> convives</p>
+          <input type="range" id="festa-range" min="10" max="300" step="5" value="60"
+                 aria-label="Nombre de convives">
+          <p class="festa-mood" id="festa-mood">La piazza commence à danser 💃</p>
+        </div>
+        <div class="festa-stats">
+          <div class="festa-stat">
+            <span class="fs-emoji">🍢</span>
+            <strong id="fs-arro">180</strong>
+            <span class="fs-name">arrosticini</span>
+            <span class="fs-sub" id="fs-arro-sub">45 m de brochettes bout à bout</span>
+          </div>
+          <div class="festa-stat">
+            <span class="fs-emoji">🥖</span>
+            <strong id="fs-pucce">60</strong>
+            <span class="fs-name">pucce dorées</span>
+            <span class="fs-sub">pétries le matin même</span>
+          </div>
+          <div class="festa-stat">
+            <span class="fs-emoji">🥂</span>
+            <strong id="fs-spritz">90</strong>
+            <span class="fs-name">spritz</span>
+            <span class="fs-sub" id="fs-spritz-sub">18 litres de soleil orange</span>
+          </div>
+          <div class="festa-stat">
+            <span class="fs-emoji">🍋</span>
+            <strong id="fs-cannoli">60</strong>
+            <span class="fs-name">cannoli</span>
+            <span class="fs-sub">croquants jusqu’au dernier</span>
+          </div>
+        </div>
+        <div class="festa-cta">
+          <a class="btn btn-solid" id="festa-btn" href="#devis">Réserver pour 60 convives <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" style="padding-top:1rem">
     <div class="section-inner">
       <div class="prose reveal">
@@ -231,6 +281,42 @@ function mobnavToggle(force) {
 burger.addEventListener('click', () => mobnavToggle());
 mobnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mobnavToggle(false)));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobnav.hidden) mobnavToggle(false); });
+
+// Calcolatore di festa : le curseur qui donne faim
+const festaRange = document.getElementById('festa-range');
+const festaBtn = document.getElementById('festa-btn');
+const pop = (el) => { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); };
+function festaUpdate() {
+  const n = parseInt(festaRange.value, 10);
+  document.getElementById('festa-count').textContent = n;
+  const arro = document.getElementById('fs-arro');
+  const pucce = document.getElementById('fs-pucce');
+  const spritz = document.getElementById('fs-spritz');
+  const cannoli = document.getElementById('fs-cannoli');
+  arro.textContent = n * 3;
+  document.getElementById('fs-arro-sub').textContent =
+    Math.round(n * 3 * 0.25) + ' m de brochettes bout à bout';
+  pucce.textContent = n;
+  spritz.textContent = Math.round(n * 1.5);
+  document.getElementById('fs-spritz-sub').textContent =
+    Math.round(n * 1.5 * 0.2) + ' litres de soleil orange';
+  cannoli.textContent = n;
+  [arro, pucce, spritz, cannoli].forEach(pop);
+  const mood = document.getElementById('festa-mood');
+  mood.textContent =
+    n < 30 ? 'Una festa intima - perfetto.' :
+    n < 80 ? 'La piazza commence à danser 💃' :
+    n < 150 ? 'On appelle les cousins en renfort !' :
+    'Livello matrimonio : on double la plancha 🔥';
+  festaBtn.innerHTML = 'Réserver pour ' + n + ' convives <span class="arr">→</span>';
+}
+festaRange.addEventListener('input', festaUpdate);
+festaUpdate();
+festaBtn.addEventListener('click', () => {
+  const conv = document.getElementById('f-convives');
+  conv.value = festaRange.value;
+  conv.classList.remove('err');
+});
 </script>
 </body>
 </html>

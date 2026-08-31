@@ -63,13 +63,11 @@
     <a class="wordmark" href="#top" aria-label="Tre Mor Si - retour en haut"><img src="assets/logo.png" alt="Tre Mor Si" class="logo-img"></a>
     <nav aria-label="Navigation principale">
       <ul class="topbar-nav">
-        <li class="only-desktop"><a href="#storia">La storia</a></li>
         <li class="only-desktop"><a href="/menu.html">La carte</a></li>
         <li class="only-desktop"><a href="/privatisation.html">Privatiser</a></li>
         <li class="only-desktop"><a href="/blog/">Blog</a></li>
         <li class="only-desktop"><a href="/contact.html">Contact</a></li>
-        <li><a href="#menu">Menu</a></li>
-        <li><a class="pill" href="#devis">Réserver</a></li>
+        <li><a class="pill" href="/privatisation.html#devis">Réserver</a></li>
       </ul>
     </nav>
     <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobnav">
@@ -82,24 +80,24 @@
 <div class="mobnav" id="mobnav" hidden>
   <nav aria-label="Menu mobile">
     <ul>
+      <li class="mobnav-label">Il sito</li>
       <li><a href="/">Accueil</a></li>
+      <li><a href="/menu.html">La carte</a></li>
+      <li><a href="/privatisation.html">Privatiser &amp; devis</a></li>
+      <li><a href="/contact.html">Contact &amp; agenda</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li class="mobnav-label">Scopri</li>
       <li><a href="/#storia">La storia</a></li>
       <li><a href="/#concept">Il viaggio</a></li>
-      <li><a href="/menu.html">La carte</a></li>
       <li><a href="/#gallery">Galerie</a></li>
       <li><a href="/#quiz">Quale morso sei&nbsp;?</a></li>
       <li><a href="/#cartolina">La cartolina</a></li>
-      <li><a href="/#dove">O&ugrave; nous trouver</a></li>
-      <li><a href="/#festa">Calcolatore di festa</a></li>
-      <li><a href="/privatisation.html">Privatiser</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/contact.html">Contact</a></li>
     </ul>
     <a class="btn btn-solid mobnav-cta" href="/privatisation.html#devis">R&eacute;server / devis <span class="arr">&rarr;</span></a>
   </nav>
 </div>
 
-<a class="oggi" id="oggi" href="#dove"></a>
+<a class="oggi" id="oggi" href="/contact.html#semaine"></a>
 
 <main id="top">
   <section class="hero">
@@ -144,8 +142,8 @@
         la dolce vita, servie à votre coin de rue.
       </p>
       <div class="hero-ctas">
-        <a class="btn btn-solid" href="#menu">Découvrir le menu <span class="arr">→</span></a>
-        <a class="btn btn-ghost" href="#dove">Où sommes-nous <span class="arr">→</span></a>
+        <a class="btn btn-solid" href="/menu.html">Découvrir le menu <span class="arr">→</span></a>
+        <a class="btn btn-ghost" href="/contact.html#semaine">Où sommes-nous <span class="arr">→</span></a>
       </div>
     </div>
     <div class="hero-figure">
@@ -271,42 +269,18 @@
     </div>
   </section>
 
-  <section class="section" id="menu">
+  <section class="section" id="menu" style="background:var(--verde);color:var(--crema)">
     <div class="section-inner">
       <div class="sec-head reveal">
-        <p class="sec-label">La carta</p>
-        <h2>Le menu, <span class="it">semplice e vero.</span></h2>
-        <p class="sec-lead">La carte suit les saisons et le marché - voici les classiques.</p>
+        <p class="sec-label" style="color:rgba(255,253,247,.6)">La carta</p>
+        <h2>La carte, <span class="it" style="color:var(--limone)">semplice e vera.</span></h2>
+        <p class="sec-lead" style="color:rgba(255,253,247,.65)">
+          Pucce salentine p&eacute;tries le matin &middot; arrosticini des Abruzzes &middot;
+          moules &agrave; la plancha &middot; aperitivo &amp; cannoli.
+          La carte du jour vit au camion - la carte compl&egrave;te vit ici :
+        </p>
+        <p><a class="btn" style="background:var(--limone);border-color:var(--limone);color:var(--ink)" href="/menu.html">Voir la carte compl&egrave;te <span class="arr">&rarr;</span></a></p>
       </div>
-      <div class="menu-cols reveal">
-        <div class="menu-cat">
-          <h3>Le Pucce Salentine</h3>
-          <div class="menu-item"><span class="name">Porca Miseria<small>porchetta, caciocavallo, rucola, oignons confits au balsamique</small></span></div>
-          <div class="menu-item"><span class="name">Freschissima<small>bresaola, stracciatella, rucola &amp; radicchio de saison, orange, noix, huile EVO au basilic</small></span></div>
-          <div class="menu-item"><span class="name">Mó&nbsp;!<small>mortadella, stracciatella, rucola, pesto de tomates séchées, crème de balsamique</small></span></div>
-          <div class="menu-item"><span class="name">Veggie<small>aubergines &amp; courgettes grillées, stracciatella, artichauts, menthe fraîche, huile au citron</small></span></div>
-          <div class="menu-item"><span class="name">Polpo<small>poulpe grillé, pommes de terre rôties, courgettes, stracciatella, zeste de citron</small></span></div>
-          <div class="menu-item"><span class="name">Puccia dolce<small>duo crema di Nutella &amp; pistacchio</small></span></div>
-        </div>
-        <div class="menu-cat">
-          <h3>Alla plancha</h3>
-          <div class="menu-item"><span class="name">Arrosticini<small>brochettes d’agneau marinées &amp; grillées, sel - la tradition d’Abruzzo</small></span></div>
-          <div class="menu-item"><span class="name">Moules à la plancha<small>ail, persil, basilic frais, vin blanc</small></span></div>
-          <div class="menu-item"><span class="name">La Frisa <em class="novita">novità&nbsp;!</em><small>tomates fraîches, oignons rouges, stracciatella, basilic &amp; huile d’olive</small></span></div>
-        </div>
-        <div class="menu-cat">
-          <h3>Aperitivo</h3>
-          <div class="menu-item"><span class="name">Planche apéritive<small>charcuteries &amp; fromages importés d’Italie, grissini, taralli, olives</small></span></div>
-          <div class="menu-item"><span class="name">Aperol Spritz<small>le rituel, bien frais</small></span></div>
-        </div>
-        <div class="menu-cat">
-          <h3>Dolci &amp; Caffè</h3>
-          <div class="menu-item"><span class="name">Cannoli siciliani<small>pistache ou chocolat, ricotta douce - comme à Palerme</small></span></div>
-          <div class="menu-item"><span class="name">Limonata / Chinotto</span></div>
-          <div class="menu-item"><span class="name">Caffè espresso</span></div>
-        </div>
-      </div>
-      <p class="menu-note reveal">Les prix et la carte du jour sont affichés au camion - et racontés sur Instagram.</p>
     </div>
   </section>
 
@@ -433,151 +407,20 @@
     </div>
   </section>
 
-  <section class="section" id="dove">
-    <div class="section-inner">
-      <div class="sec-head reveal">
-        <p class="sec-label">Dove siamo</p>
-        <h2>Cette semaine, <span class="it">où sommes-nous ?</span></h2>
-        <p class="sec-lead">
-          Basé à Fleurus, le truck circule entre Charleroi et ses alentours.
-          L’agenda en temps réel est sur
-          <a href="https://www.instagram.com/tre.mor.si/" target="_blank" rel="noopener">Instagram</a> et
-          <a href="https://www.facebook.com/profile.php?id=61590317361492" target="_blank" rel="noopener">Facebook</a>.
-        </p>
-      </div>
-      <div class="dove-grid">
-        <ul class="week reveal">
-          <li><span class="day">mer.</span><span class="place">Marché - Fleurus<small>11h30 - 14h30</small></span></li>
-          <li><span class="day">jeu.</span><span class="place">Zone d’entreprises - Charleroi<small>11h30 - 14h00</small></span></li>
-          <li><span class="day">ven.</span><span class="place">Place communale<small>17h00 - 21h00 · soirée arrosticini</small></span></li>
-          <li><span class="day">sam.</span><span class="place">Événements &amp; festivals<small>selon l’agenda Instagram</small></span></li>
-          <li class="off"><span class="day">dim.</span><span class="place">Riposo<small>même les Italiens se reposent</small></span></li>
-        </ul>
-        <aside class="privat reveal">
-          <h3>Privatisez le truck, <i>si festeggia.</i></h3>
-          <p>Mariage, anniversaire, événement d’entreprise ou fête de village :
-          on arrive avec la plancha, les pucce et la bonne humeur italienne.</p>
-          <a class="tel" href="tel:+32495802201">0495 80 22 01</a>
-          <a class="btn" href="#devis">Demander un devis <span class="arr">→</span></a>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <section class="section" id="festa">
-    <div class="section-inner">
-      <div class="sec-head reveal">
-        <p class="sec-label">Mai visto prima</p>
-        <h2>Combien de bonheur pour <span class="it">vos invités&nbsp;?</span></h2>
-        <p class="sec-lead">
-          Faites glisser le curseur - on calcule votre fête en direct :
-          ce que le camion apporte, prépare et grille pour vous.
+  <section class="section" id="prenota" style="background:var(--crema-2)">
+    <div class="section-inner" style="text-align:center">
+      <div class="sec-head reveal" style="margin-bottom:1.6rem">
+        <h2>Le camion &agrave; votre f&ecirc;te, <span class="it">s&igrave; ?</span></h2>
+        <p class="sec-lead" style="margin-left:auto;margin-right:auto">
+          Mariage, anniversaire, entreprise ou f&ecirc;te de village :
+          calculez votre festa et recevez un devis gratuit en deux minutes.
         </p>
       </div>
-      <div class="festa-box reveal">
-        <div class="festa-slider">
-          <p class="festa-n"><strong id="festa-count">60</strong> convives</p>
-          <input type="range" id="festa-range" min="10" max="300" step="5" value="60"
-                 aria-label="Nombre de convives">
-          <p class="festa-mood" id="festa-mood">La piazza commence à danser 💃</p>
-        </div>
-        <div class="festa-stats">
-          <div class="festa-stat">
-            <span class="fs-emoji">🍢</span>
-            <strong id="fs-arro">180</strong>
-            <span class="fs-name">arrosticini</span>
-            <span class="fs-sub" id="fs-arro-sub">45 m de brochettes bout à bout</span>
-          </div>
-          <div class="festa-stat">
-            <span class="fs-emoji">🥖</span>
-            <strong id="fs-pucce">60</strong>
-            <span class="fs-name">pucce dorées</span>
-            <span class="fs-sub">pétries le matin même</span>
-          </div>
-          <div class="festa-stat">
-            <span class="fs-emoji">🥂</span>
-            <strong id="fs-spritz">90</strong>
-            <span class="fs-name">spritz</span>
-            <span class="fs-sub" id="fs-spritz-sub">18 litres de soleil orange</span>
-          </div>
-          <div class="festa-stat">
-            <span class="fs-emoji">🍋</span>
-            <strong id="fs-cannoli">60</strong>
-            <span class="fs-name">cannoli</span>
-            <span class="fs-sub">croquants jusqu’au dernier</span>
-          </div>
-        </div>
-        <div class="festa-cta">
-          <a class="btn btn-solid" id="festa-btn" href="#devis">Réserver pour 60 convives <span class="arr">→</span></a>
-        </div>
+      <div class="hero-ctas reveal" style="justify-content:center;margin-bottom:0">
+        <a class="btn btn-solid" href="/privatisation.html#devis">Demander un devis <span class="arr">&rarr;</span></a>
+        <a class="btn btn-ghost" href="/contact.html#semaine">O&ugrave; nous trouver <span class="arr">&rarr;</span></a>
       </div>
-    </div>
-  </section>
-
-  <section class="section" id="devis">
-    <div class="section-inner">
-      <div class="sec-head reveal">
-        <p class="sec-label">Il preventivo</p>
-        <h2>Votre événement, <span class="it">si festeggia.</span></h2>
-        <p class="sec-lead">
-          Dites-nous tout - on revient vers vous rapidement avec un devis.
-          La demande part directement sur notre WhatsApp (ou par email, comme vous préférez).
-        </p>
-      </div>
-      <form class="devis-form reveal" id="devis-form" novalidate>
-        <div class="field">
-          <label for="f-nom">Votre nom *</label>
-          <input id="f-nom" name="nom" type="text" required autocomplete="name" placeholder="Prénom & nom">
-        </div>
-        <div class="field">
-          <label for="f-tel">Téléphone ou email *</label>
-          <input id="f-tel" name="contact" type="text" required autocomplete="tel" placeholder="Pour vous répondre">
-        </div>
-        <div class="field">
-          <label for="f-date">Date de l’événement *</label>
-          <input id="f-date" name="date" type="date" required>
-        </div>
-        <div class="field">
-          <label for="f-heure">Heure</label>
-          <input id="f-heure" name="heure" type="time">
-        </div>
-        <div class="field">
-          <label for="f-convives">Nombre de convives *</label>
-          <input id="f-convives" name="convives" type="number" min="10" max="1000" required placeholder="ex. 60">
-        </div>
-        <div class="field">
-          <label for="f-lieu">Lieu *</label>
-          <input id="f-lieu" name="lieu" type="text" required placeholder="Ville, salle, jardin…">
-        </div>
-        <div class="field">
-          <label for="f-type">Type d’événement</label>
-          <select id="f-type" name="type">
-            <option>Mariage</option>
-            <option>Anniversaire</option>
-            <option>Événement d’entreprise</option>
-            <option>Fête de village / festival</option>
-            <option>Autre</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="f-formule">Envies</label>
-          <select id="f-formule" name="formule">
-            <option>Pucce &amp; arrosticini</option>
-            <option>Aperitivo (planches &amp; Spritz)</option>
-            <option>Moules à la plancha</option>
-            <option>La totale - tutto&nbsp;!</option>
-          </select>
-        </div>
-        <div class="field field-full">
-          <label for="f-msg">Un mot de plus&nbsp;?</label>
-          <textarea id="f-msg" name="message" rows="3" placeholder="Horaires, contraintes, envies particulières…"></textarea>
-        </div>
-        <p class="devis-error" id="devis-error" hidden>Il manque quelques infos - les champs marqués * sont nécessaires.</p>
-        <div class="devis-actions field-full">
-          <button class="btn btn-solid" type="submit">Envoyer sur WhatsApp <span class="arr">→</span></button>
-          <button class="btn btn-ghost" type="button" id="devis-mail">Ou par email <span class="arr">→</span></button>
-        </div>
-      </form>
     </div>
   </section>
 </main>
@@ -794,42 +637,6 @@ lb.addEventListener('pointerup', (e) => {
   const dx = e.clientX - touchX;
   if (Math.abs(dx) > 45) lbShow(lbIndex + (dx < 0 ? 1 : -1));
   touchX = null;
-});
-
-// Calcolatore di festa : le curseur qui donne faim
-const festaRange = document.getElementById('festa-range');
-const festaBtn = document.getElementById('festa-btn');
-const pop = (el) => { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); };
-function festaUpdate() {
-  const n = parseInt(festaRange.value, 10);
-  document.getElementById('festa-count').textContent = n;
-  const arro = document.getElementById('fs-arro');
-  const pucce = document.getElementById('fs-pucce');
-  const spritz = document.getElementById('fs-spritz');
-  const cannoli = document.getElementById('fs-cannoli');
-  arro.textContent = n * 3;
-  document.getElementById('fs-arro-sub').textContent =
-    Math.round(n * 3 * 0.25) + ' m de brochettes bout à bout';
-  pucce.textContent = n;
-  spritz.textContent = Math.round(n * 1.5);
-  document.getElementById('fs-spritz-sub').textContent =
-    Math.round(n * 1.5 * 0.2) + ' litres de soleil orange';
-  cannoli.textContent = n;
-  [arro, pucce, spritz, cannoli].forEach(pop);
-  const mood = document.getElementById('festa-mood');
-  mood.textContent =
-    n < 30 ? 'Una festa intima - perfetto.' :
-    n < 80 ? 'La piazza commence à danser 💃' :
-    n < 150 ? 'On appelle les cousins en renfort !' :
-    'Livello matrimonio : on double la plancha 🔥';
-  festaBtn.innerHTML = 'Réserver pour ' + n + ' convives <span class="arr">→</span>';
-}
-festaRange.addEventListener('input', festaUpdate);
-festaUpdate();
-festaBtn.addEventListener('click', () => {
-  const conv = document.getElementById('f-convives');
-  conv.value = festaRange.value;
-  conv.classList.remove('err');
 });
 
 // La Cartolina : carte postale dessinée en direct
@@ -1089,7 +896,7 @@ function quizResult() {
     '<canvas id="quiz-canvas" width="1080" height="1350" aria-label="Votre carta d’identità du goût"></canvas>' +
     '<div class="quiz-actions">' +
     '<button class="btn btn-solid" id="quiz-share" type="button">Partager ma carta <span class="arr">→</span></button>' +
-    '<a class="btn btn-ghost" href="#menu">Goûter mon morso <span class="arr">→</span></a></div>' +
+    '<a class="btn btn-ghost" href="/menu.html">Goûter mon morso <span class="arr">→</span></a></div>' +
     '<button class="quiz-redo" id="quiz-redo" type="button">refaire le test</button></div>';
   drawCarta(p);
   document.getElementById('quiz-redo').addEventListener('click', quizIntro);
@@ -1188,55 +995,6 @@ function drawCarta(p) {
 }
 if (document.fonts && document.fonts.ready) { document.fonts.ready.then(() => { if (document.getElementById('quiz-canvas')) drawCarta; }); }
 quizIntro();
-
-// Formulaire de devis → WhatsApp ou email
-const devisForm = document.getElementById('devis-form');
-const devisError = document.getElementById('devis-error');
-function devisMessage() {
-  const v = (id) => document.getElementById(id).value.trim();
-  const required = ['f-nom', 'f-tel', 'f-date', 'f-convives', 'f-lieu'];
-  let ok = true;
-  required.forEach((id) => {
-    const el = document.getElementById(id);
-    el.classList.toggle('err', !el.value.trim());
-    if (!el.value.trim()) ok = false;
-  });
-  devisError.hidden = ok;
-  if (!ok) return null;
-  const lines = [
-    'Ciao Tre Mor Si ! Demande de devis 🍢',
-    '👤 ' + v('f-nom') + ' - ' + v('f-tel'),
-    '📅 ' + v('f-date') + (v('f-heure') ? ' à ' + v('f-heure') : ''),
-    '👥 ' + v('f-convives') + ' convives',
-    '📍 ' + v('f-lieu'),
-    '🎉 ' + v('f-type') + ' · ' + v('f-formule'),
-  ];
-  if (v('f-msg')) lines.push('💬 ' + v('f-msg'));
-  return lines.join('\n');
-}
-devisForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const msg = devisMessage();
-  if (msg) window.open('https://wa.me/32495802201?text=' + encodeURIComponent(msg), '_blank', 'noopener');
-});
-document.getElementById('devis-mail').addEventListener('click', async () => {
-  const m = devisMessage();
-  if (!m) return;
-  const btn = document.getElementById('devis-mail');
-  btn.disabled = true; btn.textContent = 'Envoi en cours…';
-  try {
-    const r = await fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ _subject: 'Demande de devis - tremorsi.com', demande: m }),
-    });
-    if (!r.ok) throw new Error('http');
-    btn.outerHTML = '<p class="form-ok">&#10003; Demande envoy&eacute;e ! On vous r&eacute;pond tr&egrave;s vite - grazie.</p>';
-  } catch (e) {
-    btn.disabled = false; btn.innerHTML = 'Ou par email <span class="arr">&rarr;</span>';
-    location.href = 'mailto:contact@tremorsi.com?subject=' + encodeURIComponent('Demande de devis - Tre Mor Si') + '&body=' + encodeURIComponent(m);
-  }
-});
 
 // Menu mobile
 const burger = document.getElementById('burger');
