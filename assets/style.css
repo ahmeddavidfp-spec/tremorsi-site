@@ -868,3 +868,27 @@ footer{background:var(--ink);color:var(--crema)}
   background:#fff;box-shadow:4px 4px 0 var(--ink-15);max-width:500px;
 }
 .fb-wrap iframe{width:100%;max-width:100%;display:block;border:0}
+
+/* ---------- FAQ ---------- */
+.faq-list{max-width:46rem;display:grid;gap:.7rem}
+.faq-item{
+  background:var(--carta);border:1px solid var(--ink);border-radius:14px;
+  box-shadow:4px 4px 0 var(--ink-15);overflow:hidden;
+}
+.faq-item summary{
+  cursor:pointer;list-style:none;padding:1.05rem 3rem 1.05rem 1.3rem;
+  font-family:var(--serif);font-size:clamp(1.12rem,2.2vw,1.32rem);line-height:1.3;
+  position:relative;transition:color .18s;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{
+  content:"+";position:absolute;right:1.2rem;top:50%;transform:translateY(-50%);
+  font-family:var(--serif);font-size:1.6rem;color:var(--rosso);line-height:1;
+  transition:transform .25s;
+}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq-item summary:hover{color:var(--rosso)}
+.faq-item summary:focus-visible{outline:3px solid var(--rosso);outline-offset:-3px}
+.faq-a{padding:0 1.3rem 1.2rem;color:var(--ink-55);font-size:.98rem}
+.faq-a a{color:var(--rosso);text-decoration:underline;text-underline-offset:2px}
+.faq-a b{color:var(--ink)}
