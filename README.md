@@ -131,9 +131,21 @@ la vraie version et non le cache.
 `contact@tremorsi.com` → `david@bems.be` (destination vérifiée). MX/SPF/DKIM posés et verrouillés par Cloudflare.
 👉 *À faire :* ajouter/basculer vers la boîte de Tressy une fois son email de vérification cliqué.
 
-**Envoi des formulaires** - [FormSubmit](https://formsubmit.co) en AJAX vers `contact@tremorsi.com`,
-sans compte ni backend. Le tout premier envoi déclenche un email d'activation à cliquer (une seule fois).
-Si l'envoi échoue, repli automatique sur `mailto:`.
+**Envoi des formulaires** - **deux canaux en parallèle** (`Promise.allSettled`) :
+
+1. [FormSubmit](https://formsubmit.co) en AJAX vers `contact@tremorsi.com` - la trace écrite.
+   Le tout premier envoi déclenche un email d'activation à cliquer (une seule fois).
+2. `POST https://agenda.tremorsi.com/contatto` - **notification Telegram immédiate** vers tous les
+   identifiants de `ALLOWED_IDS`, avec un bouton *Répondre sur WhatsApp* si un numéro belge est détecté.
+
+Si un seul canal passe, le visiteur voit quand même sa confirmation. Si les deux échouent, repli sur `mailto:`.
+
+**Anti-spam de `/contatto`** : champ piège `societe` (hors écran, pas `display:none`), contrôle d'origine
+(filtre à robots, `localhost` admis), 5 envois par IP et par heure + 40 au total (compteurs KV à TTL 1 h),
+échappement HTML et longueurs plafonnées.
+
+⚠️ Les `fetch` sont construits **dans** le `try` et `AbortSignal.timeout` est optionnel : sinon un Safari
+antérieur à 16 casse le formulaire sans même laisser le repli `mailto:`.
 
 ---
 
@@ -148,8 +160,8 @@ Tressy (Telegram) → bot @TreMorSiBot → Worker Cloudflare → KV
 ```
 
 - **Worker** : `worker/src/index.js`, déployé sur `agenda.tremorsi.com` (`npx wrangler deploy` depuis `worker/`)
-- **Endpoints** : `GET /agenda` · `GET /instagram` (6 derniers posts) · `GET /votes` · `POST /vote` · `GET /passaporto?id=` · `POST /timbro` · `POST /telegram` (webhook signé)
-- **Stockage** : KV namespace `AGENDA` (clés `week`, `votes`, `pass:<id>`, `riscatto:<id>`)
+- **Endpoints** : `GET /agenda` · `GET /instagram` (6 derniers posts) · `GET /votes` · `POST /vote` · `GET /passaporto?id=` · `POST /timbro` · `POST /contatto` · `POST /telegram` (webhook signé)
+- **Stockage** : KV namespace `AGENDA` (clés `week`, `votes`, `pass:<id>`, `riscatto:<id>`, `c:<heure>:<ip>`)
 - **Secrets** (via `npx wrangler secret put`) : `BOT_TOKEN`, `WEBHOOK_SECRET` (copie locale dans `worker/.webhook-secret`, non versionnée), `ALLOWED_IDS` (identifiants Telegram autorisés, séparés par des virgules)
 - **Sécurité** : webhook validé par `secret_token`, seuls les identifiants de `ALLOWED_IDS` peuvent modifier
 - **CORS** : le test `request.method === 'OPTIONS'` doit être la **première ligne** de `fetch()`, avant tout

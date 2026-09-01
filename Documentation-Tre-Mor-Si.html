@@ -344,8 +344,8 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
       <thead><tr><th>Élément</th><th>Valeur</th></tr></thead>
       <tbody>
         <tr><td>Code</td><td><code>worker/src/index.js</code></td></tr>
-        <tr><td>Endpoints</td><td><code>GET /agenda</code> · <code>GET /instagram</code> · <code>GET /votes</code> · <code>POST /vote</code> · <code>GET /passaporto</code> · <code>POST /timbro</code> · <code>POST /telegram</code></td></tr>
-        <tr><td>Stockage</td><td>Cloudflare KV, namespace <code>AGENDA</code> : <code>week</code>, <code>votes</code>, <code>pass:&lt;id&gt;</code>, <code>riscatto:&lt;id&gt;</code></td></tr>
+        <tr><td>Endpoints</td><td><code>GET /agenda</code> · <code>GET /instagram</code> · <code>GET /votes</code> · <code>POST /vote</code> · <code>GET /passaporto</code> · <code>POST /timbro</code> · <code>POST /contatto</code> · <code>POST /telegram</code></td></tr>
+        <tr><td>Stockage</td><td>Cloudflare KV, namespace <code>AGENDA</code> : <code>week</code>, <code>votes</code>, <code>pass:&lt;id&gt;</code>, <code>riscatto:&lt;id&gt;</code>, <code>c:&lt;heure&gt;:&lt;ip&gt;</code></td></tr>
         <tr><td>CORS</td><td>Le préflight <code>OPTIONS</code> doit être traité <b>avant</b> le routage, sinon tout <code>POST</code> en JSON est rejeté (voir l'encadré)</td></tr>
         <tr><td>Secrets</td><td><code>BOT_TOKEN</code>, <code>WEBHOOK_SECRET</code>, <code>ALLOWED_IDS</code></td></tr>
         <tr><td>Sécurité</td><td>Webhook validé par <code>secret_token</code> + liste blanche d'identifiants Telegram</td></tr>
@@ -366,6 +366,40 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
     <h3>Déployer une modification du Worker</h3>
     <pre><code>export PATH="$HOME/tools/node/bin:$PATH"
 cd worker && npx wrangler deploy</code></pre>
+
+    <h3>Notification Telegram des formulaires</h3>
+    <p style="font-size:14.5px;color:var(--muted)">Quand un visiteur envoie le formulaire de contact ou
+    demande un devis, la demande arrive <b>dans la seconde sur Telegram</b>, en plus de l'email.</p>
+    <div class="flow">
+      <div><b>Le visiteur</b> remplit le formulaire et valide</div>
+      <div><b>Deux canaux en parallèle</b> : FormSubmit (email, la trace) + <code>POST /contatto</code> (Telegram, l'alerte)</div>
+      <div><b>Tressy</b> reçoit un message mis en forme, avec un bouton <b>Répondre sur WhatsApp</b>
+      si le visiteur a laissé un numéro belge</div>
+    </div>
+    <ul class="clean">
+      <li><b>Si un seul canal passe</b>, le visiteur voit quand même sa confirmation</li>
+      <li><b>Si les deux échouent</b>, repli automatique sur <code>mailto:</code> comme avant</li>
+      <li>Le message part vers <b>tous</b> les identifiants de <code>ALLOWED_IDS</code> : ajouter une personne
+      au bot, c'est aussi lui donner les notifications</li>
+    </ul>
+    <div class="note"><b>Anti-spam.</b> Une URL publique qui pousse vers Telegram est une cible.
+    Quatre protections se cumulent&nbsp;:
+    <ul class="clean" style="margin-top:.5rem">
+      <li><b>Champ piège</b> (<code>societe</code>) invisible, placé <i>hors écran</i> et non
+      <code>display:none</code> - que les robots ignorent moins souvent. Rempli&nbsp;=&gt; la demande est
+      silencieusement jetée, le robot croit avoir réussi.</li>
+      <li><b>Contrôle d'origine</b> : filtre à robots grossiers uniquement, trivial à falsifier
+      (<code>localhost</code> est admis pour les tests).</li>
+      <li><b>Quotas</b> : 5 envois par adresse IP et par heure, 40 au total. Compteurs en KV
+      (<code>c:&lt;heure&gt;:&lt;ip&gt;</code>) avec expiration automatique après 1&nbsp;h.</li>
+      <li><b>Échappement HTML</b> de tout ce que le visiteur écrit, et longueurs plafonnées : le message
+      est envoyé en <code>parse_mode: HTML</code>, du texte non échappé pourrait casser l'affichage.</li>
+    </ul></div>
+    <div class="note"><b>Piège navigateur ancien.</b> Les <code>fetch</code> sont construits <b>à l'intérieur</b>
+    du <code>try</code>, et <code>AbortSignal.timeout</code> est appelé de façon optionnelle. Construits avant,
+    un Safari antérieur à la version 16 levait une erreur de manière synchrone et cassait le formulaire
+    <i>sans même laisser le repli <code>mailto:</code></i>.</div>
+
     <h3>Passaporto : pourquoi on ne peut pas tricher</h3>
     <p style="font-size:14.5px;color:var(--muted)">Un passeport auto-déclaratif se remplirait en trois clics depuis le
     canapé. Toute la validation se fait donc côté serveur.</p>
