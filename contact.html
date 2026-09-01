@@ -132,6 +132,7 @@
         <div class="field"><label for="c-nom2">Votre nom *</label><input id="c-nom2" type="text" required autocomplete="name" placeholder="Pr&eacute;nom &amp; nom"></div>
         <div class="field"><label for="c-mail2">Votre email *</label><input id="c-mail2" type="email" required autocomplete="email" placeholder="pour vous r&eacute;pondre"></div>
         <div class="field field-full"><label for="c-msg2">Votre message *</label><textarea id="c-msg2" rows="4" required placeholder="Une question, une envie, un compliment sur la puccia&hellip;"></textarea></div>
+        <div class="pot-miel" aria-hidden="true"><label for="c-societe">Soci&eacute;t&eacute;</label><input id="c-societe" type="text" tabindex="-1" autocomplete="off"></div>
         <p class="devis-error" id="contact-error" hidden>Il manque quelques infos - les champs marqu&eacute;s * sont n&eacute;cessaires.</p>
         <div class="devis-actions field-full">
           <button class="btn btn-solid" type="submit" id="contact-send">Envoyer le message <span class="arr">&rarr;</span></button>
@@ -231,12 +232,20 @@ contactForm.addEventListener('submit', async (e) => {
   btn.disabled = true; btn.textContent = 'Envoi en cours…';
   const corps = 'De : ' + v('c-nom2') + ' <' + v('c-mail2') + '>\n\n' + v('c-msg2');
   try {
-    const r = await fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
+    // Deux canaux en parallèle : l'email garde une trace, Telegram prévient tout de suite
+    const parMail = fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ _subject: 'Message via tremorsi.com', nom: v('c-nom2'), email: v('c-mail2'), message: v('c-msg2') }),
-    });
-    if (!r.ok) throw new Error('http');
+    }).then((r) => { if (!r.ok) throw new Error('http'); return r; });
+    const parTelegram = fetch('https://agenda.tremorsi.com/contatto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'message', nom: v('c-nom2'), contact: v('c-mail2'), message: v('c-msg2'), societe: v('c-societe') }),
+      signal: AbortSignal.timeout ? AbortSignal.timeout(6000) : undefined,
+    }).then((r) => { if (!r.ok) throw new Error('http'); return r; });
+    const [mail, tg] = await Promise.allSettled([parMail, parTelegram]);
+    if (mail.status !== 'fulfilled' && tg.status !== 'fulfilled') throw new Error('les deux canaux ont échoué');
     btn.outerHTML = '<p class="form-ok">&#10003; Message envoy&eacute; ! On vous r&eacute;pond tr&egrave;s vite - grazie.</p>';
   } catch (err) {
     btn.disabled = false; btn.innerHTML = 'Envoyer le message <span class="arr">&rarr;</span>';

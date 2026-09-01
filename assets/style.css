@@ -1077,3 +1077,10 @@ footer{background:var(--ink);color:var(--crema)}
 }
 .pass-retrait-aide{font-size:.85rem;color:var(--ink-55);margin:0}
 .pass-retrait-aide.use{color:var(--rosso);font-weight:600}
+
+/* Champ piège anti-robot : hors écran plutôt que display:none,
+   que les robots ignorent moins souvent. Jamais annoncé aux lecteurs d'écran. */
+.pot-miel{
+  position:absolute!important;left:-9999px!important;top:auto!important;
+  width:1px!important;height:1px!important;overflow:hidden;
+}

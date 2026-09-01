@@ -4,6 +4,7 @@
  * GET  /instagram -> JSON des 6 derniers permaliens Instagram
  * GET  /votes     -> classement des communes qui réclament le camion
  * POST /vote      -> ajoute une voix (1 par appareil et par jour)
+ * POST /contatto  -> notification Telegram quand un visiteur envoie un formulaire
  * POST /telegram  -> webhook du bot (Tressy modifie la semaine par messages)
  * CRON            -> rafraîchit le flux Instagram chaque lundi 4h
  *
@@ -38,6 +39,7 @@ export default {
     if (url.pathname === '/votes') return handleVotes(env);
     if (url.pathname === '/passaporto') return handlePassaporto(request, env);
     if (url.pathname === '/timbro') return handleTimbro(request, env);
+    if (url.pathname === '/contatto') return handleContatto(request, env);
     if (url.pathname === '/vote') return handleVote(request, env);
     if (url.pathname === '/telegram' && request.method === 'POST') return handleTelegram(request, env);
     return new Response('Tre Mor Si agenda', { status: 200 });
@@ -144,6 +146,100 @@ function votesTexte(classement, total) {
   return `🗳 Où les gens veulent le camion (${total} votes) :\n\n` + lignes.join('\n');
 }
 
+
+
+/* ---------------- Formulaires : notification Telegram ---------------- */
+
+const CONTATTO_MAX_IP = 5;    // envois max par adresse IP et par heure
+const CONTATTO_MAX_TOT = 40;  // garde-fou global par heure
+
+/** Telegram en parse_mode HTML : neutralise ce qui viendrait du visiteur. */
+function esc(v, max = 400) {
+  return String(v == null ? '' : v)
+    .slice(0, max)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .trim();
+}
+
+/** Un numero belge exploitable pour un lien wa.me, sinon null. */
+function numeroWa(txt) {
+  const brut = String(txt || '').replace(/[^\d+]/g, '');
+  if (/^\+?32\d{8,9}$/.test(brut)) return brut.replace(/^\+/, '');
+  if (/^0\d{8,9}$/.test(brut)) return '32' + brut.slice(1);
+  return null;
+}
+
+async function handleContatto(request, env) {
+  const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'Content-Type': 'application/json', ...CORS } });
+  if (request.method !== 'POST') return json({ ok: false }, 405);
+
+  // Filtre grossier a robots : trivial a falsifier, la vraie defense est
+  // le champ piege + les quotas. localhost est admis pour les tests.
+  const origine = request.headers.get('origin') || request.headers.get('referer') || '';
+  if (!/(tremorsi\.com|localhost|127\.0\.0\.1)/.test(origine)) return json({ ok: false, motif: 'origine' }, 403);
+
+  let d;
+  try { d = await request.json(); } catch { return json({ ok: false }, 400); }
+
+  // Champ piege : invisible pour un humain, rempli par les robots
+  if (String(d.societe || '').trim()) return json({ ok: true, ignore: true });
+
+  const ip = request.headers.get('cf-connecting-ip') || 'anon';
+  const heure = new Date().toISOString().slice(0, 13);
+  const cleIp = `c:${heure}:${ip}`;
+  const cleTot = `c:${heure}:_total`;
+  const n = parseInt((await env.AGENDA.get(cleIp)) || '0', 10);
+  const tot = parseInt((await env.AGENDA.get(cleTot)) || '0', 10);
+  if (n >= CONTATTO_MAX_IP || tot >= CONTATTO_MAX_TOT) return json({ ok: false, motif: 'trop' }, 429);
+
+  const devis = d.type === 'devis';
+  const nom = esc(d.nom, 80);
+  const contact = esc(d.contact, 120);
+  if (!nom || !contact) return json({ ok: false, motif: 'champs' }, 400);
+
+  const L = [];
+  L.push(devis ? '📬 <b>Nouvelle demande de devis</b>' : '✉️ <b>Nouveau message</b>');
+  L.push('<i>via tremorsi.com</i>');
+  L.push('');
+  L.push(`👤 <b>${nom}</b>`);
+  L.push(`📞 ${contact}`);
+  if (devis) {
+    L.push('');
+    const quand = esc(d.date, 30) + (esc(d.heure, 10) ? ' à ' + esc(d.heure, 10) : '');
+    if (quand.trim()) L.push(`📅 ${quand}`);
+    if (esc(d.convives, 10)) L.push(`👥 ${esc(d.convives, 10)} convives`);
+    if (esc(d.lieu, 120)) L.push(`📍 ${esc(d.lieu, 120)}`);
+    const quoi = [esc(d.evenement, 60), esc(d.formule, 60)].filter(Boolean).join(' · ');
+    if (quoi) L.push(`🎉 ${quoi}`);
+  }
+  const msg = esc(d.message, 900);
+  if (msg) { L.push(''); L.push(`💬 ${msg}`); }
+
+  const wa = numeroWa(contact);
+  const clavier = wa
+    ? { inline_keyboard: [[{ text: '💬 Répondre sur WhatsApp', url: `https://wa.me/${wa}` }]] }
+    : undefined;
+
+  const ids = (env.ALLOWED_IDS || '').split(',').map((x) => x.trim()).filter(Boolean);
+  let envoyes = 0;
+  for (const id of ids) {
+    try {
+      const r = await tg(env, 'sendMessage', {
+        chat_id: id,
+        text: L.join('\n'),
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+        reply_markup: clavier,
+      });
+      if (r && r.ok) envoyes++;
+    } catch { /* on continue avec les autres destinataires */ }
+  }
+
+  await env.AGENDA.put(cleIp, String(n + 1), { expirationTtl: 3600 });
+  await env.AGENDA.put(cleTot, String(tot + 1), { expirationTtl: 3600 });
+
+  return json({ ok: envoyes > 0, envoyes });
+}
 
 /* ---------------- Passaporto : tampons validés au camion ---------------- */
 

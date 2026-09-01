@@ -172,6 +172,7 @@
         <div class="field"><label for="f-formule">Envies</label>
           <select id="f-formule"><option>Pucce &amp; arrosticini</option><option>Aperitivo (planches &amp; Spritz)</option><option>Moules &agrave; la plancha</option><option>La totale - tutto&nbsp;!</option></select></div>
         <div class="field field-full"><label for="f-msg">Un mot de plus&nbsp;?</label><textarea id="f-msg" rows="3" placeholder="Horaires, contraintes, envies particuli&egrave;res&hellip;"></textarea></div>
+        <div class="pot-miel" aria-hidden="true"><label for="f-societe">Soci&eacute;t&eacute;</label><input id="f-societe" type="text" tabindex="-1" autocomplete="off"></div>
         <p class="devis-error" id="devis-error" hidden>Il manque quelques infos - les champs marqu&eacute;s * sont n&eacute;cessaires.</p>
         <div class="devis-actions field-full">
           <button class="btn btn-solid" type="submit">Envoyer sur WhatsApp <span class="arr">&rarr;</span></button>
@@ -262,13 +263,26 @@ document.getElementById('devis-mail').addEventListener('click', async () => {
   if (!m) return;
   const btn = document.getElementById('devis-mail');
   btn.disabled = true; btn.textContent = 'Envoi en cours…';
+  const v = (id) => document.getElementById(id).value.trim();
   try {
-    const r = await fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
+    // Deux canaux en parallèle : l'email garde une trace, Telegram prévient tout de suite
+    const parMail = fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ _subject: 'Demande de devis - tremorsi.com', demande: m }),
-    });
-    if (!r.ok) throw new Error('http');
+    }).then((r) => { if (!r.ok) throw new Error('http'); return r; });
+    const parTelegram = fetch('https://agenda.tremorsi.com/contatto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'devis', nom: v('f-nom'), contact: v('f-tel'), date: v('f-date'), heure: v('f-heure'),
+        convives: v('f-convives'), lieu: v('f-lieu'), evenement: v('f-type'), formule: v('f-formule'),
+        message: v('f-msg'), societe: v('f-societe'),
+      }),
+      signal: AbortSignal.timeout ? AbortSignal.timeout(6000) : undefined,
+    }).then((r) => { if (!r.ok) throw new Error('http'); return r; });
+    const [mail, tg] = await Promise.allSettled([parMail, parTelegram]);
+    if (mail.status !== 'fulfilled' && tg.status !== 'fulfilled') throw new Error('les deux canaux ont échoué');
     btn.outerHTML = '<p class="form-ok">&#10003; Demande envoy&eacute;e ! On vous r&eacute;pond tr&egrave;s vite - grazie.</p>';
   } catch (e) {
     btn.disabled = false; btn.innerHTML = 'Ou par email <span class="arr">&rarr;</span>';
