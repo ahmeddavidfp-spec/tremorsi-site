@@ -133,8 +133,10 @@ la vraie version et non le cache.
 
 **Envoi des formulaires** - **deux canaux en parallèle** (`Promise.allSettled`) :
 
-1. [FormSubmit](https://formsubmit.co) en AJAX vers `contact@tremorsi.com` - la trace écrite.
-   Le tout premier envoi déclenche un email d'activation à cliquer (une seule fois).
+1. [FormSubmit](https://formsubmit.co) en AJAX - la trace écrite. L'endpoint utilise le **jeton**
+   `858b83dc2426a3819b7508c8cd8a0a98` (→ `contact@tremorsi.com`) plutôt que l'adresse en clair,
+   pour ne pas l'exposer dans le code source des pages.
+   Le tout premier envoi depuis un domaine déclenche un email d'activation à cliquer (une seule fois).
 2. `POST https://agenda.tremorsi.com/contatto` - **notification Telegram immédiate** vers tous les
    identifiants de `ALLOWED_IDS`, avec un bouton *Répondre sur WhatsApp* si un numéro belge est détecté.
 

@@ -367,6 +367,11 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
     <pre><code>export PATH="$HOME/tools/node/bin:$PATH"
 cd worker && npx wrangler deploy</code></pre>
 
+    <div class="note"><b>Endpoint FormSubmit</b> : les formulaires appellent le <b>jeton</b>
+    <code>858b83dc2426a3819b7508c8cd8a0a98</code> et non <code>contact@tremorsi.com</code> en clair,
+    pour ne pas exposer l'adresse dans le code source. Le premier envoi depuis un domaine donné
+    déclenche un email d'activation à cliquer une fois - à refaire si le domaine change.</div>
+
     <h3>Notification Telegram des formulaires</h3>
     <p style="font-size:14.5px;color:var(--muted)">Quand un visiteur envoie le formulaire de contact ou
     demande un devis, la demande arrive <b>dans la seconde sur Telegram</b>, en plus de l'email.</p>

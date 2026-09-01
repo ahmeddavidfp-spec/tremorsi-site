@@ -266,7 +266,8 @@ document.getElementById('devis-mail').addEventListener('click', async () => {
   const v = (id) => document.getElementById(id).value.trim();
   try {
     // Deux canaux en parallèle : l'email garde une trace, Telegram prévient tout de suite
-    const parMail = fetch('https://formsubmit.co/ajax/contact@tremorsi.com', {
+    // Jeton FormSubmit (masque l'adresse dans le code source) -> contact@tremorsi.com
+    const parMail = fetch('https://formsubmit.co/ajax/858b83dc2426a3819b7508c8cd8a0a98', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ _subject: 'Demande de devis - tremorsi.com', demande: m }),
