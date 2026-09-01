@@ -190,8 +190,16 @@ def main():
     qr.save(a)
     b = os.path.join(SORTIE, "affiche-avis-google.png")
     affiche(qr).save(b, dpi=(300, 300))
+    # Version allegee pour le site : aplatie sur le fond creme de la carte
+    # et ramenee a 64 couleurs, sinon le degrade fait exploser le poids (145 Ko -> 30 Ko).
+    web = os.path.normpath(os.path.join(ICI, "..", "assets", "qr-avis-google.png"))
+    plat = Image.new("RGB", (620, 620), CREMA2)
+    petit = qr.resize((620, 620), Image.LANCZOS)
+    plat.paste(petit, (0, 0), petit)
+    plat.quantize(colors=64, method=Image.MEDIANCUT, dither=Image.NONE).save(web, optimize=True)
     print(f"  QR      : {qr.size[0]}x{qr.size[1]} px, {n} modules -> {a}")
     print(f"  Affiche : A6 300 dpi -> {b}")
+    print(f"  Web     : 620x620 px, {os.path.getsize(web)//1024} Ko -> {web}")
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `index.html` | **Vitrine** : hero + Fiat 500, La storia, Il viaggio, teaser carte, galerie, quiz Carta d'Identità, cartolina, CTA final |
 | `menu.html` | La carte complète (seul endroit où elle vit) |
 | `privatisation.html` | Pitch privatisation + **Calcolatore di festa** + formulaire de devis |
-| `contact.html` | Coordonnées, **agenda de la semaine** (`#semaine`), formulaire de contact |
+| `contact.html` | Coordonnées, **agenda de la semaine** (`#semaine`), formulaire de contact, **avis Google** (`#avis`) |
 | `reseaux.html` | Réseaux sociaux : cartes + murs Instagram/Facebook en iframes directes |
 | `faq.html` | 14 questions fréquentes en accordéons + JSON-LD FAQPage |
 | `dove-andiamo.html` | Vote des communes : les visiteurs réclament le camion chez eux |
@@ -251,6 +251,8 @@ hiérarchie des titres, images, maillage interne.
     Produit `outils/sortie/qr-avis-google.png` (QR seul, fond transparent) et
     `outils/sortie/affiche-avis-google.png` (affichette A6, 300 dpi, prête à imprimer).
     Relancer avec `python3 outils/qr-avis-google.py`.
+    Écrit aussi `assets/qr-avis-google.png` (620 px, aplati sur le fond crème et ramené à
+    64 couleurs : le dégradé passait sinon de 30 Ko à 145 Ko), utilisé par le bloc `#avis` de la page contact.
   - Dépendances : `qrcode` + `Pillow`. Polices : Didot et Avenir Next (fournies avec macOS).
 
   ⚠️ **Toujours re-tester un QR après modification.** Aucun décodeur n'est installé en local ;

@@ -1084,3 +1084,29 @@ footer{background:var(--ink);color:var(--crema)}
   position:absolute!important;left:-9999px!important;top:auto!important;
   width:1px!important;height:1px!important;overflow:hidden;
 }
+
+/* Bloc « laissez-nous un avis Google » */
+.avis-carte{
+  display:grid;grid-template-columns:1fr;gap:1.6rem;align-items:center;
+  background:var(--crema-2);border:1px solid var(--ink-15);border-radius:20px;
+  padding:clamp(1.4rem,4vw,2.4rem);max-width:900px;
+}
+@media (min-width:680px){
+  .avis-carte{grid-template-columns:auto 1fr;gap:2.4rem}
+}
+.avis-qr{
+  display:block;width:min(240px,60vw);margin:0 auto;border-radius:16px;
+  background:var(--crema-2);transition:transform .2s;
+}
+.avis-qr:hover{transform:scale(1.03)}
+.avis-qr img{width:100%;height:auto;display:block;border-radius:14px}
+.avis-etoiles{display:flex;gap:.25rem;margin-bottom:.7rem;justify-content:center}
+@media (min-width:680px){.avis-etoiles{justify-content:flex-start}}
+.avis-txt{text-align:center}
+@media (min-width:680px){.avis-txt{text-align:left}}
+.avis-txt p{color:var(--ink-55);line-height:1.6;max-width:34rem}
+.avis-txt .btn{margin-top:1.2rem;cursor:pointer}
+.avis-grazie{
+  font-family:var(--serif);font-style:italic;color:var(--rosso);
+  font-size:1.15rem;margin-top:1rem;
+}
