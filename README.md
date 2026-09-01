@@ -43,6 +43,17 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 **Navigation** - desktop : La carte · Privatiser · Blog · Contact · [Réserver], et au-delà de 1080 px aussi Réseaux · Passaporto · Dove andiamo ? · FAQ.
 Mobile : burger en 2 groupes (**Il sito** / **Scopri**) + bouton Réserver tricolore.
 
+Le menu complet fait ~770 px : il lui faut plus de 1000 px avec le logo. D'où **trois paliers** :
+
+| Largeur | Barre du haut | Burger |
+|---|---|---|
+| < 720 px | Logo + Réserver | oui |
+| 720 - 1079 px | + La carte · Privatiser · Blog · Contact (`.only-desktop`) | oui |
+| ≥ 1080 px | + Réseaux · Passaporto · Dove andiamo ? · FAQ (`.only-large`) | non |
+
+⚠️ Un lien ajouté au menu doit l'être dans les **trois** navigations (barre, burger, pied de page),
+porter `class="only-desktop only-large"`, et être testé à 1079 et 730 px (`scrollWidth - innerWidth === 0`).
+
 ---
 
 ## 3. Identité visuelle
@@ -97,6 +108,21 @@ git add -A && git commit -m "..." && git push
   ⚠️ Passer en proxy orange casse la vérification Render tant que le certificat n'est pas émis
 - Node (pour wrangler) : installé en portable → `export PATH="$HOME/tools/node/bin:$PATH"`
 
+### ⚠️ Supprimer une page
+
+La publication statique de Render est **incrémentale** : elle ajoute et écrase, mais ne retire jamais.
+Un fichier effacé du dépôt continue d'être servi en 200 après le déploiement.
+
+1. Retirer la page du dépôt, des 3 navigations, du `sitemap.xml` et de `llms.txt`
+2. Dashboard Render → service `tremorsi` → **Manual Deploy** → **Clear build cache & deploy**
+3. Vérifier : `curl -o /dev/null -w "%{http_code}" https://tremorsi.com/la-page.html` doit rendre **404**
+
+Le `render.yaml` du dépôt **n'est pas lu** (service créé à la main, pas depuis un Blueprint - l'en-tête
+`X-Frame-Options` qu'il déclare n'est jamais servi). Toute règle ajoutée dedans reste sans effet.
+
+Les pages sont servies avec `s-maxage=300` : après un déploiement, ajouter `?cb=1` à l'URL pour tester
+la vraie version et non le cache.
+
 ---
 
 ## 6. Email & formulaires
@@ -126,6 +152,15 @@ Tressy (Telegram) → bot @TreMorSiBot → Worker Cloudflare → KV
 - **Stockage** : KV namespace `AGENDA` (clés `week`, `votes`, `pass:<id>`, `riscatto:<id>`)
 - **Secrets** (via `npx wrangler secret put`) : `BOT_TOKEN`, `WEBHOOK_SECRET` (copie locale dans `worker/.webhook-secret`, non versionnée), `ALLOWED_IDS` (identifiants Telegram autorisés, séparés par des virgules)
 - **Sécurité** : webhook validé par `secret_token`, seuls les identifiants de `ALLOWED_IDS` peuvent modifier
+- **CORS** : le test `request.method === 'OPTIONS'` doit être la **première ligne** de `fetch()`, avant tout
+  routage. Placé après, le préflight d'un `POST` JSON tombe dans le handler de route qui répond 405, et le
+  navigateur bloque la requête avec une erreur CORS - ce qui avait cassé silencieusement tous les votes de
+  `dove-andiamo.html`. Contrôle :
+  ```bash
+  curl -o /dev/null -w "%{http_code}\n" -X OPTIONS https://agenda.tremorsi.com/timbro \
+    -H 'Origin: https://tremorsi.com' -H 'Access-Control-Request-Method: POST' \
+    -H 'Access-Control-Request-Headers: content-type'
+  ```
 - **Repli** : si le Worker ne répond pas, le site affiche l'agenda par défaut codé en dur (aucune page cassée)
 
 **Mur Instagram** : cron hebdomadaire (lundi 4h) ; si Instagram bloque (429), rappel Telegram et mise à jour manuelle par `/instagram <lien>`. Solution définitive : Meta Graph API.
@@ -178,6 +213,19 @@ Client au camion → demande le code du jour → le tape sur passaporto.html
 - `sitemap.xml` (7 URLs) + `robots.txt`
 - **Google Search Console** : propriété `tremorsi.com` vérifiée (TXT DNS), sitemap soumis - « Opération effectuée », 7 pages découvertes
 - Mentions légales (société, siège, TVA) en pied de chaque page - obligation légale belge
+
+### Auditer
+
+`audit_seo.py` interroge les pages **en ligne** : unicité des titres/descriptions/h1, longueurs,
+hiérarchie des titres, images, maillage interne.
+
+- Ajouter toute nouvelle page à la liste `PAGES` en tête du script, sinon elle n'est pas contrôlée
+- Ajouter `?cb=1` aux URLs après un déploiement récent (cache CDN)
+- Écrire titres et descriptions en **accents UTF-8 directs**, pas en entités `&eacute;` : sinon le
+  comptage de caractères est faussé
+- **Leçon** : une première version ne mesurait que la *longueur* des descriptions, jamais leur *contenu*.
+  Deux pages générées depuis `contact.html` avaient hérité de sa description mot pour mot et l'audit
+  annonçait « tout est en ordre ». Vérifier la qualité et l'unicité, pas la simple présence d'une balise.
 
 ---
 

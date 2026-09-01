@@ -204,6 +204,24 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </section>
 
   <section id="fonctions">
+
+    <h3>Navigation : trois paliers</h3>
+    <p style="font-size:14.5px;color:var(--muted)">Le menu complet mesure environ 770&nbsp;px de large.
+    Avec le logo et les marges, il lui faut plus de 1000&nbsp;px. En dessous, il écrasait le logo
+    et coupait le bouton « Réserver ». D'où trois paliers plutôt qu'un seul.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Largeur</th><th>Barre du haut</th><th>Burger</th></tr></thead>
+      <tbody>
+        <tr><td>&lt; 720 px</td><td>Logo + <b>Réserver</b></td><td>oui</td></tr>
+        <tr><td>720 - 1079 px</td><td>+ La carte · Privatiser · Blog · Contact <span class="mono">(.only-desktop)</span></td><td>oui</td></tr>
+        <tr><td>&ge; 1080 px</td><td>+ Réseaux · Passaporto · Dove andiamo&nbsp;? · FAQ <span class="mono">(.only-large)</span></td><td>non</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>En ajoutant un lien au menu</b>, lui donner <code>class="only-desktop only-large"</code>
+    (palier secondaire) et vérifier qu'il ne déborde pas : redimensionner à <b>1079</b> et <b>730&nbsp;px</b>, puis contrôler
+    que <code>document.documentElement.scrollWidth - innerWidth</code> vaut bien 0 et que le logo garde sa largeur.
+    Ne pas oublier les <b>trois</b> navigations : barre du haut, menu burger, pied de page.</div>
+
     <h2>4. <i>Fonctionnalités</i></h2>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Fonction</th><th>Page</th><th>Détail</th></tr></thead>
@@ -253,6 +271,25 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
       <div class="note"><b>Attention</b> : garder les CNAME du site en <b>DNS only</b>. Passer en proxy orange empêche
       Render de vérifier le domaine et de renouveler son certificat.</div>
     </div>
+    <div class="card">
+      <h3>Supprimer une page : Render garde les fichiers effacés</h3>
+      <p style="font-size:14.5px;color:var(--muted)">La publication statique de Render est <b>incrémentale</b> :
+      elle ajoute et écrase, mais ne retire jamais. Un fichier supprimé du dépôt continue d'être servi
+      en 200 après le déploiement, alors que tous les liens vers lui ont bien disparu.</p>
+      <ul class="clean">
+        <li>Retirer la page du dépôt, des trois navigations, du <code>sitemap.xml</code> et de <code>llms.txt</code></li>
+        <li>Puis dans le dashboard Render : service <code>tremorsi</code> →
+        <b>Manual Deploy</b> → <b>Clear build cache &amp; deploy</b></li>
+        <li>Vérifier : <code>curl -o /dev/null -w "%{http_code}" https://tremorsi.com/la-page.html</code> doit rendre <b>404</b></li>
+      </ul>
+      <div class="note"><b>Le <code>render.yaml</code> du dépôt n'est pas lu.</b> Le service a été créé à la main
+      dans le dashboard, pas depuis un Blueprint. Preuve : l'en-tête <code>X-Frame-Options</code> qu'il déclare
+      n'est jamais servi. Toute règle ajoutée dans ce fichier (redirections, en-têtes) reste donc sans effet -
+      il faut passer par le dashboard, ou rattacher le service au Blueprint.</div>
+    </div>
+    <div class="note"><b>Cache CDN</b> : les pages sont servies avec <code>s-maxage=300</code>. Après un déploiement,
+    une vérification en ligne peut renvoyer l'ancienne version pendant quelques minutes. Ajouter un paramètre
+    anti-cache pour tester la vraie version : <code>https://tremorsi.com/page.html?cb=1</code>.</div>
     <div class="note"><b>Node</b> (nécessaire pour wrangler) est installé en portable :
     <code>export PATH="$HOME/tools/node/bin:$PATH"</code> avant toute commande <code>npx</code>.</div>
   </section>
@@ -309,11 +346,23 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
         <tr><td>Code</td><td><code>worker/src/index.js</code></td></tr>
         <tr><td>Endpoints</td><td><code>GET /agenda</code> · <code>GET /instagram</code> · <code>GET /votes</code> · <code>POST /vote</code> · <code>GET /passaporto</code> · <code>POST /timbro</code> · <code>POST /telegram</code></td></tr>
         <tr><td>Stockage</td><td>Cloudflare KV, namespace <code>AGENDA</code> : <code>week</code>, <code>votes</code>, <code>pass:&lt;id&gt;</code>, <code>riscatto:&lt;id&gt;</code></td></tr>
+        <tr><td>CORS</td><td>Le préflight <code>OPTIONS</code> doit être traité <b>avant</b> le routage, sinon tout <code>POST</code> en JSON est rejeté (voir l'encadré)</td></tr>
         <tr><td>Secrets</td><td><code>BOT_TOKEN</code>, <code>WEBHOOK_SECRET</code>, <code>ALLOWED_IDS</code></td></tr>
         <tr><td>Sécurité</td><td>Webhook validé par <code>secret_token</code> + liste blanche d'identifiants Telegram</td></tr>
         <tr><td>Repli</td><td>Si le Worker ne répond pas, le site affiche l'agenda par défaut codé en dur</td></tr>
       </tbody>
     </table></div>
+
+    <div class="note"><b>Piège CORS déjà rencontré.</b> Un <code>fetch</code> qui envoie
+    <code>Content-Type: application/json</code> déclenche d'abord une requête <code>OPTIONS</code> (préflight).
+    Si le test <code>request.method === 'OPTIONS'</code> est placé <i>après</i> les tests de route, cette requête
+    tombe dans le handler du chemin, qui répond <b>405</b> - et le navigateur bloque le POST avec un message de CORS,
+    pas d'erreur serveur. C'est ce qui a fait échouer silencieusement <b>tous les votes</b> de la page
+    « Dove andiamo&nbsp;? » en production. Le test doit être la <b>première ligne</b> du <code>fetch()</code>.
+    Vérification&nbsp;:
+    <pre><code>curl -o /dev/null -w "%{http_code}\n" -X OPTIONS https://agenda.tremorsi.com/timbro \
+  -H 'Origin: https://tremorsi.com' -H 'Access-Control-Request-Method: POST' \
+  -H 'Access-Control-Request-Headers: content-type'   # doit rendre 200</code></pre></div>
     <h3>Déployer une modification du Worker</h3>
     <pre><code>export PATH="$HOME/tools/node/bin:$PATH"
 cd worker && npx wrangler deploy</code></pre>
@@ -381,6 +430,23 @@ cd worker && npx wrangler secret put ALLOWED_IDS</code></pre>
         </ul>
       </div>
     </div>
+
+    <h3>Auditer le référencement</h3>
+    <p style="font-size:14.5px;color:var(--muted)">Script <code>audit_seo.py</code> : il interroge les
+    <b>pages en ligne</b> et contrôle l'unicité des titres, des descriptions et des <code>h1</code>,
+    leurs longueurs, la hiérarchie des titres, les images et le maillage interne.</p>
+    <div class="note"><b>Leçon apprise.</b> Une première version ne mesurait que la <i>longueur</i> des
+    méta-descriptions, jamais leur <i>contenu</i>. Résultat : deux pages générées à partir de
+    <code>contact.html</code> avaient hérité de sa description mot pour mot, et l'audit annonçait
+    « tout est en ordre ». Un audit doit vérifier la <b>qualité et l'unicité entre les pages</b>,
+    pas seulement la présence d'une balise.</div>
+    <ul class="clean">
+      <li>Ajouter toute nouvelle page à la liste <code>PAGES</code> en tête du script, sinon elle n'est pas contrôlée</li>
+      <li>Le script interroge la production : ajouter <code>?cb=1</code> aux URLs pour contourner le cache CDN
+      après un déploiement récent</li>
+      <li>Écrire les titres et descriptions en <b>accents UTF-8 directs</b> (é, à), pas en entités
+      <code>&amp;eacute;</code> : sinon le comptage des caractères est faussé et Google tronque</li>
+    </ul>
     <div class="ok"><b>Piste d'évolution</b> : créer une fiche <b>Google Business Profile</b> pour le food truck -
     c'est le levier n°1 pour les recherches locales « food truck italien Charleroi ».</div>
   </section>
