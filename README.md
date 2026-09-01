@@ -245,8 +245,17 @@ hiérarchie des titres, images, maillage interne.
 
 ## 9. Ressources annexes
 
-- **QR code brandé** : dégradé vert→rouge, modules arrondis, logo « Sì » au centre, correction d'erreur maximale.
-  Généré par script Python (`qrcode` + `Pillow`) - version simple + affichette prête à imprimer.
+- **QR codes brandés** : dégradé vert→jaune→rouge, modules arrondis, pastille « Sì » au centre,
+  correction d'erreur **H** (30 %, ce qui permet la pastille centrale).
+  - `outils/qr-avis-google.py` → **avis Google** (`https://g.page/r/CeF2pgK9rkCaEBM/review`).
+    Produit `outils/sortie/qr-avis-google.png` (QR seul, fond transparent) et
+    `outils/sortie/affiche-avis-google.png` (affichette A6, 300 dpi, prête à imprimer).
+    Relancer avec `python3 outils/qr-avis-google.py`.
+  - Dépendances : `qrcode` + `Pillow`. Polices : Didot et Avenir Next (fournies avec macOS).
+
+  ⚠️ **Toujours re-tester un QR après modification.** Aucun décodeur n'est installé en local ;
+  la vérification se fait avec l'API `BarcodeDetector` du navigateur (Chrome), en décodant l'image
+  à plusieurs tailles pour confirmer qu'elle reste lisible une fois imprimée petit.
 - **Assets** : `assets/logo.png` (logo détouré), `assets/icons/` (favicon, apple-touch, PWA 192/512),
   photos du camion et des plats, `musica.m4a`.
 
