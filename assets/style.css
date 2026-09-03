@@ -492,6 +492,17 @@ footer{background:var(--ink);color:var(--crema)}
   max-width:1120px;margin:0 auto;
 }
 .foot-base i{font-family:var(--serif);font-style:italic}
+.foot-droite{display:flex;flex-direction:column;gap:.2rem;text-align:right}
+@media (max-width:560px){.foot-droite{text-align:left}}
+.foot-credit{font-size:.75rem;color:rgba(255,253,247,.4)}
+.foot-credit a{
+  color:rgba(255,253,247,.62);text-decoration:none;
+  border-bottom:1px solid rgba(255,253,247,.22);
+  transition:color .2s,border-color .2s;
+}
+.foot-credit a:hover,.foot-credit a:focus-visible{
+  color:var(--crema);border-bottom-color:var(--crema);
+}
 
 /* ---------- Fun : mouton, WhatsApp, Sì ---------- */
 .band{position:relative}

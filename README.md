@@ -227,6 +227,9 @@ Client au camion → demande le code du jour → le tape sur passaporto.html
 - `sitemap.xml` (7 URLs) + `robots.txt`
 - **Google Search Console** : propriété `tremorsi.com` vérifiée (TXT DNS), sitemap soumis - « Opération effectuée », 7 pages découvertes
 - Mentions légales (société, siège, TVA) en pied de chaque page - obligation légale belge
+- **Signature Scribeo** en pied des 11 pages (`Site créé par Scribeo` → https://scribeo.be), plus
+  un `creator` dans le JSON-LD de l'accueil. C'est un canal d'acquisition : chaque site livré
+  renvoie vers l'offre. Lien suivi volontairement (pas de `nofollow`).
 
 ### Auditer
 
@@ -267,7 +270,7 @@ hiérarchie des titres, images, maillage interne.
 
 - [ ] **Identifiant Telegram de Tressy** → l'ajouter à `ALLOWED_IDS`
 - [ ] **Vérification email Cloudflare** de Tressy → basculer `contact@tremorsi.com` vers sa boîte
-- [ ] **Activation FormSubmit** (clic sur l'email reçu au premier envoi)
+- [x] ~~**Activation FormSubmit**~~ - fait le 01/09/2026, testé depuis la production
 - [ ] Prénom de son compagnon (section « Chi siamo » dit encore « son complice »)
 - [ ] Leur vraie histoire : région d'Italie, comment l'aventure a commencé (→ enrichir Chi siamo + article de blog)
 - [ ] Horaires réels de la semaine (à saisir directement via le bot)
