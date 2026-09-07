@@ -777,6 +777,76 @@ footer{background:var(--ink);color:var(--crema)}
 .mobnav li a:active{color:var(--rosso)}
 .mobnav-cta{margin-top:1.4rem}
 
+/* Bouton « Installer l'app », ajoute par assets/app.js quand c'est possible */
+.mobnav-install{
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+  width:100%;margin-top:.7rem;
+  font:inherit;font-weight:600;font-size:.95rem;cursor:pointer;
+  color:var(--ink);background:transparent;
+  border:1.5px dashed var(--ink-15);border-radius:999px;
+  padding:.68rem 1.3rem;
+  transition:border-color .2s,background .2s;
+}
+.mobnav-install:hover,.mobnav-install:focus-visible{
+  border-color:var(--verde);border-style:solid;background:var(--crema-2);
+}
+.mobnav-install .arr{font-family:var(--serif)}
+
+/* Fenetre expliquant le geste d'installation sur iPhone */
+.install-voile{
+  position:fixed;inset:0;z-index:120;
+  display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(26,26,22,.55);
+  padding:1rem 1rem calc(1rem + env(safe-area-inset-bottom,0px));
+  animation:voile-entre .2s ease both;
+}
+@media (min-width:600px){.install-voile{align-items:center}}
+@keyframes voile-entre{from{opacity:0}to{opacity:1}}
+.install-carte{
+  position:relative;width:100%;max-width:26rem;
+  background:var(--carta);border:1px solid var(--ink);border-radius:20px;
+  padding:1.6rem 1.4rem 1.5rem;
+  box-shadow:0 18px 50px rgba(26,26,22,.3);
+  animation:carte-monte .28s cubic-bezier(.3,1.2,.5,1) both;
+}
+@keyframes carte-monte{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.install-fermer{
+  position:absolute;top:.6rem;right:.7rem;
+  width:34px;height:34px;line-height:1;
+  font:inherit;font-size:1.5rem;color:var(--ink-55);
+  background:none;border:0;border-radius:50%;cursor:pointer;
+}
+.install-fermer:hover,.install-fermer:focus-visible{background:var(--crema-2);color:var(--ink)}
+.install-sur{
+  font-size:.7rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--rosso);margin:0 0 .5rem;
+}
+.install-carte h2{
+  font-family:var(--serif);font-weight:400;line-height:1.08;
+  font-size:clamp(1.4rem,5vw,1.8rem);margin:0;
+}
+.install-carte h2 i{font-style:italic;color:var(--rosso)}
+.install-intro{color:var(--ink-55);margin:.7rem 0 0}
+.install-pas{
+  list-style:none;counter-reset:pas;margin:1.1rem 0 0;padding:0;
+  display:flex;flex-direction:column;gap:.6rem;
+}
+.install-pas li{
+  counter-increment:pas;
+  display:grid;grid-template-columns:1.7rem 1fr;gap:.7rem;align-items:center;
+  background:var(--crema-2);border-radius:12px;padding:.7rem .85rem;
+}
+.install-pas li::before{
+  content:counter(pas);
+  font-family:var(--serif);font-size:1.15rem;color:var(--rosso);text-align:center;
+}
+.install-pas span{display:inline-flex;align-items:center;gap:.35rem;flex-wrap:wrap}
+.install-pas svg{color:var(--verde);flex:none}
+.install-note{font-size:.9rem;color:var(--ink-55);margin:1.1rem 0 0}
+@media (prefers-reduced-motion:reduce){
+  .install-voile,.install-carte{animation:none}
+}
+
 /* ---------- Quiz : quale morso sei ---------- */
 #quiz{background:
   linear-gradient(rgba(255,252,245,.93),rgba(255,252,245,.93)),
