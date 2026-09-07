@@ -74,7 +74,9 @@ porter `class="only-desktop only-large"`, et être testé à 1079 et 730 px (`sc
   | `--rosso` | `#C92E1F` | accent (italiques, points) |
   | `--limone` | `#E9B93B` | accents secondaires |
 - **Direction** : lumière « golden hour » (dégradés ambrés dans le hero et La storia), jamais de beige plat
-- **Règle typo** : pas de tirets cadratins (—), uniquement des tirets simples (-)
+- **Règle typo** : jamais de tiret cadratin ni demi-cadratin, uniquement des tirets simples (-).
+  La règle est écrite sans le caractère lui-même, pour que `grep` reste un contrôle fiable
+  avant livraison plutôt qu'une alerte permanente.
 
 ---
 
