@@ -60,10 +60,10 @@ paliers gratuits. Soit environ **1 €/mois de coût marginal**.
 
 # Ce qui reste à faire
 
-**Volet stratégique** — un plan de lancement chiffré sur six mois : offre et tarifs définitifs,
+**Volet stratégique** - un plan de lancement chiffré sur six mois : offre et tarifs définitifs,
 séquence technique, objectifs de prospection, hypothèses d'attrition et charge de support.
 
-**Volet technique** — les trois chantiers qui font passer de un week-end à trois heures par client :
+**Volet technique** - les trois chantiers qui font passer de un week-end à trois heures par client :
 
 1. Extraire un **gabarit piloté par un `config.json`** (nom, couleurs, coordonnées, TVA, réseaux)
    + contenu éditorial en Markdown, avec un script qui génère les pages

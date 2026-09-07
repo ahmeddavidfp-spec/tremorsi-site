@@ -38,6 +38,10 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `sitemap.xml`, `robots.txt` | SEO |
 | `manifest.json` | PWA (ajout à l'écran d'accueil) |
 | `assets/style.css` | **Feuille de style partagée par toutes les pages** |
+| `assets/app.js` | **Kit app** : enregistre le service worker, injecte le bouton « Installer l'app » |
+| `sw.js` | **Service worker** - incrémenter `VERSION` à chaque livraison |
+| `hors-ligne.html` | Page de repli sans réseau (styles en ligne, hors sitemap, `noindex`) |
+| `manifest.json` | Manifeste PWA : `id`, `scope`, icônes `any` + `maskable`, 3 raccourcis |
 | `worker/` | Worker Cloudflare : API agenda + bot Telegram (voir §7) |
 
 **Navigation** - desktop : La carte · Privatiser · Blog · Contact · [Réserver], et au-delà de 1080 px aussi Réseaux · Passaporto · Dove andiamo ? · FAQ.
@@ -217,6 +221,51 @@ Client au camion → demande le code du jour → le tape sur passaporto.html
   qui répond valide / incomplet / déjà utilisé, puis écrit `riscatto:<id>` → **un seul dolce par passeport**.
 - **Vie privée** : l'identifiant du passeport est un UUID anonyme généré par le navigateur.
   Aucun nom, aucun email, aucun cookie.
+
+---
+
+## 7 ter. Le kit app
+
+Le site s'installe comme une application, sur Android comme sur iPhone.
+
+**Manifeste** (`manifest.json`) : `id`, `scope`, `lang`, `categories`, quatre icônes
+(`any` + `maskable`) et trois raccourcis - Aujourd'hui, La carte, Devis.
+
+⚠️ Le fichier s'appelle `manifest.json` et **non** `.webmanifest` : Render ne connaît pas cette
+extension et la servait en `binary/octet-stream`, ce qui peut faire rejeter le manifeste.
+`render.yaml` n'étant pas lu par ce service, on ne peut pas corriger le type MIME autrement.
+
+**Icônes maskable** : Android applique un masque et ne garantit que le cercle central de 80 %.
+L'illustration est donc réduite à 62 % sur fond opaque plein bord, via `outils/icones-app.py`.
+
+**Service worker** (`sw.js`) :
+
+| Ressource | Stratégie | Pourquoi |
+|---|---|---|
+| pages, CSS, JS, manifeste | réseau d'abord | le site reste toujours à jour, le cache n'est qu'un filet |
+| images | cache d'abord | elles ne changent pas et coûtent le plus cher |
+| musique, vidéo | **jamais interceptées** | le cache casse les requêtes partielles (`Range`) de l'audio |
+| polices Google | cache d'abord | immuables ; c'est ce qui garde la typo de la page hors ligne |
+| API agenda, formulaires, murs sociaux | ignorés | un agenda mis en cache afficherait un emplacement périmé |
+
+**À faire à chaque livraison** : incrémenter `VERSION` dans `sw.js`, sinon les anciens fichiers
+restent en cache chez les visiteurs.
+
+Deux pièges traités dans le code :
+
+- **réponses redirigées** recopiées à plat avant mise en cache. Une navigation échoue sinon
+  derrière un hébergeur qui réécrit `/page.html` en `/page` (cas de Cloudflare Pages)
+- **écritures en cache dans `e.waitUntil`** : sans ça le navigateur peut arrêter le worker dès la
+  réponse rendue, et la mise en cache est perdue
+
+**Bouton « Installer l'app »** : injecté par `assets/app.js` dans le menu, jamais écrit dans les
+pages - sans JavaScript il n'y aurait rien derrière. Sur Android il rejoue `beforeinstallprompt` ;
+sur iPhone, où Safari n'expose aucune API, il ouvre une fenêtre expliquant le geste
+(Partager, puis « Sur l'écran d'accueil »). Il disparaît une fois l'app installée.
+
+**Pièges iPhone** : barre d'état en `default` (l'autre valeur pose un voile gris sur l'en-tête),
+et `env(safe-area-inset-*)` sur l'en-tête collant et les boutons flottants. **iOS lit ces réglages
+à l'installation** : pour voir un changement, il faut supprimer l'icône et réinstaller.
 
 ---
 

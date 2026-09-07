@@ -372,6 +372,30 @@ cd worker && npx wrangler deploy</code></pre>
     pour ne pas exposer l'adresse dans le code source. Le premier envoi depuis un domaine donné
     déclenche un email d'activation à cliquer une fois - à refaire si le domaine change.</div>
 
+    <h3>Le kit app</h3>
+    <p style="font-size:14.5px;color:var(--muted)">Le site s'installe comme une application.
+    Une fois posé sur l'écran d'accueil, il s'ouvre en plein écran, sans barre de navigation,
+    et la carte reste consultable sans réseau.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Ressource</th><th>Stratégie</th><th>Pourquoi</th></tr></thead>
+      <tbody>
+        <tr><td>Pages, CSS, JS, manifeste</td><td><b>Réseau d'abord</b></td><td>Le site reste toujours à jour, le cache n'est qu'un filet</td></tr>
+        <tr><td>Images</td><td><b>Cache d'abord</b></td><td>Elles ne changent pas et coûtent le plus cher à charger</td></tr>
+        <tr><td>Musique, vidéo</td><td><b>Jamais interceptées</b></td><td>Le cache casse les requêtes partielles dont l'audio a besoin</td></tr>
+        <tr><td>Polices Google</td><td>Cache d'abord</td><td>Immuables ; c'est ce qui garde la typo de la page hors ligne</td></tr>
+        <tr><td>API agenda, formulaires</td><td>Ignorés</td><td>Un agenda mis en cache afficherait un emplacement périmé</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>À chaque livraison</b> : incrémenter <code>VERSION</code> en tête de
+    <code>sw.js</code>. Sans ça, les anciens fichiers restent en cache chez les visiteurs.</div>
+    <div class="note"><b>Pièges iPhone.</b> La barre d'état est en <code>default</code> : l'autre
+    valeur pose un voile gris sur l'en-tête. Les zones sûres (<code>env(safe-area-inset-*)</code>)
+    sont posées sur l'en-tête collant et les boutons flottants. <b>iOS lit ces réglages à
+    l'installation</b> : pour voir un changement, il faut supprimer l'icône et réinstaller.</div>
+    <div class="ok"><b>Vérifié en production</b> dans Chrome : service worker actif, 13 entrées en
+    cache, musique et API agenda bien exclues, page hors ligne disponible, et le bouton
+    d'installation apparaît - ce qui prouve que le navigateur juge le site installable.</div>
+
     <h3>Notification Telegram des formulaires</h3>
     <p style="font-size:14.5px;color:var(--muted)">Quand un visiteur envoie le formulaire de contact ou
     demande un devis, la demande arrive <b>dans la seconde sur Telegram</b>, en plus de l'email.</p>
