@@ -36,7 +36,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `passaporto.html` | Carte de fidélité : 5 régions à tamponner **avec le code du jour remis au camion**, dolce offert au tour complet |
 | `blog/index.html` + 2 articles | La puccia salentine · Arrosticini des Abruzzes |
 | `sitemap.xml`, `robots.txt` | SEO |
-| `manifest.webmanifest` | PWA (ajout à l'écran d'accueil) |
+| `manifest.json` | PWA (ajout à l'écran d'accueil) |
 | `assets/style.css` | **Feuille de style partagée par toutes les pages** |
 | `worker/` | Worker Cloudflare : API agenda + bot Telegram (voir §7) |
 

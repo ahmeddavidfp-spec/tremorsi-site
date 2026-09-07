@@ -27,7 +27,7 @@ const PRECHARGE = [
   '/assets/app.js',
   '/assets/logo.png',
   '/assets/icons/icon-192.png',
-  '/manifest.webmanifest',
+  '/manifest.json',
 ];
 
 const POLICES = ['fonts.googleapis.com', 'fonts.gstatic.com'];
