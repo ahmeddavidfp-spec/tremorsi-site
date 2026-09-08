@@ -391,6 +391,21 @@ cd worker && npx wrangler deploy</code></pre>
     pour ne pas exposer l'adresse dans le code source. Le premier envoi depuis un domaine donné
     déclenche un email d'activation à cliquer une fois - à refaire si le domaine change.</div>
 
+    <h3>La précommande</h3>
+    <p style="font-size:14.5px;color:var(--muted)">Le visiteur compose son panier, choisit une heure,
+    laisse son nom et son téléphone. La demande arrive dans la seconde sur le téléphone de Tressy,
+    avec un bouton pour confirmer sur WhatsApp.</p>
+    <ul class="clean">
+      <li><b>Les créneaux ne sont pas écrits en dur</b> : ils se déduisent de l'agenda que Tressy
+      remplit déjà. Elle pilote ses heures de commande sans rien de plus à apprendre.</li>
+      <li>Camion au repos ? La page propose le prochain jour ouvert, jamais une page morte.</li>
+      <li>Les créneaux à moins de 20 minutes sont écartés : il faut le temps de préparer.</li>
+      <li><b>Ce n'est pas une vente</b> : rien n'est payé, rien n'est engagé. Le camion confirme.
+      Cela évite le paiement en ligne, la TVA et les remboursements.</li>
+      <li>Anti-spam identique aux formulaires : champ piège, contrôle d'origine, 4 envois par IP
+      et par heure, 30 au total. Repli WhatsApp prérempli si le réseau lâche.</li>
+    </ul>
+
     <h3>Le kit app</h3>
     <p style="font-size:14.5px;color:var(--muted)">Le site s'installe comme une application.
     Une fois posé sur l'écran d'accueil, il s'ouvre en plein écran, sans barre de navigation,

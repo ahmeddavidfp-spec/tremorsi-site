@@ -28,6 +28,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 |---|---|
 | `index.html` | **Vitrine** : hero + Fiat 500, La storia, Il viaggio, teaser carte, galerie, quiz Carta d'Identità, cartolina, CTA final |
 | `menu.html` | La carte complète (seul endroit où elle vit) |
+| `commander.html` | **Précommande** : panier, créneaux déduits de l'agenda, notification Telegram |
 | `privatisation.html` | Pitch privatisation + **Calcolatore di festa** + formulaire de devis |
 | `contact.html` | Coordonnées, **agenda de la semaine** (`#semaine`), formulaire de contact, **avis Google** (`#avis`) |
 | `reseaux.html` | Réseaux sociaux : cartes + murs Instagram/Facebook en iframes directes |
@@ -168,7 +169,7 @@ Tressy (Telegram) → bot @TreMorSiBot → Worker Cloudflare → KV
 ```
 
 - **Worker** : `worker/src/index.js`, déployé sur `agenda.tremorsi.com` (`npx wrangler deploy` depuis `worker/`)
-- **Endpoints** : `GET /agenda` · `GET /instagram` (6 derniers posts) · `GET /votes` · `POST /vote` · `GET /passaporto?id=` · `POST /timbro` · `POST /contatto` · `POST /telegram` (webhook signé)
+- **Endpoints** : `POST /ordine` (précommande) · `GET /agenda` · `GET /instagram` (6 derniers posts) · `GET /votes` · `POST /vote` · `GET /passaporto?id=` · `POST /timbro` · `POST /contatto` · `POST /telegram` (webhook signé)
 - **Stockage** : KV namespace `AGENDA` (clés `week`, `votes`, `pass:<id>`, `riscatto:<id>`, `c:<heure>:<ip>`)
 - **Secrets** (via `npx wrangler secret put`) : `BOT_TOKEN`, `WEBHOOK_SECRET` (copie locale dans `worker/.webhook-secret`, non versionnée), `ALLOWED_IDS` (identifiants Telegram autorisés, séparés par des virgules)
 - **Sécurité** : webhook validé par `secret_token`, seuls les identifiants de `ALLOWED_IDS` peuvent modifier
