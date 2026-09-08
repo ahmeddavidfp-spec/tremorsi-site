@@ -46,7 +46,9 @@ def info(page, quoi):
 def get(chemin):
     """Parametre anti-cache : apres un deploiement le CDN sert encore l'ancienne version."""
     url = BASE + chemin + ("&" if "?" in chemin else "?") + "cb=audit"
-    r = urllib.request.urlopen(url, context=CTX, timeout=25)
+    # Sans User-Agent, Cloudflare prend le script pour un robot et repond 403.
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (audit Scribeo)"})
+    r = urllib.request.urlopen(req, context=CTX, timeout=25)
     return r.read().decode("utf-8", "replace"), r.status
 
 
