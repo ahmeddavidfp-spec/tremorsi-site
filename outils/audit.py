@@ -26,7 +26,7 @@ BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://tremorsi.com").rstrip("/"
 CTX = ssl.create_default_context()
 
 PAGES = [
-    "/", "/menu.html", "/privatisation.html", "/contact.html", "/reseaux.html",
+    "/", "/menu.html", "/commander.html", "/privatisation.html", "/contact.html", "/reseaux.html",
     "/faq.html", "/dove-andiamo.html", "/passaporto.html",
     "/blog/", "/blog/la-puccia-salentine.html", "/blog/arrosticini-abruzzes.html",
 ]

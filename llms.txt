@@ -17,6 +17,7 @@ Tre Mor Si (« trois bouchées » en italien) est tenu par Tressy Colombo et And
 
 - [Accueil](https://tremorsi.com/) : présentation du food truck, histoire du couple, itinéraire culinaire du Nord au Sud, galerie photos
 - [La carte](https://tremorsi.com/menu.html) : pucce salentines (Porca Miseria, Freschissima, Mó!, Veggie, Polpo, dolce Nutella-pistache), arrosticini, moules à la plancha, Frisa, planches apéritives, Aperol Spritz, cannoli, café
+- [Commander a l'avance](https://tremorsi.com/commander.html) : precommander pucce, arrosticini, moules et cannoli pour un creneau donne ; le camion confirme, le paiement se fait sur place
 - [Privatisation et devis](https://tremorsi.com/privatisation.html) : privatiser le camion pour un événement, calculateur de quantités selon le nombre de convives, formulaire de devis gratuit
 - [Contact et agenda](https://tremorsi.com/contact.html) : coordonnées, emplacements de la semaine, formulaire de contact
 - [Questions fréquentes](https://tremorsi.com/faq.html) : réservation, tarifs, nombre minimum de convives, zone de déplacement, besoins techniques sur place, allergènes, options végétariennes, moyens de paiement

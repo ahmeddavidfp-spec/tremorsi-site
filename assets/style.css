@@ -1207,3 +1207,73 @@ footer{background:var(--ink);color:var(--crema)}
   font-family:var(--serif);font-style:italic;color:var(--rosso);
   font-size:1.15rem;margin-top:1rem;
 }
+
+/* ---------- Precommande ---------- */
+.ord-quand{
+  background:var(--crema-2);border:1px dashed var(--ink-15);border-radius:16px;
+  padding:1.1rem 1.2rem;margin-bottom:1.6rem;max-width:900px;
+}
+.ord-quand-label{
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink);margin:0 0 .6rem;
+}
+.ord-lieu{margin:0 0 .8rem;color:var(--ink-55)}
+.ord-lieu b{color:var(--ink)}
+.ord-attente{margin:0;color:var(--ink-55);font-style:italic}
+.ord-attente a{color:var(--rosso)}
+.ord-pas{display:flex;flex-wrap:wrap;gap:.4rem}
+.ord-heure{
+  font:inherit;font-size:.92rem;font-weight:600;cursor:pointer;
+  background:var(--carta);color:var(--ink);
+  border:1.5px solid var(--ink-15);border-radius:999px;padding:.4rem .8rem;
+  font-variant-numeric:tabular-nums;transition:border-color .15s,background .15s,color .15s;
+}
+.ord-heure:hover{border-color:var(--ink)}
+.ord-heure.choisi{background:var(--verde);border-color:var(--verde);color:var(--crema)}
+
+.ord-carte{max-width:900px;margin-bottom:1.8rem}
+.ord-cat + .ord-cat{margin-top:1.6rem}
+.ord-cat-titre{
+  font-family:var(--serif);font-weight:400;font-size:1.5rem;
+  margin:0 0 .5rem;padding-bottom:.35rem;border-bottom:1px solid var(--ink-15);
+}
+.ord-plat{
+  display:flex;align-items:center;gap:1rem;justify-content:space-between;
+  padding:.7rem .2rem;border-bottom:1px solid var(--ink-15);
+}
+.ord-plat:last-child{border-bottom:0}
+.ord-plat.choisi{background:linear-gradient(90deg,rgba(35,75,51,.07),transparent);border-radius:8px}
+.ord-txt{min-width:0}
+.ord-nom{display:block;font-weight:600}
+.ord-txt small{display:block;color:var(--ink-55);font-size:.87rem;line-height:1.35}
+.ord-compteur{display:flex;align-items:center;gap:.15rem;flex:none}
+.ord-compteur button{
+  width:34px;height:34px;font:inherit;font-size:1.15rem;line-height:1;cursor:pointer;
+  background:var(--carta);color:var(--ink);
+  border:1.5px solid var(--ink-15);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .15s,background .15s;
+}
+.ord-compteur button:hover{border-color:var(--verde);background:var(--crema-2)}
+.ord-n{
+  min-width:2ch;text-align:center;font-weight:700;
+  font-variant-numeric:tabular-nums;color:var(--ink);
+}
+.ord-plat.choisi .ord-n{color:var(--verde)}
+
+.ord-note{margin-top:1.4rem;color:var(--ink-55);font-size:.92rem;max-width:44rem}
+
+/* Barre de resume, collee en bas tant qu'il y a quelque chose dans le panier */
+.ord-barre{
+  position:fixed;left:0;right:0;bottom:0;z-index:65;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  background:var(--ink);color:var(--crema);
+  padding:.8rem var(--gutter) calc(.8rem + env(safe-area-inset-bottom,0px));
+  animation:ord-monte .25s ease both;
+}
+@keyframes ord-monte{from{transform:translateY(100%)}to{transform:none}}
+.ord-barre-txt{font-size:.94rem}
+.ord-barre-txt b{font-size:1.15rem}
+.ord-barre .btn{padding:.5rem 1.1rem;background:var(--crema);color:var(--ink);border-color:var(--crema)}
+.ord-barre .btn:hover{background:var(--limone);border-color:var(--limone)}
+@media (prefers-reduced-motion:reduce){.ord-barre{animation:none}}

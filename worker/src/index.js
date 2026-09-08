@@ -5,6 +5,7 @@
  * GET  /votes     -> classement des communes qui réclament le camion
  * POST /vote      -> ajoute une voix (1 par appareil et par jour)
  * POST /contatto  -> notification Telegram quand un visiteur envoie un formulaire
+ * POST /ordine    -> precommande : le camion la recoit et la confirme lui-meme
  * POST /telegram  -> webhook du bot (Tressy modifie la semaine par messages)
  * CRON            -> rafraîchit le flux Instagram chaque lundi 4h
  *
@@ -40,6 +41,7 @@ export default {
     if (url.pathname === '/passaporto') return handlePassaporto(request, env);
     if (url.pathname === '/timbro') return handleTimbro(request, env);
     if (url.pathname === '/contatto') return handleContatto(request, env);
+    if (url.pathname === '/ordine') return handleOrdine(request, env);
     if (url.pathname === '/vote') return handleVote(request, env);
     if (url.pathname === '/telegram' && request.method === 'POST') return handleTelegram(request, env);
     return new Response('Tre Mor Si agenda', { status: 200 });
@@ -238,6 +240,85 @@ async function handleContatto(request, env) {
   await env.AGENDA.put(cleIp, String(n + 1), { expirationTtl: 3600 });
   await env.AGENDA.put(cleTot, String(tot + 1), { expirationTtl: 3600 });
 
+  return json({ ok: envoyes > 0, envoyes });
+}
+
+
+/* ---------------- Precommande : « on vous le garde au chaud » ---------------- */
+
+const ORDINE_MAX_IP = 4;    // par heure et par adresse
+const ORDINE_MAX_TOT = 30;  // garde-fou global
+
+/**
+ * Une precommande n'est PAS une vente : rien n'est paye, rien n'est engage.
+ * C'est une demande que le camion confirme de vive voix ou par message. Ca evite
+ * toute question de paiement en ligne, de TVA et de remboursement, et ca colle a
+ * la realite d'un camion qui peut tomber en panne ou etre pris d'assaut.
+ */
+async function handleOrdine(request, env) {
+  const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'Content-Type': 'application/json', ...CORS } });
+  if (request.method !== 'POST') return json({ ok: false }, 405);
+
+  const origine = request.headers.get('origin') || request.headers.get('referer') || '';
+  if (!/(tremorsi\.com|localhost|127\.0\.0\.1)/.test(origine)) return json({ ok: false, motif: 'origine' }, 403);
+
+  let d;
+  try { d = await request.json(); } catch { return json({ ok: false }, 400); }
+  if (String(d.societe || '').trim()) return json({ ok: true, ignore: true });  // champ piege
+
+  const ip = request.headers.get('cf-connecting-ip') || 'anon';
+  const heure = new Date().toISOString().slice(0, 13);
+  const cleIp = `o:${heure}:${ip}`;
+  const cleTot = `o:${heure}:_total`;
+  const n = parseInt((await env.AGENDA.get(cleIp)) || '0', 10);
+  const tot = parseInt((await env.AGENDA.get(cleTot)) || '0', 10);
+  if (n >= ORDINE_MAX_IP || tot >= ORDINE_MAX_TOT) return json({ ok: false, motif: 'trop' }, 429);
+
+  const nom = esc(d.nom, 80);
+  const tel = esc(d.tel, 40);
+  const quand = esc(d.quand, 80);
+  const lignes = Array.isArray(d.plats) ? d.plats.slice(0, 12) : [];
+  if (!nom || !tel || !lignes.length) return json({ ok: false, motif: 'champs' }, 400);
+
+  const detail = lignes
+    .map((p) => `   • ${esc(p.n, 12)} × ${esc(p.plat, 60)}`)
+    .join('\n');
+  const total = lignes.reduce((s, p) => s + (parseInt(p.n, 10) || 0), 0);
+
+  const L = [];
+  L.push('🛎 <b>Nouvelle précommande</b>');
+  L.push('<i>via tremorsi.com</i>');
+  L.push('');
+  L.push(`👤 <b>${nom}</b>`);
+  L.push(`📞 ${tel}`);
+  L.push(`🕒 <b>${quand || 'à confirmer'}</b>`);
+  L.push('');
+  L.push(`🍽 <b>${total} article${total > 1 ? 's' : ''}</b>`);
+  L.push(detail);
+  const mot = esc(d.message, 400);
+  if (mot) { L.push(''); L.push(`💬 ${mot}`); }
+  L.push('');
+  L.push('<i>Rien n\'est payé : confirmez-lui que c\'est bon.</i>');
+
+  const wa = numeroWa(tel);
+  const clavier = wa
+    ? { inline_keyboard: [[{ text: '✅ Confirmer sur WhatsApp', url: `https://wa.me/${wa}` }]] }
+    : undefined;
+
+  const ids = (env.ALLOWED_IDS || '').split(',').map((x) => x.trim()).filter(Boolean);
+  let envoyes = 0;
+  for (const id of ids) {
+    try {
+      const r = await tg(env, 'sendMessage', {
+        chat_id: id, text: L.join('\n'), parse_mode: 'HTML',
+        disable_web_page_preview: true, reply_markup: clavier,
+      });
+      if (r && r.ok) envoyes++;
+    } catch { /* on continue */ }
+  }
+
+  await env.AGENDA.put(cleIp, String(n + 1), { expirationTtl: 3600 });
+  await env.AGENDA.put(cleTot, String(tot + 1), { expirationTtl: 3600 });
   return json({ ok: envoyes > 0, envoyes });
 }
 
