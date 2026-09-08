@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Documentation complète - Tre Mor Si</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -79,6 +80,24 @@ ul.clean li::before{content:"→";position:absolute;left:0;color:var(--rosso);fo
 .badge{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
 .badge.on{background:var(--green-bg);color:var(--green)}
 .badge.todo{background:var(--orange-bg);color:var(--orange)}
+/* Liste de taches : cases a cocher memorisees dans le navigateur */
+.avancement{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0 4px}
+.jauge{flex:1 1 180px;height:8px;border-radius:99px;background:var(--bg-2);overflow:hidden;min-width:140px}
+.jauge i{display:block;height:100%;width:0;border-radius:99px;background:var(--green);transition:width .3s}
+.compteur{font-size:13px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.raz{font:inherit;font-size:12.5px;color:var(--muted);background:none;border:1px solid var(--border);
+  border-radius:99px;padding:4px 12px;cursor:pointer}
+.raz:hover{color:var(--text);border-color:var(--muted)}
+ul.taches{list-style:none;margin:10px 0 0;padding:0}
+ul.taches li{border-bottom:1px solid var(--border)}
+ul.taches li:last-child{border-bottom:0}
+ul.taches label{display:flex;gap:11px;align-items:flex-start;padding:9px 2px;cursor:pointer;line-height:1.55}
+ul.taches input{flex:none;margin:4px 0 0;width:17px;height:17px;accent-color:var(--green);cursor:pointer}
+ul.taches input:checked + span{color:var(--muted);text-decoration:line-through}
+ul.taches input:checked + span code,ul.taches input:checked + span b{color:inherit;font-weight:400}
+.sans-memoire{display:none;background:var(--orange-bg);color:var(--orange);border-radius:10px;
+  padding:10px 13px;font-size:13.5px;margin:12px 0 0}
+.sans-memoire.visible{display:block}
 .flow{display:grid;gap:8px;margin-top:14px;font-size:14.5px}
 .flow div{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:10px 14px}
 .flow div b{color:var(--rosso-2)}
@@ -368,7 +387,7 @@ python3 -m http.server 8765     # http://localhost:8765</code></pre>
 cd worker && npx wrangler deploy</code></pre>
 
     <div class="note"><b>Endpoint FormSubmit</b> : les formulaires appellent le <b>jeton</b>
-    <code>858b83dc2426a3819b7508c8cd8a0a98</code> et non <code>contact@tremorsi.com</code> en clair,
+    <code>858b83dc&hellip;</code> (jeton complet dans <code>contact.html</code>) et non <code>contact@tremorsi.com</code> en clair,
     pour ne pas exposer l'adresse dans le code source. Le premier envoi depuis un domaine donné
     déclenche un email d'activation à cliquer une fois - à refaire si le domaine change.</div>
 
@@ -558,32 +577,48 @@ cd worker && npx wrangler secret put ALLOWED_IDS</code></pre>
 
   <section id="todo">
     <h2>10. À <i>finaliser</i></h2>
-    <p class="lead">Points à valider avec le client lors du rendez-vous.</p>
+    <p class="lead">Points à valider avec le client. Cochez au fur et à mesure&nbsp;: les coches
+    sont enregistrées dans ce navigateur et vous les retrouverez à la prochaine consultation.</p>
+
+    <div class="avancement">
+      <div class="jauge"><i id="jauge-taches"></i></div>
+      <span class="compteur" id="compteur-taches">0 sur 0</span>
+      <button class="raz" type="button" id="raz-taches">tout décocher</button>
+    </div>
+    <p class="sans-memoire" id="sans-memoire"><b>Les coches ne seront pas conservées.</b>
+    Ce navigateur bloque le stockage local quand la page est ouverte comme simple fichier.
+    Ouvrez-la depuis un serveur local, ou depuis son adresse en ligne, pour que la mémoire fonctionne.</p>
+
     <div class="card">
       <h3>Technique</h3>
-      <ul class="clean">
-        <li><span class="badge todo">à faire</span> Identifiant Telegram de Tressy → l'ajouter à <code>ALLOWED_IDS</code></li>
-        <li><span class="badge todo">à faire</span> Vérification email Cloudflare de Tressy → basculer <code>contact@tremorsi.com</code> vers sa boîte</li>
-        <li><span class="badge todo">à faire</span> Clic sur l'email d'activation FormSubmit (premier envoi)</li>
+      <ul class="taches">
+        <li><label><input type="checkbox" data-tache="tg-id"><span>Identifiant Telegram de Tressy &rarr; l'ajouter à <code>ALLOWED_IDS</code></span></label></li>
+        <li><label><input type="checkbox" data-tache="email-cf"><span>Vérification email Cloudflare de Tressy &rarr; basculer <code>contact@tremorsi.com</code> vers sa boîte</span></label></li>
       </ul>
+
       <h3>Contenu</h3>
-      <ul class="clean">
-        <li>Prénom de son compagnon (la section « Chi siamo » dit encore « son complice »)</li>
-        <li>Leur vraie histoire : région d'Italie, comment l'aventure a commencé → enrichir Chi siamo + article de blog</li>
-        <li>Horaires réels de la semaine (à saisir directement via le bot)</li>
-        <li>Ratios du Calcolatore di festa (3 arrosticini / 1 puccia / 1,5 spritz / 1 cannolo par convive)</li>
-        <li><b>Valider la récompense du Passaporto</b> (un cannolo offert ? une boisson ?) - le site annonce « le dolce est offert »</li>
-        <li>Lui montrer le bouton <b>🔑 Code du jour</b> du bot et le réflexe : <b>on donne le code, on ne tamponne pas à sa place</b></li>
-        <li>Prix de la carte (le site indique « affichés au camion »)</li>
-        <li>Photos en haute résolution supplémentaires</li>
+      <ul class="taches">
+        <li><label><input type="checkbox" data-tache="prenom"><span>Prénom de son compagnon (la section «&nbsp;Chi siamo&nbsp;» dit encore «&nbsp;son complice&nbsp;»)</span></label></li>
+        <li><label><input type="checkbox" data-tache="histoire"><span>Leur vraie histoire&nbsp;: région d'Italie, comment l'aventure a commencé &rarr; enrichir Chi siamo + article de blog</span></label></li>
+        <li><label><input type="checkbox" data-tache="horaires"><span>Horaires réels de la semaine (à saisir directement via le bot)</span></label></li>
+        <li><label><input type="checkbox" data-tache="ratios"><span>Ratios du Calcolatore di festa (3 arrosticini / 1 puccia / 1,5 spritz / 1 cannolo par convive)</span></label></li>
+        <li><label><input type="checkbox" data-tache="passaporto-recompense"><span><b>Valider la récompense du Passaporto</b> (un cannolo offert&nbsp;? une boisson&nbsp;?) - le site annonce «&nbsp;le dolce est offert&nbsp;»</span></label></li>
+        <li><label><input type="checkbox" data-tache="code-du-jour"><span>Lui montrer le bouton <b>Code du jour</b> et le réflexe&nbsp;: <b>on donne le code, on ne tamponne pas à sa place</b></span></label></li>
+        <li><label><input type="checkbox" data-tache="prix-carte"><span>Prix de la carte (le site indique «&nbsp;affichés au camion&nbsp;»)</span></label></li>
+        <li><label><input type="checkbox" data-tache="photos-hd"><span>Photos en haute résolution supplémentaires</span></label></li>
       </ul>
+
       <h3>Juridique &amp; communication</h3>
-      <ul class="clean">
-        <li><b>Droits de la musique</b> de la Fiat 500 (SABAM) - sinon remplacer par un morceau libre</li>
-        <li>Mettre <code>tremorsi.com</code> dans les bios Instagram et Facebook</li>
-        <li>Imprimer le QR code brandé pour le camion</li>
+      <ul class="taches">
+        <li><label><input type="checkbox" data-tache="sabam"><span><b>Droits de la musique</b> de la Fiat 500 (SABAM) - sinon remplacer par un morceau libre</span></label></li>
+        <li><label><input type="checkbox" data-tache="bios"><span>Mettre <code>tremorsi.com</code> dans les bios Instagram et Facebook</span></label></li>
+        <li><label><input type="checkbox" data-tache="qr-imprime"><span>Imprimer l'affichette QR pour le camion</span></label></li>
+        <li><label><input type="checkbox" data-tache="gbp"><span>Créer la fiche <b>Google Business Profile</b> - premier levier pour les recherches locales</span></label></li>
       </ul>
     </div>
+
+    <div class="ok"><b>Déjà réglé</b>&nbsp;: activation FormSubmit (01/09, testée depuis la production)
+    et test d'installation de l'app sur iPhone (07/09).</div>
   </section>
 
 </main>
@@ -595,5 +630,71 @@ cd worker && npx wrangler secret put ALLOWED_IDS</code></pre>
   </div>
 </footer>
 
+<script>
+/**
+ * Cases a cocher de la section 10, memorisees dans le navigateur.
+ *
+ * Chaque tache porte un data-tache stable : ajouter, retirer ou reordonner une
+ * ligne ne decale donc pas les coches deja posees, contrairement a un index.
+ *
+ * Ouverte comme simple fichier (file://), certains navigateurs refusent le
+ * stockage local : on le detecte et on le dit, plutot que de perdre les coches
+ * en silence.
+ */
+(() => {
+  'use strict';
+  const CLE = 'tremorsi-doc-taches-v1';
+  const cases = [...document.querySelectorAll('ul.taches input[data-tache]')];
+  if (!cases.length) return;
+
+  const jauge = document.getElementById('jauge-taches');
+  const compteur = document.getElementById('compteur-taches');
+  const raz = document.getElementById('raz-taches');
+  const alerte = document.getElementById('sans-memoire');
+
+  let memoire = true;
+  let etat = {};
+  try {
+    localStorage.setItem(CLE + ':test', '1');
+    localStorage.removeItem(CLE + ':test');
+    etat = JSON.parse(localStorage.getItem(CLE)) || {};
+  } catch (e) {
+    memoire = false;
+    if (alerte) alerte.classList.add('visible');
+  }
+
+  function ecrire() {
+    if (!memoire) return;
+    try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) { /* quota, mode prive */ }
+  }
+
+  function afficher() {
+    const faits = cases.filter((c) => c.checked).length;
+    const total = cases.length;
+    jauge.style.width = Math.round((faits / total) * 100) + '%';
+    compteur.textContent = faits + ' sur ' + total + (faits === total ? ' - tout est fait' : '');
+    raz.hidden = faits === 0;
+  }
+
+  cases.forEach((c) => {
+    if (etat[c.dataset.tache]) c.checked = true;
+    c.addEventListener('change', () => {
+      if (c.checked) etat[c.dataset.tache] = true; else delete etat[c.dataset.tache];
+      ecrire();
+      afficher();
+    });
+  });
+
+  raz.addEventListener('click', () => {
+    if (!confirm('Decocher les ' + cases.filter((c) => c.checked).length + ' taches cochees ?')) return;
+    cases.forEach((c) => { c.checked = false; });
+    etat = {};
+    ecrire();
+    afficher();
+  });
+
+  afficher();
+})();
+</script>
 </body>
 </html>

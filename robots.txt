@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
 
+# Document de travail interne, pas du contenu destine aux visiteurs
+Disallow: /Documentation-Tre-Mor-Si.html
+Disallow: /hors-ligne.html
+
 # Assistants IA : résumé structuré du site
 # https://tremorsi.com/llms.txt
 
