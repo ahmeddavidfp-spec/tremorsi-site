@@ -680,7 +680,7 @@ lb.addEventListener('pointerup', (e) => {
   if (!grille || GALERIE.length <= shots.length) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const PAUSE = 3600;
+  const PAUSE = 2000;   // intervalle entre deux changements, en millisecondes
   let visible = false, survol = false, minuteur = null;
 
   const affichees = () => shots.map((s) => Number(s.dataset.i));
