@@ -322,6 +322,9 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
   border-top:1px solid var(--ink-15);background:#fff;
 }
 .storia-fig .cuore{color:var(--rosso)}
+/* La vignette chevauche le coin bas-droit : la legende principale se recentre
+   dans l'espace libre pour ne pas passer dessous. */
+.storia-pics .storia-fig:not(.mini) figcaption{padding-right:42%}
 .storia-fig.mini{
   position:absolute;right:-1.2rem;bottom:-1.8rem;width:38%;
   transform:rotate(3.5deg);border-radius:8px;

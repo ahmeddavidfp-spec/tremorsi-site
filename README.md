@@ -322,7 +322,7 @@ hiérarchie des titres, images, maillage interne.
 - [ ] **Identifiant Telegram de Tressy** → l'ajouter à `ALLOWED_IDS`
 - [ ] **Vérification email Cloudflare** de Tressy → basculer `contact@tremorsi.com` vers sa boîte
 - [x] ~~**Activation FormSubmit**~~ - fait le 01/09/2026, testé depuis la production
-- [ ] Prénom de son compagnon (section « Chi siamo » dit encore « son complice »)
+- [x] ~~Prénom de son compagnon~~ : **Andrea** (08/09/2026), en place dans Chi siamo et llms.txt
 - [ ] Leur vraie histoire : région d'Italie, comment l'aventure a commencé (→ enrichir Chi siamo + article de blog)
 - [ ] Horaires réels de la semaine (à saisir directement via le bot)
 - [ ] Ratios du Calcolatore di festa (actuellement 3 arrosticini / 1 puccia / 1,5 spritz / 1 cannolo par convive)
