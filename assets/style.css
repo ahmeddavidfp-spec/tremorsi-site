@@ -418,8 +418,21 @@ em.flair{font-family:var(--serif);font-style:italic;color:var(--rosso);font-size
   border:none;border-radius:0;text-decoration:none;background:var(--crema-2);
   padding:0;cursor:zoom-in;font:inherit;text-align:left;
 }
-.shot img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform .5s ease}
-.shot:hover img,.shot:focus-visible img{transform:scale(1.06)}
+.shot{aspect-ratio:1}
+/* Deux couches empilees : le fondu se fait d'une image a l'autre, jamais
+   par le fond, ce qui evite le clignotement d'un simple changement de src. */
+.shot .couche{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:opacity .85s ease, transform .85s ease;
+}
+.shot .couche:nth-of-type(1){opacity:1;transform:scale(1)}
+.shot .couche:nth-of-type(2){opacity:0;transform:scale(1.05)}
+.shot.bascule .couche:nth-of-type(1){opacity:0;transform:scale(1.05)}
+.shot.bascule .couche:nth-of-type(2){opacity:1;transform:scale(1)}
+.shot:hover .couche,.shot:focus-visible .couche{transform:scale(1.06)}
+@media (prefers-reduced-motion:reduce){
+  .shot .couche{transition:none}
+}
 .shot .cap{
   position:absolute;left:0;right:0;bottom:0;
   padding:1.4rem .9rem .7rem;

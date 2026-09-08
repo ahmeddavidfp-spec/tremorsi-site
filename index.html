@@ -318,57 +318,35 @@
         <h2>Un aperçu, <span class="it">dal banco.</span></h2>
       </div>
       <div class="gallery reveal" id="gallery-grid">
-        <button class="shot" type="button">
-          <img src="assets/puccia-quais.jpg" alt="Puccia garnie posée sur la table, à côté de la carte de visite Tre Mor Si, à l&rsquo;Apéro des Quais" loading="lazy" width="1000" height="995">
+        <button class="shot" type="button" data-i="0">
+          <img class="couche" src="assets/puccia-quais.jpg" alt="Puccia garnie posée sur la table, à côté de la carte de visite Tre Mor Si, à l&rsquo;Apéro des Quais" width="1000" height="1000" decoding="async">
+          <img class="couche" alt="" width="1000" height="1000" aria-hidden="true" decoding="async">
           <span class="cap">l&rsquo;ap&eacute;ro des quais</span>
         </button>
-        <button class="shot" type="button">
-          <img src="assets/puccia-mano.jpg" alt="Puccia mortadella-stracciatella tenue en main devant les carreaux colorés du camion" loading="lazy" width="884" height="884">
-          <span class="cap">la puccia du jour</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/cozze.jpg" alt="Bol de moules à la plancha, citron et persil" loading="lazy" width="843" height="843">
-          <span class="cap">moules à la plancha</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/pucce-trio.jpg" alt="Trois pucce généreuses : aubergines, caprese à la burrata, jambon cru et courgettes" loading="lazy" width="1198" height="1200">
+        <button class="shot" type="button" data-i="3">
+          <img class="couche" src="assets/pucce-trio.jpg" alt="Trois pucce généreuses : aubergines, caprese à la burrata, jambon cru et courgettes" width="1000" height="1000" decoding="async">
+          <img class="couche" alt="" width="1000" height="1000" aria-hidden="true" decoding="async">
           <span class="cap">pétries le matin même</span>
         </button>
-        <button class="shot" type="button">
-          <img src="assets/aperitivo.jpg" alt="Table d'aperitivo : planche de charcuteries et fromages, spritz et bol de moules" loading="lazy" width="983" height="983">
-          <span class="cap">aperitivo time</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/pucce-balsamico.jpg" alt="Pucce à la bresaola et à la mortadella, filet de crème de balsamique" loading="lazy" width="1200" height="1200">
-          <span class="cap">un filet de balsamique</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/bici.jpg" alt="Guidon de vélo avec panier : grissini et bière italienne au soleil" loading="lazy" width="414" height="414">
-          <span class="cap">la tournée du matin</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/moules-planche.jpg" alt="Bol de moules et grande planche apéritive aux fraises, olives et grissini, vus du dessus" loading="lazy" width="900" height="1200">
-          <span class="cap">la totale - tutto</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/arrosticini-sale.jpg" alt="Le geste du sel au-dessus des arrosticini sur la plancha" loading="lazy" width="900" height="1200">
+        <button class="shot" type="button" data-i="8">
+          <img class="couche" src="assets/arrosticini-sale.jpg" alt="Le geste du sel au-dessus des arrosticini sur la plancha" width="1000" height="1000" decoding="async">
+          <img class="couche" alt="" width="1000" height="1000" aria-hidden="true" decoding="async">
           <span class="cap">le geste du sel</span>
         </button>
-        <button class="shot" type="button">
-          <img src="assets/cannoli.jpg" alt="Cannoli siciliens pistache et pépites de chocolat" loading="lazy" width="900" height="1200">
+        <button class="shot" type="button" data-i="2">
+          <img class="couche" src="assets/cozze.jpg" alt="Bol de moules à la plancha, citron et persil" width="1000" height="1000" loading="lazy" decoding="async">
+          <img class="couche" alt="" width="1000" height="1000" aria-hidden="true" decoding="async">
+          <span class="cap">moules à la plancha</span>
+        </button>
+        <button class="shot" type="button" data-i="9">
+          <img class="couche" src="assets/cannoli.jpg" alt="Cannoli siciliens pistache et pépites de chocolat" width="1000" height="1000" loading="lazy" decoding="async">
+          <img class="couche" alt="" width="1000" height="1000" aria-hidden="true" decoding="async">
           <span class="cap">cannoli siciliani</span>
         </button>
-        <button class="shot" type="button">
-          <img src="assets/bresaola.jpg" alt="Bresaola au citron et huile d'olive" loading="lazy" width="900" height="1200">
-          <span class="cap">bresaola al limone</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/vespa.jpg" alt="Illustration pastel d'une Vespa fleurie" loading="lazy" width="414" height="414">
-          <span class="cap">dolce vita</span>
-        </button>
-        <button class="shot" type="button">
-          <img src="assets/limoni.jpg" alt="Citrons jaunes sous un filet d'eau, peinture ensoleillée" loading="lazy" width="414" height="414">
-          <span class="cap">il sole in cucina</span>
+        <button class="shot" type="button" data-i="4">
+          <img class="couche" src="assets/aperitivo.jpg" alt="Table d'aperitivo : planche de charcuteries et fromages, spritz et bol de moules" width="1000" height="1000" loading="lazy" decoding="async">
+          <img class="couche" alt="" width="1000" height="1000" aria-hidden="true" decoding="async">
+          <span class="cap">aperitivo time</span>
         </button>
       </div>
       <div class="insta-row reveal">
@@ -642,27 +620,33 @@ const waBubble = document.getElementById('wa-bubble');
 setTimeout(() => waBubble.classList.add('show'), 3500);
 setTimeout(() => waBubble.classList.remove('show'), 11000);
 
+// La collection complete : six vignettes affichees, tirees au sort dans cette liste
+const GALERIE = [{"src": "assets/puccia-quais.jpg", "alt": "Puccia garnie posée sur la table, à côté de la carte de visite Tre Mor Si, à l&rsquo;Apéro des Quais", "cap": "l&rsquo;ap&eacute;ro des quais"}, {"src": "assets/puccia-mano.jpg", "alt": "Puccia mortadella-stracciatella tenue en main devant les carreaux colorés du camion", "cap": "la puccia du jour"}, {"src": "assets/cozze.jpg", "alt": "Bol de moules à la plancha, citron et persil", "cap": "moules à la plancha"}, {"src": "assets/pucce-trio.jpg", "alt": "Trois pucce généreuses : aubergines, caprese à la burrata, jambon cru et courgettes", "cap": "pétries le matin même"}, {"src": "assets/aperitivo.jpg", "alt": "Table d'aperitivo : planche de charcuteries et fromages, spritz et bol de moules", "cap": "aperitivo time"}, {"src": "assets/pucce-balsamico.jpg", "alt": "Pucce à la bresaola et à la mortadella, filet de crème de balsamique", "cap": "un filet de balsamique"}, {"src": "assets/bici.jpg", "alt": "Guidon de vélo avec panier : grissini et bière italienne au soleil", "cap": "la tournée du matin"}, {"src": "assets/moules-planche.jpg", "alt": "Bol de moules et grande planche apéritive aux fraises, olives et grissini, vus du dessus", "cap": "la totale - tutto"}, {"src": "assets/arrosticini-sale.jpg", "alt": "Le geste du sel au-dessus des arrosticini sur la plancha", "cap": "le geste du sel"}, {"src": "assets/cannoli.jpg", "alt": "Cannoli siciliens pistache et pépites de chocolat", "cap": "cannoli siciliani"}, {"src": "assets/bresaola.jpg", "alt": "Bresaola au citron et huile d'olive", "cap": "bresaola al limone"}, {"src": "assets/vespa.jpg", "alt": "Illustration pastel d'une Vespa fleurie", "cap": "dolce vita"}, {"src": "assets/limoni.jpg", "alt": "Citrons jaunes sous un filet d'eau, peinture ensoleillée", "cap": "il sole in cucina"}];
+
 // Lightbox de la galerie
 const shots = [...document.querySelectorAll('#gallery-grid .shot')];
 const lb = document.getElementById('lightbox');
 const lbImg = document.getElementById('lb-img');
 const lbCap = document.getElementById('lb-cap');
 let lbIndex = 0;
+
+// La lightbox parcourt la collection entiere, pas seulement les six affichees :
+// les vignettes sont une fenetre sur le mur, le carrousel montre tout le mur.
 function lbShow(i) {
-  lbIndex = (i + shots.length) % shots.length;
-  const img = shots[lbIndex].querySelector('img');
+  lbIndex = (i + GALERIE.length) % GALERIE.length;
+  const it = GALERIE[lbIndex];
   lbImg.classList.add('fading');
   setTimeout(() => {
-    lbImg.src = img.src;
-    lbImg.alt = img.alt;
-    lbCap.textContent = shots[lbIndex].querySelector('.cap').textContent;
-    document.getElementById('lb-count').textContent = (lbIndex + 1) + ' / ' + shots.length;
+    lbImg.src = it.src;
+    lbImg.alt = it.alt;
+    lbCap.textContent = it.cap;
+    document.getElementById('lb-count').textContent = (lbIndex + 1) + ' / ' + GALERIE.length;
     lbImg.onload = () => lbImg.classList.remove('fading');
   }, 120);
 }
 function lbOpen(i) { lbShow(i); lb.hidden = false; document.body.style.overflow = 'hidden'; }
 function lbClose() { lb.hidden = true; document.body.style.overflow = ''; }
-shots.forEach((s, i) => s.addEventListener('click', () => lbOpen(i)));
+shots.forEach((s) => s.addEventListener('click', () => lbOpen(Number(s.dataset.i))));
 document.getElementById('lb-close').addEventListener('click', lbClose);
 document.getElementById('lb-prev').addEventListener('click', () => lbShow(lbIndex - 1));
 document.getElementById('lb-next').addEventListener('click', () => lbShow(lbIndex + 1));
@@ -681,6 +665,81 @@ lb.addEventListener('pointerup', (e) => {
   if (Math.abs(dx) > 45) lbShow(lbIndex + (dx < 0 ? 1 : -1));
   touchX = null;
 });
+
+/**
+ * Le mur qui respire : une seule vignette change a la fois, a une place tiree
+ * au sort. Six qui basculent ensemble ferait diaporama ; une seule qui glisse
+ * fait vivant.
+ *
+ * La rotation s'arrete quand elle ne sert a rien : galerie hors de l'ecran,
+ * onglet en arriere-plan, lightbox ouverte, ou souris sur la grille (on ne
+ * change pas une image sous le doigt de quelqu'un qui allait cliquer).
+ */
+(() => {
+  const grille = document.getElementById('gallery-grid');
+  if (!grille || GALERIE.length <= shots.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const PAUSE = 3600;
+  let visible = false, survol = false, minuteur = null;
+
+  const affichees = () => shots.map((s) => Number(s.dataset.i));
+
+  function precharger(src) {
+    return new Promise((ok) => {
+      const im = new Image();
+      im.onload = im.onerror = () => ok();
+      im.src = src;
+    });
+  }
+
+  async function tourner() {
+    const dehors = GALERIE.map((_, i) => i).filter((i) => !affichees().includes(i));
+    if (!dehors.length) return;
+    const tuile = shots[Math.floor(Math.random() * shots.length)];
+    const it = GALERIE[dehors[Math.floor(Math.random() * dehors.length)]];
+    await precharger(it.src);
+    if (!visible || survol || !lb.hidden) return;   // la situation a pu changer pendant le chargement
+
+    const couches = tuile.querySelectorAll('.couche');
+    const bascule = tuile.classList.contains('bascule');
+    const arriere = bascule ? couches[0] : couches[1];   // cachee maintenant, visible apres la bascule
+    const devant = bascule ? couches[1] : couches[0];    // visible maintenant, cachee apres
+
+    arriere.src = it.src;
+    arriere.alt = it.alt;                                // c'est elle qu'on va voir : elle porte la description
+    arriere.removeAttribute('aria-hidden');
+    devant.alt = '';                                     // celle qui s'efface devient decorative
+    devant.setAttribute('aria-hidden', 'true');
+
+    tuile.classList.toggle('bascule');
+    tuile.querySelector('.cap').textContent = it.cap;
+    tuile.dataset.i = String(GALERIE.indexOf(it));
+  }
+
+  function relancer() {
+    clearInterval(minuteur);
+    minuteur = null;
+    if (visible && !survol && lb.hidden && !document.hidden) {
+      minuteur = setInterval(tourner, PAUSE);
+    }
+  }
+
+  new IntersectionObserver((es) => {
+    visible = es[0].isIntersecting;
+    relancer();
+  }, { threshold: 0.25 }).observe(grille);
+
+  grille.addEventListener('pointerenter', () => { survol = true; relancer(); });
+  grille.addEventListener('pointerleave', () => { survol = false; relancer(); });
+  document.addEventListener('visibilitychange', relancer);
+  ['lb-close', 'lb-prev', 'lb-next'].forEach((id) => {
+    const b = document.getElementById(id);
+    if (b) b.addEventListener('click', () => setTimeout(relancer, 50));
+  });
+  lb.addEventListener('click', () => setTimeout(relancer, 50));
+  shots.forEach((s) => s.addEventListener('click', () => setTimeout(relancer, 50)));
+})();
 
 // La Cartolina : carte postale dessinée en direct
 const cartoCanvas = document.getElementById('carto-canvas');
