@@ -1,0 +1,32 @@
+# Tre Mor Si - site statique servi par Cloudflare Workers.
+#
+# Aucun « main » : le site n'a pas de code serveur, Cloudflare sert directement
+# les fichiers. Inutile de lui imposer un Worker Hono comme pour la Cantina,
+# qui elle avait une base de donnees et des pages generees.
+#
+# Le Worker « tremorsi-agenda » (bot, API agenda) est un projet separe, dans
+# ./worker, et n'est pas concerne par ce fichier.
+
+name = "tremorsi-site"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+# Domaines publics. Cloudflare provisionne le certificat et gere le DNS au
+# deploiement. Le sous-domaine agenda.tremorsi.com appartient au Worker
+# « tremorsi-agenda » et n'est pas touche ici.
+routes = [
+  { pattern = "tremorsi.com", custom_domain = true },
+  { pattern = "www.tremorsi.com", custom_domain = true },
+]
+
+[assets]
+directory = "."
+binding = "ASSETS"
+
+# « none » : aucune reecriture d'URL. /menu.html reste /menu.html.
+# Le defaut redirige /menu.html vers /menu en 308, ce qui casserait tous les
+# liens internes du site et obligerait le service worker a recopier chaque
+# reponse redirigee avant de la mettre en cache.
+html_handling = "none"
+not_found_handling = "none"

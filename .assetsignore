@@ -1,0 +1,16 @@
+# Ce qui ne doit jamais partir sur le CDN public.
+.git
+.gitignore
+.DS_Store
+.assetsignore
+wrangler.toml
+render.yaml
+README.md
+Documentation-Tre-Mor-Si.html
+notes
+outils
+worker
+src
+package.json
+package-lock.json
+node_modules
