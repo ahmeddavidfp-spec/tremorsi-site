@@ -1,13 +1,19 @@
 # Migration Render vers Cloudflare
 
-## Etat au 2026-09-22
+## Etat au 2026-09-22 : MIGRATION TERMINEE
 
-Le site est **deploye et verifie sur Cloudflare**, mais le domaine pointe encore
-vers Render. Il reste une seule etape, cote DNS, qui demande un acces au tableau
-de bord.
+`https://tremorsi.com` est servi par Cloudflare. Plus aucun en-tete `rndr-id`.
 
-- Preproduction Cloudflare : https://tremorsi-site.mertens-david-1972.workers.dev
-- Production actuelle : https://tremorsi.com (toujours servie par Render)
+- Worker : `tremorsi-site`
+- Preproduction : https://tremorsi-site.mertens-david-1972.workers.dev
+- Domaines rattaches : `tremorsi.com` et `www.tremorsi.com`
+
+Verifie apres bascule : 15 URLs en 200, audit SEO sans aucun probleme,
+`agenda.tremorsi.com` intact, les 3 MX de la boite `contact@tremorsi.com`
+intacts, et `www` redirige bien vers l'apex.
+
+**Reste a faire cote Render :** eteindre ou supprimer le service `tremorsi`,
+qui ne sert plus rien mais continue d'exister.
 
 ## Ce qui est fait
 
