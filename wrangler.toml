@@ -23,6 +23,10 @@ routes = [
 [assets]
 directory = "."
 binding = "ASSETS"
+# Le Worker passe devant chaque navigation, sinon une demande pour
+# l'accueil correspond a un fichier et la coupure ne serait jamais vue.
+# Les exceptions le gardent hors du chemin des fichiers lourds.
+run_worker_first = ["/*", "!/assets/*", "!/outils/*", "!/notes/*", "!/sw.js"]
 
 # « none » : aucune reecriture d'URL. /menu.html reste /menu.html.
 # Le defaut redirige /menu.html vers /menu en 308, ce qui casserait tous les
@@ -30,3 +34,15 @@ binding = "ASSETS"
 # reponse redirigee avant de la mettre en cache.
 html_handling = "none"
 not_found_handling = "none"
+
+# Espace KV commun du parc Scribeo : une cle par projet, "off" coupe le site.
+# Ecrit par le tableau de bord ou la conversation privee, lu par le Worker.
+[[kv_namespaces]]
+binding = "MAINT"
+id = "c45395e1f7db4e72988e90924c650d15"
+
+# Liaison vers le poste de commande, pour aller chercher la page de coupure.
+# Une requete HTTP ne suffirait pas entre deux Workers du meme sous-domaine.
+[[services]]
+binding = "OPS"
+service = "scribeo-ops"
