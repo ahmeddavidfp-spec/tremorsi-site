@@ -15,7 +15,7 @@
  * A CHAQUE LIVRAISON : incrementer VERSION, sinon les anciens fichiers restent en cache.
  */
 
-const VERSION = 'tremorsi-v1';
+const VERSION = 'tremorsi-v2';
 const CACHE = VERSION;
 const HORS_LIGNE = '/hors-ligne.html';
 

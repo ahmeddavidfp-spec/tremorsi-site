@@ -35,6 +35,7 @@ Site vitrine du food truck italien **Tre Mor Si** (Fleurus, Charleroi & alentour
 | `faq.html` | 14 questions fréquentes en accordéons + JSON-LD FAQPage |
 | `dove-andiamo.html` | Vote des communes : les visiteurs réclament le camion chez eux |
 | `passaporto.html` | Carte de fidélité : 5 régions à tamponner **avec le code du jour remis au camion**, dolce offert au tour complet |
+| `scribeo.html` | Page « Site réalisé par Scribeo », servie à `/scribeo` par `src/index.js` (lien du crédit en pied de page, hors menu) |
 | `blog/index.html` + 2 articles | La puccia salentine · Arrosticini des Abruzzes |
 | `sitemap.xml`, `robots.txt` | SEO |
 | `manifest.json` | PWA (ajout à l'écran d'accueil) |
@@ -279,7 +280,8 @@ et `env(safe-area-inset-*)` sur l'en-tête collant et les boutons flottants. **i
 - `sitemap.xml` (7 URLs) + `robots.txt`
 - **Google Search Console** : propriété `tremorsi.com` vérifiée (TXT DNS), sitemap soumis - « Opération effectuée », 7 pages découvertes
 - Mentions légales (société, siège, TVA) en pied de chaque page - obligation légale belge
-- **Signature Scribeo** en pied des 11 pages (`Site créé par Scribeo` → https://scribeo.be), plus
+- **Signature Scribeo** en pied des 12 pages (`Site réalisé par Scribeo`, lien vers la page locale `/scribeo`
+  depuis le 27/10/2026, qui renvoie elle-même vers https://scribeo.be), plus
   un `creator` dans le JSON-LD de l'accueil. C'est un canal d'acquisition : chaque site livré
   renvoie vers l'offre. Lien suivi volontairement (pas de `nofollow`).
 
@@ -333,3 +335,21 @@ hiérarchie des titres, images, maillage interne.
 - [ ] **Droits de la musique** de la Fiat 500 (SABAM) - sinon remplacer par un morceau libre
 - [ ] Photos en haute résolution supplémentaires
 - [ ] Mettre `tremorsi.com` dans les bios Instagram et Facebook
+
+---
+
+## 11. Journal des modifications
+
+La plus récente en haut.
+
+### 2026-10-27 (service worker tremorsi-v2)
+- Nouvelle page `/scribeo` (`scribeo.html`, gabarit de `faq.html` : en-tête, menus, pied, boutons flottants) :
+  ce que Scribeo a construit pour Tre Mor Si, puis David Mertens photographe avec les séries attribuées au site
+  (Stavanger, Zadar), les liens vers davidmertens.com et la liste des villes. JSON-LD `WebPage` (about Scribeo,
+  mentions David Mertens), canonical `https://tremorsi.com/scribeo`, ajoutée au `sitemap.xml` et à `llms.txt`.
+  Texte commun : `outils/page-scribeo.md` de Scribeo Boarding.
+- Crédit du pied des 12 pages : « Site réalisé par Scribeo », lien vers `/scribeo` dans le même onglet (il ouvrait
+  `https://scribeo.be/?de=tremorsi` dans un nouvel onglet).
+- `src/index.js` : `/scribeo` servi depuis `scribeo.html` (`html_handling = "none"`, pas de réécriture d'URL).
+- Déployé avec `npx wrangler deploy` depuis la racine (Worker `tremorsi-site`, voir `MIGRATION-CLOUDFLARE.md` ;
+  la section 5 qui parle de Render date d'avant la bascule).

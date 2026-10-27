@@ -82,6 +82,13 @@ export default {
     const coupe = await maintenance(request, env);
     if (coupe) return coupe;
 
+    // Page « Site réalisé par Scribeo » : adresse propre /scribeo, servie depuis scribeo.html.
+    if (url.pathname === '/scribeo') {
+      const cible = new URL(request.url);
+      cible.pathname = '/scribeo.html';
+      return env.ASSETS.fetch(new Request(cible, request));
+    }
+
     if (url.pathname.endsWith('/')) {
       const cible = new URL(request.url);
       cible.pathname += 'index.html';
